@@ -3,13 +3,13 @@ import { hopeTheme } from "vuepress-theme-hope";
 export default hopeTheme({
   hostname: "https://nixos-cn.github.io",
   author: {
-    name: "OpenTritium",
-    url: "https://tritium.eu.org",
+    name: "NixOS-CN",
+    url: "https://github.com/nixos-cn",
   },
   iconAssets: "fontawesome",
   logo: "/logo.svg",
   repo: "nixos-cn/nixos-cn.github.io",
-  docsDir: "docs",
+  docsDir: "src",
   print: false,
   locales: {
     "/": {
