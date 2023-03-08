@@ -46,7 +46,7 @@ export default hopeTheme({
         },
         {
           text: "Nix 语言",
-          link: "/docs/lang",
+          link: "/guide/lang",
           icon: "fa-solid fa-file-code",
         },
         {

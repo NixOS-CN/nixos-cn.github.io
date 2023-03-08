@@ -816,7 +816,7 @@ in
   pkgs.lib.strings.toUpper "search paths considered harmful"
 ```
 
-上后面的例子中，我们调用了一个转大写字母的函数。
+上后面的例子中，我们调用了一个转换大写字母的函数。
 
 ::: tip pkgs 参数
 
