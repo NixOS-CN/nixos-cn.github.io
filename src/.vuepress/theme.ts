@@ -30,13 +30,13 @@ export default hopeTheme({
               link: "https://search.nixos.org/options",
             },
             {
-              text: "频道更新状态查询",
-              icon: "fa-solid fa-code", //TODO: 更新icon
+              text: "渠道更新状态查询",
+              icon: "fa-solid fa-boxes-packing",
               link: "https://status.nixos.org/",
             },
             {
-              text: "PR构建进度查询",
-              icon: "fa-solid fa-code", //TODO: 更新icon
+              text: "包拉取请求追踪",
+              icon: "fa-solid fa-code-pull-request",
               link: "https://nixpk.gs/pr-tracker.html",
             },
           ],
