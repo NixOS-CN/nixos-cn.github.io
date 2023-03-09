@@ -69,9 +69,10 @@ export default hopeTheme({
     },
     pwa: {
       favicon: "/favicon.ico",
-      cacheHTML: true,
       cachePic: true,
       appendBase: true,
+      themeColor:"#4B5C99",
+      update:"hint",
       apple: {
         icon: "/assets/icon/apple-icon-152.png",
         statusBarColor: "black",
@@ -103,21 +104,6 @@ export default hopeTheme({
             src: "/assets/icon/chrome-192.png",
             sizes: "192x192",
             type: "image/png",
-          },
-        ],
-        shortcuts: [
-          {
-            name: "Demo",
-            short_name: "Demo",
-            url: "/demo/",
-            icons: [
-              {
-                src: "/assets/icon/guide-maskable.png",
-                sizes: "192x192",
-                purpose: "maskable",
-                type: "image/png",
-              },
-            ],
           },
         ],
       },

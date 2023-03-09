@@ -1,7 +1,7 @@
 {
   "name": "nix-press",
-  "version": "1.0.0",
-  "description": "Nix style",
+  "version": "1.0.1",
+  "description": "NixOS-CN official website",
   "license": "MIT",
   "type": "module",
   "scripts": {

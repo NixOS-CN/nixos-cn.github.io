@@ -1,6 +1,8 @@
+# [Nix-CN 官方网站](https://nixos-cn.org/)
+
 ## 项目结构
 
-本项目使用 [VuePress](https://vuepress.vuejs.org/zh/) 框架，辅以 [vuepress-hope-theme]() 主题完成整体构建。
+本项目使用 [VuePress](https://vuepress.vuejs.org/zh/) 框架，辅以 [vuepress-hope-theme](https://vuepress-theme-hope.github.io/v2/zh/) 主题完成整体构建。
 
 ```bash
 ├─.vuepress
@@ -10,6 +12,8 @@
 │  │      └─icon
 │  ├─styles  // 样式
    ├─config.ts  // 配置文件
+   ├─navbar.ts  // 顶栏配置
+   ├─sidebar.ts  // 侧栏配置
 │  └─theme.ts  // 主题配置
 │
 ├─docs  // 文档目录
@@ -20,8 +24,6 @@
 其中最为重要的两个目录是 `docs` 和 `guide`，你应该把文档或教程分别放置在那里，如果有必要，可以单独分出一个子文件夹。
 
 如果你要在侧边栏添加导航目录，请修改 `theme.ts`。
-
-
 
 ## 许可证
 
