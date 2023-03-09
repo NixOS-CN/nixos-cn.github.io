@@ -41,7 +41,7 @@ nix-repl> { a.b.c = 1; }
 在上面的例子中，我们输入了一个匿名集合，而这个匿名集合包含 `a` 集合。
 
 ::: note 匿名集合
-匿名集合即没有分配命名的集合，与之对立的是命名集合，例如  `foo = { bar };`。
+匿名集合即没有分配名称的集合，与之对立的是命名集合，例如  `foo = { bar };`。
 :::
 
 `a` 集合中的值并没有被这个匿名集合直接依赖，自然顶级以下的集合不会被立刻求值。占位的变成了 `...` 。
@@ -886,6 +886,30 @@ Nix store 中的文件都是用哈希（Hash）进行索引的：
 ```
 
 :::
+
+#### 外部抓取
+
+构建输入的文件并不一定要来自文件系统，也可以从网络抓取。
+
+以下是 Nix 语言提供的一些内建的不纯粹的函数，可以从网络上抓取配置协助求值：
+
+- [builtins.fetchurl](https://nixos.org/manual/nix/stable/language/builtins.html#builtins-fetchurl)
+- [builtins.fetchTarball](https://nixos.org/manual/nix/stable/language/builtins.html#builtins-fetchTarball)
+- [builtins.fetchGit](https://nixos.org/manual/nix/stable/language/builtins.html#builtins-fetchGit)
+- [builtins.fetchClosure](https://nixos.org/manual/nix/stable/language/builtins.html#builtins-fetchClosure)
+
+在求值的时候它们会缓存到本地文件系统并被链接到 Nix store 里面：
+
+```
+builtins.fetchurl "https://github.com/NixOS/nix/archive/7c3ab5751568a0bc63430b33a5169c5e4784a0ff.tar.gz"
+```
+
+
+
+```
+
+"/nix/store/7dhgs330clj36384akg86140fqkgh8zf-7c3ab5751568a0bc63430b33a5169c5e4784a0ff.tar.gz"
+```
 
 还记得我们说过 Nix 软件包仓库中的软件包都可以用 Nix 语言来描述吗，
 
