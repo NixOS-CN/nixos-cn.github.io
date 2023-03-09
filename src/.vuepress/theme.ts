@@ -29,6 +29,16 @@ export default hopeTheme({
               icon: "fa-solid fa-code",
               link: "https://search.nixos.org/options",
             },
+            {
+              text: "频道更新状态查询",
+              icon: "fa-solid fa-code", //TODO: 更新icon
+              link: "https://status.nixos.org/",
+            },
+            {
+              text: "PR构建进度查询",
+              icon: "fa-solid fa-code", //TODO: 更新icon
+              link: "https://nixpk.gs/pr-tracker.html",
+            },
           ],
         },
       ],
