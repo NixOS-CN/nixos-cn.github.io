@@ -17,6 +17,11 @@ export default sidebar([
     icon: "fa-solid fa-file-code",
   },
   {
+    text: "NixOS 中的 Haskell",
+    link: "/guide/nixpkgsHsInfra",
+    icon: "fa-solid fa-laptop-code",
+  },
+  {
     text: "常见问题",
     link: "/guide/faq.md",
     icon: "fa-solid fa-message",

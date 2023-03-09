@@ -916,7 +916,7 @@ builtins.fetchurl "https://github.com/NixOS/nix/archive/7c3ab5751568a0bc63430b33
 builtins.fetchTarball "https://github.com/NixOS/nix/archive/7c3ab5751568a0bc63430b33a5169c5e4784a0ff.tar.gz"
 ```
 
-如果网络异常，则会报错。更多细节，请参阅 [Fetchers](https://nixos.org/manual/nixpkgs/stable/#chap-pkgs-fetchers) 
+如果网络异常，则会报错。更多细节，请参阅 [Fetchers](https://nixos.org/manual/nixpkgs/stable/#chap-pkgs-fetchers)
 
 ## 衍生
 
