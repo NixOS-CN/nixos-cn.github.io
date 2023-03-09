@@ -1,5 +1,6 @@
 import { hopeTheme } from "vuepress-theme-hope";
-
+import navbar from "./navbar";
+import sidebar from "./sidebar";
 export default hopeTheme({
   hostname: "https://nixos-cn.github.io",
   author: {
@@ -13,63 +14,18 @@ export default hopeTheme({
   print: false,
   locales: {
     "/": {
-      navbar: [
-        "/",
-        {
-          text: "检索工具",
-          icon: "fa-solid fa-screwdriver-wrench",
-          children: [
-            {
-              text: "软件包",
-              icon: "fa-solid fa-box-archive",
-              link: "https://search.nixos.org/packages",
-            },
-            {
-              text: "Options",
-              icon: "fa-solid fa-code",
-              link: "https://search.nixos.org/options",
-            },
-            {
-              text: "Channel 状态",
-              icon: "fa-solid fa-boxes-packing",
-              link: "https://status.nixos.org/",
-            },
-            {
-              text: "软件包 Pull Request 追踪",
-              icon: "fa-solid fa-code-pull-request",
-              link: "https://nixpk.gs/pr-tracker.html",
-            },
-          ],
-        },
-      ],
-
-      sidebar: [
-        {
-          text: "为什么是 NixOS",
-          link: "/guide/whyNixOS.md",
-          icon: "fa-solid fa-circle-question",
-        },
-        {
-          text: "在尝试中实践",
-          link: "/guide/greenhand",
-          icon: "fa-solid fa-hand-back-fist",
-        },
-        {
-          text: "Nix 语言",
-          link: "/guide/lang",
-          icon: "fa-solid fa-file-code",
-        },
-        {
-          text: "常见问题",
-          link: "/guide/faq.md",
-          icon: "fa-solid fa-message",
-          activeMatch: "^/guide/faq",
-        },
-      ],
-
+      navbar,
+      sidebar,
       footer:
-        '<a href="https://t.me/nixos_zhcn" target="_blank">Telegram 群组</a> | <a href="https://matrix.to/#/#zh-cn:nixos.org" target="_blank"> Matrix 群组</a> | <a href="https://nixos.org/" target="_blank">NixOS 官网</a>',
-
+        `<a href="https://t.me/nixos_zhcn" target="_blank">
+          Telegram 群组
+        </a> | 
+        <a href="https://matrix.to/#/#zh-cn:nixos.org" target="_blank">
+          Matrix 群组
+        </a> | 
+        <a href="https://nixos.org/" target="_blank">
+          NixOS 官网
+        </a>`,
       displayFooter: true,
       metaLocales: {
         editLink: "前往 GitHub 编辑此页",
@@ -78,16 +34,6 @@ export default hopeTheme({
   },
 
   plugins: {
-    // components: {
-    //   // 你想使用的组件
-    //   components: ["SiteInfo"],
-    // },
-    // comment: {
-    //   // @ts-expect-error: You should generate and use your own comment service
-    //   provider: "Waline",
-    // },
-
-    // all features are enabled for demo, only preserve features you need here
     mdEnhance: {
       align: true,
       attrs: true,
@@ -103,7 +49,6 @@ export default hopeTheme({
       katex: true,
       mark: true,
       mermaid: true,
-
       stylize: [
         {
           matcher: "Recommended",
