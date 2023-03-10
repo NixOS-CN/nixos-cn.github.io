@@ -1,6 +1,13 @@
-# Nixpkgs 中的 Haskell 基础设施
+---
+shortTitle: Haskell
+sidebar: heading
+title: Haskell 开发环境部署
+description: 以 GHC 实践
+author: Potato Hatsue
+---
+## Nixpkgs 中的 Haskell 基础设施
 
-除了软件开发过程本身外，软件分发也是很重要的一个话题。在发行版上建立编程语言生态系统可能不是一件简单的事情。本文将引入 [NixOS/nixpkgs](https://github.com/NixOS/nixpkgs) 中 Haskell 相关的基础知识以及如何使用 Nix 搭建科学的 Haskell 开发环境。
+除了软件开发过程本身外，软件分发也是很重要的一个话题。在发行版上建立编程语言生态系统可能不是一件简单的事情。本文将引入 [NixOS/nixpkgs](https://github.com/NixOS/nixpkgs) 中 Haskell 相关的基础知识，并说明如何使用 Nix 搭建科学的 Haskell 开发环境。
 
 ## Haskell 开发工具
 
@@ -12,7 +19,7 @@
 
 除了编译器外，非平凡编程语言不可或缺的还有包管理器。与 GCC 等 C 语言编译器不同，GHC 内建了“包”的概念，或者说它本身就是一个包管理器。如果安装了 GHC，运行 `ghc-pkg list` 可以看到全局的包集：
 
-```
+```bash
 $ ghc-pkg list
 /nix/store/322zfsd89g1xph46glm0jjvwjkj09mv4-ghc-9.2.6/lib/ghc-9.2.6/package.conf.d
     Cabal-3.6.3.0
@@ -26,7 +33,7 @@ $ ghc-pkg list
 
 #### Cabal
 
-首先介绍 Cabal。在实践中很多用户混淆 `cabal-install`（命令行包管理工具）与 `Cabal`（GHC 的一个 Boot Library）。后者相当于 Haskell 的构建系统，它定义了什么是一个 Haskell 包（例子来源于 Cabal 文档）：
+首先介绍 Cabal。在实践中很多用户混淆 `cabal-install`（命令行包管理工具）与 `Cabal`（GHC 的一个 Boot Library）。后者相当于 Haskell 的构建系统，它定义了什么是一个 Haskell 包（样例来源于 Cabal 文档）：
 
 ```cabal
 name:            TestPackage
@@ -84,7 +91,7 @@ executable:
     - HUnit
 ```
 
-相信不少读者的第一个 Haskell 项目可能就是用 `stack` 创建并构建的。Stack 同样依赖 `Cabal` 作为构建系统，只是使用了不同的依赖管理策略——让用户使用现成的包集。然而这里存在一个问题：如果用户需要使用一个 Stackage 包集没有的包，或者没有相应版本的包，用户需要手动将想要的版本或者包的源码添加到 `extra-deps` 中，例如：[IHaskell/stack-8.10.yaml ](https://github.com/IHaskell/IHaskell/blob/8afa4e22c5724da89fec85a599ee129ab5b4cb9a/stack-8.10.yaml)：
+相信不少读者的第一个 Haskell 项目可能就是用 `stack` 创建并构建的。Stack 作为构建系统同样依赖 `Cabal`，只是使用了不同的依赖管理策略——让用户使用现成的包集。然而这里存在一个问题：如果用户需要使用一个 Stackage 包集没有的包，或者没有相应版本的包，用户需要手动将想要的版本或者包的源码添加到 `extra-deps` 中，例如：[IHaskell/stack-8.10.yaml](https://github.com/IHaskell/IHaskell/blob/8afa4e22c5724da89fec85a599ee129ab5b4cb9a/stack-8.10.yaml)：
 
 ```yaml
 extra-deps:
@@ -188,7 +195,7 @@ Nixpkgs 中包含了 Hackage 所有软件包的最新版本的 Nix 表达式，�
 
 这些配置都是 extension，即形如 `self: super: {...}` 的函数。它们合并到一起并应用到 `haskellPackages` 上。事实上 `haskellPackages` 是 extensible 的，即该 AttrSet 有 `extend` 字段，方便用户在其上应用自己的修改。这在后文中搭建开发环境会用到。每个 GHC 版本都有一个对应的 `haskellPackages`，即 Haskell 包集和工具链。在 repl 中可以看到：
 
-```
+```bash
 haskell.packages.ghc810                haskell.packages.ghc924Binary
 haskell.packages.ghc8102Binary         haskell.packages.ghc924BinaryMinimal
 haskell.packages.ghc8102BinaryMinimal  haskell.packages.ghc925
@@ -242,7 +249,7 @@ final: prev: {
 如果用户不想借助 Nix 来实现缓存或可重现（用 derivation 来打包），那么用户可以仅使用 Nixpkgs 中的 GHC 和 `cabal-install`：
 
 ```shell
-$ nix-shell -p "haskellPackages.ghcWithPackages (pkgs: with pkgs; [ cabal-install ])""
+$nix-shell -p "haskellPackages.ghcWithPackages (pkgs: with pkgs; [ cabal-install ])""
 ```
 
 后续步骤就与在其他发行版中无二了。使用 `cabal init` 可以创建项目、`cabal build` 可以构建项目。相似地，Stack 用户也只需要在 dev shell 中准备好 GHC 和 `stack`，再加上打开 Stack 的 [Nix 支持](https://docs.haskellstack.org/en/stable/nix_integration/)即可像在其他发行版那样使用。这样的缺点显而易见，用户需要从头开始编译所有依赖，无法享受 Nix 带来的优势。
@@ -312,7 +319,7 @@ pkgs.haskellPackages.developPackage {
         else modifier drv;
 ```
 
-不难看出它先把 `source-overrides` 交给 `haskell.lib.packageSourceOverrides` 得到一个 extension（形如 `self: super: {<包名> = <drv>}` 的函数），再把 `overrides`（也是同样的 extension）和它 compose 到一起，修改包集后调用 `callCabal2nix`，再应用 `modifier` 到结果上。这样以来，`developPackage` 是在构建位于 `root` Haskell 包的 derivation，并且根据需求返回 derivation 本身，或者它的 `envFunc`。`envFunc` 在前文提到过，旨在为该 Haskell derivation 创建 dev shell。将上面调用 `developPackage` 的代码放到 `default.nix` 即可（不要忘记指定 `pkgs`），在该目录下运行 `nix-build` 可构建出该包的 derivation；运行 `nix-shell` 可进入 dev shell。 
+不难看出它先把 `source-overrides` 交给 `haskell.lib.packageSourceOverrides` 得到一个 extension（形如 `self: super: {<包名> = <drv>}` 的函数），再把 `overrides`（也是同样的 extension）和它 compose 到一起，修改包集后调用 `callCabal2nix`，再应用 `modifier` 到结果上。这样以来，`developPackage` 是在构建位于 `root` Haskell 包的 derivation，并且根据需求返回 derivation 本身，或者它的 `envFunc`。`envFunc` 在前文提到过，旨在为该 Haskell derivation 创建 dev shell。将上面调用 `developPackage` 的代码放到 `default.nix` 即可（不要忘记指定 `pkgs`），在该目录下运行 `nix-build` 可构建出该包的 derivation；运行 `nix-shell` 可进入 dev shell。
 
 #### shellFor
 

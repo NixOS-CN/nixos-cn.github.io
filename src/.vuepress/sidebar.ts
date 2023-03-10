@@ -17,14 +17,22 @@ export default sidebar([
     icon: "fa-solid fa-file-code",
   },
   {
-    text: "NixOS 中的 Haskell",
-    link: "/guide/nixpkgsHsInfra",
-    icon: "fa-solid fa-laptop-code",
-  },
-  {
     text: "常见问题",
     link: "/guide/faq.md",
     icon: "fa-solid fa-message",
     activeMatch: "^/guide/faq",
   },
+  {
+    text: "开发环境部署",
+    icon: "fa-solid fa-code",
+    link: "/guide/env/dev/",
+    // 可选的，会添加到每个 item 链接地址之前
+    prefix: "/guide/env/dev/",
+    // 可选的, 设置分组是否可以折叠，默认值是 false,
+    collapsible: true,
+    // 必要的，分组的子项目
+    children: [
+      "haskell"
+    ],
+  }
 ]);
