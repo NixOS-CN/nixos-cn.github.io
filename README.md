@@ -4,7 +4,7 @@
 
 本项目使用 [VuePress](https://vuepress.vuejs.org/zh/) 框架，辅以 [vuepress-hope-theme](https://vuepress-theme-hope.github.io/v2/zh/) 主题完成整体构建。
 
-```bash
+```
 ├─.vuepress
 │  ├─dist  // 自动生成的静态页面
 │  ├─public  // 网页资源，这里是一些图标
