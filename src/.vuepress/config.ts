@@ -1,4 +1,5 @@
 import { defineUserConfig } from "vuepress";
+import { searchProPlugin } from "vuepress-plugin-search-pro";
 import theme from "./theme";
 
 export default defineUserConfig({
@@ -12,4 +13,5 @@ export default defineUserConfig({
   },
   theme,
   shouldPrefetch: false,
+  plugins: [searchProPlugin({ indexContent: true })],
 });
