@@ -4,16 +4,16 @@
 
 本项目使用 [VuePress](https://vuepress.vuejs.org/zh/) 框架，辅以 [vuepress-hope-theme](https://vuepress-theme-hope.github.io/v2/zh/) 主题完成整体构建。
 
-```bash
+```
 ├─.vuepress
 │  ├─dist  // 自动生成的静态页面
 │  ├─public  // 网页资源，这里是一些图标
 │  │  └─assets
 │  │      └─icon
 │  ├─styles  // 样式
-   ├─config.ts  // 配置文件
-   ├─navbar.ts  // 顶栏配置
-   ├─sidebar.ts  // 侧栏配置
+|  ├─config.ts  // 配置文件
+|  ├─navbar.ts  // 顶栏配置
+|  ├─sidebar.ts  // 侧栏配置
 │  └─theme.ts  // 主题配置
 │
 ├─docs  // 文档目录
