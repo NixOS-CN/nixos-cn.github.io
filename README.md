@@ -11,9 +11,9 @@
 │  │  └─assets
 │  │      └─icon
 │  ├─styles  // 样式
-   ├─config.ts  // 配置文件
-   ├─navbar.ts  // 顶栏配置
-   ├─sidebar.ts  // 侧栏配置
+|  ├─config.ts  // 配置文件
+|  ├─navbar.ts  // 顶栏配置
+|  ├─sidebar.ts  // 侧栏配置
 │  └─theme.ts  // 主题配置
 │
 ├─docs  // 文档目录
