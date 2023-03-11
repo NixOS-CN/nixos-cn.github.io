@@ -27,7 +27,7 @@ features:
     icon: fa-solid fa-arrow-rotate-left
     details: 原子化升级和回滚，确保系统一致性和可靠性
 
-  - title: 近乎安全稳定
+  - title: 安全稳定
     icon: fa-solid fa-shield
     details: 安全稳定，支持沙盒化和同时安装多个版本的软件包
 ---
