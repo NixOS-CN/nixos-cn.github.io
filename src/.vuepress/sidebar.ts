@@ -12,7 +12,7 @@ export default sidebar([
     icon: "fa-solid fa-file-code",
   },
   {
-    text: "常见问题",
+    text: "新手一百问",
     link: "/guide/faq.md",
     icon: "fa-solid fa-message",
     activeMatch: "^/guide/faq",
