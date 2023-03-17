@@ -1,6 +1,4 @@
----
-headerDepth: 5
----
+
 # Nix 语言概览
 
 该语言是为 [Nix 包管理器](https://nixos.wiki/wiki/Nix_package_manager) 设计的，用于配置 NixOS。以下是入门 Nix 语言的基础知识。
