@@ -148,7 +148,7 @@ nixpkgs https://nixos.org/channels/nixpkgs-unstable
 
 ### 软件仓库频道
 
-你还记得吗，Nix 包管理器是跨平台的也就是说可以在多种 Linux/Unix 发行版运行。软件仓库频道不仅仅可以为包含 Nix 包管理器的 NixOS 发行版所使用，还可以是安装了 Nix 包管理器的任何发行版。如果说系统频道是 NixOS 的眷属（只有 NixOS使用）的话，那 nixpkgs 就是运行在所有 Unix/Linux 上的 Nix 包管理器的爱恋。
+你还记得吗，Nix 包管理器是跨平台的也就是说可以在多种 Linux/Unix 发行版运行。软件仓库频道不仅仅可以为包含 Nix 包管理器的 NixOS 发行版所使用，还可以是安装了 Nix 包管理器的任何发行版。如果说系统频道是 NixOS 的眷属（只有 NixOS使用）的话，那 nixpkgs 频道就是运行在所有 Unix/Linux 上的 Nix 包管理器的爱恋。
 
 你发现没有软件仓库频道只有 `nixpkgs-unstable` 和 `nixpkgs-22.05-darwin` 诸类的命名，在一般的 Linux 发行版上面我们一般订阅的就是 `nixpkgs-unstable`，为什么 macOS 上面运行的 Nix 包管理器需要单独做版本控制的软件包仓库呢呢？
 
