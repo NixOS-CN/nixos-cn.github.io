@@ -50,7 +50,7 @@ Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsU
 请关闭安全引导，尽管 Ventoy 和 NixOS 都已经支持了安全引导，为了统一环境，我们还是建议关闭安全引导。这一步没有代价，安装完成后，你随时可以把安全引导再开启。
 
 ::: tip 安全引导
-NixOS 已经支持安全引导，参见 [lanzaboote](https://github.com/nix-community/lanzaboote)
+安全引导的技术原理是用数字签名来验证软件是否可信，如果不可信就不让它运行。
 :::
 
 ### 调整启动顺序
