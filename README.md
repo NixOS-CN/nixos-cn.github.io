@@ -1,16 +1,14 @@
-# [Nix-CN 官方网站](https://nixos-cn.org/)
+# [NixOS-CN 官方网站](https://nixos-cn.org/)
 
 ## 项目结构
 
 本项目使用 [VuePress](https://vuepress.vuejs.org/zh/)
 框架，辅以 [vuepress-hope-theme](https://vuepress-theme-hope.github.io/v2/zh/) 主题完成整体构建。
 
-```
+```tree
 ├─.vuepress
 │  ├─dist  // 自动生成的静态页面
 │  ├─public  // 网页资源，这里是一些图标
-│  │  └─assets
-│  │      └─icon
 │  ├─styles  // 样式
 │  ├─config.ts  // 配置文件
 │  ├─navbar.ts  // 顶栏配置

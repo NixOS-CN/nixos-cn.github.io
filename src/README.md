@@ -2,7 +2,7 @@
 home: true
 icon: home
 title: 主页
-heroImage: /logo.svg
+heroImage: /nixos-cn.svg
 heroText: 重塑构建与可复现部署
 tagline: 函数式配置，灵活的构建，丰富的包仓库
 actions:
