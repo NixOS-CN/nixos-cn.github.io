@@ -102,7 +102,7 @@ ls /sys/firmware/efi/efivars
 
 ![OriginOS 示例](/images/GreenHand/UsbHostpot.webp)
 
-#### WIFI 连接
+#### WiFi 连接
 
 NixOS 中自带的无线守护程序不是 `NetWorkManager`，也不是 `iwd`，而是 `wpa_supplicant`。
 
@@ -118,7 +118,7 @@ sudo wpa_cli  # 进入 wpa 命令行
 0
 > set_network 0 ssid "你的 SSID"
 OK
-> set_network 0 psk "你的 WIFI 密码"
+> set_network 0 psk "你的 WiFi 密码"
 OK
 > set_network 0 key_mgmt WPA-PSK  # 加密方式
 OK
@@ -160,7 +160,7 @@ vi/vim 是 linux 上最经典的文本编辑器之一，如果你不清楚操作
 ```
 
 ::: warning 只读写入警告
-如果你发现打开文件以后，左下角出现 readonly 提示，那可能是你没有 sudo 提取，抑或你没有选择 copytoram 启动项。
+如果你发现打开文件以后，左下角出现 readonly 提示，那可能是你没有 sudo 提权，抑或你没有选择 copytoram 启动项。
 如果你确认了使用 sudo 提权，那么无视提示即可，编辑完成后只需要命令模式下输入 `:wq!` 强制保存即可。这一步的代价是可能损坏 ISO 文件，不过 ISO 是可以再下载的，就算损坏了也无所谓。
 :::
 
