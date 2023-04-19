@@ -1,8 +1,7 @@
 import {navbar} from "vuepress-theme-hope";
 
 export default navbar([
-    "/", // 主页
-    /* 检索工具 */
+    "/",
     {
         text: "检索工具",
         icon: "fa-solid fa-screwdriver-wrench",

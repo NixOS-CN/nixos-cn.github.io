@@ -1,5 +1,6 @@
 import {defineUserConfig} from "vuepress";
 import {searchProPlugin} from "vuepress-plugin-search-pro";
+import { removePWAPlugin } from "vuepress-plugin-remove-pwa";
 import theme from "./theme";
 
 export default defineUserConfig({
@@ -8,10 +9,11 @@ export default defineUserConfig({
         "/": {
             lang: "zh-CN",
             title: "NixOS 中文",
-            description: "非官方文档，由 NixOS-CN 社区驱动",
+            description: "由 NixOS-CN 社区驱动",
         },
     },
     theme,
     shouldPrefetch: true,
-    plugins: [searchProPlugin({indexContent: true})],
+    plugins: [searchProPlugin({indexContent: true}),removePWAPlugin({
+      }),],
 });
