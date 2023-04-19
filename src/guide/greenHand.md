@@ -88,7 +88,7 @@ ls /sys/firmware/efi/efivars
 
 ![初遇](/images/GreenHand/TrulyMeet.webp)
 
-如果你是 ArchLinux 用户，那可能你会对这个 tty 界面无比熟悉 —— ArchLinux 的安装正是从这里开始的，NixOS 也可以。
+如果你是 ArchLinux 用户，那可能你会对这个 tty 界面无比熟悉。
 
 我们现在进入的系统是由镜像直接初始化的，系统并未被安装到硬盘上，我们需要使用现在这个已经被加载的基本系统完成 NixOS 到硬盘的部署。
 
@@ -138,9 +138,7 @@ ping 119.29.29.29 # 腾讯 DNSPod，不通请检查网络连接
 
 ### 更换 substituters
 
-类似其他发行版的换源。这和添加频道不太一样，因为 `substituters` 服务器实际上提供的是预编译的二进制包，默认情况下 NixOS 依然是以源码分发主导，二进制分发为辅。想象一下，没有二进制构建缓存（Binary cache），你就得像 Gentoo 人一样永远都在构建软件的路上，同时家里的电表飞着转，而一个完整的系统是由几千个包构成的，下载源码，构建它们是相当漫长的过程。什么你就是 Gentoo 人？那当我没说。
-
-我们当前修改的是 Live CD 的 `substituters`，这意味着如果想要对硬盘中的系统生效，你仍然需要故技重施。
+类似其他发行版的换源，我们当前修改的是 Live CD 的 `substituters`。
 
 ```bash
 sudo vim /etc/nixos/configuration.nix
