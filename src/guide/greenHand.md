@@ -88,7 +88,7 @@ ls /sys/firmware/efi/efivars
 
 ![初遇](/images/GreenHand/TrulyMeet.webp)
 
-如果你是 ArchLinux 用户，那可能你会对这个 tty 界面无比熟悉 ———— ArchLinux 的安装正是从这里开始的，NixOS 也可以。
+如果你是 ArchLinux 用户，那可能你会对这个 tty 界面无比熟悉 —— ArchLinux 的安装正是从这里开始的，NixOS 也可以。
 
 我们现在进入的系统是由镜像直接初始化的，系统并未被安装到硬盘上，我们需要使用现在这个已经被加载的基本系统完成 NixOS 到硬盘的部署。
 
