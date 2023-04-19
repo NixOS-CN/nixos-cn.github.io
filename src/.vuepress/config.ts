@@ -1,5 +1,5 @@
-import {defineUserConfig} from "vuepress";
-import {searchProPlugin} from "vuepress-plugin-search-pro";
+import { defineUserConfig } from "vuepress";
+import { searchProPlugin } from "vuepress-plugin-search-pro";
 import { removePWAPlugin } from "vuepress-plugin-remove-pwa";
 import theme from "./theme";
 
@@ -14,6 +14,8 @@ export default defineUserConfig({
     },
     theme,
     shouldPrefetch: true,
-    plugins: [searchProPlugin({indexContent: true}),removePWAPlugin({
-      }),],
+    plugins: [
+        searchProPlugin({ indexContent: true }),
+        removePWAPlugin({}),
+    ],
 });
