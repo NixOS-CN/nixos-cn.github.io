@@ -25,5 +25,9 @@ export default sidebar([
         children: [
             "haskell"
         ],
+    },{
+        text: "中文维基",
+        link: "/wiki/",
+        icon: "fa-solid fa-book-open",
     }
 ]);

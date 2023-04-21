@@ -1,5 +1,9 @@
 # 双系统安装
 
+::: warning 教程施工中
+教程施工中，不要操作
+:::
+
 ## Windows 系统上的准备
 
 本章将介绍如何在已经安装了 Windows 系统的物理机上再安装 NixOS 。
@@ -24,6 +28,13 @@ Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsU
 
 该命令向注册表添加了字段，下次重启生效。
 
+### 腾出空间
+
+我们需要为 NixOS 的安装准备一些空间，我们推荐为 NixOS 保留的分区不少于 64GB。
+
+你可以使用 Windows 自带的磁盘管理或 DiskGenius 等其他分区软件腾出这些空间。
+
+![](/images/GreenHand/WindowsDiskManager.webp)
 ### 制作引导媒介
 
 我们使用 [Ventoy](https://www.ventoy.net/cn/download.html) 制作引导媒介，Ventoy 会将引导写入媒介（驱动器），然后你可以间接选择引导你媒介中的镜像。这样的好处是你不用为了刻录整个驱动器，下次需要引导其他镜像时只需要把镜像拷贝到该驱动器即可。
@@ -65,7 +76,6 @@ ls /sys/firmware/efi/efivars
 ```
 
 若存在输出，就代表支持 UEFI。
-本教程仅适用于支持 UEFI 的主板或机型，Legacy 的安装方式会有些许区别，但不多。
 :::
 
 默认情况下，BIOS 会从本地硬盘开始查找 EFI（ESP） 分区，然后启动这个分区的启动管理器，所以我们要在 BIOS 设置中找到诸如“启动顺序”选项，将 USB 拉到最高优先级。
@@ -111,21 +121,49 @@ sudo systemctl start wpa_supplicant  # 启动服务
 sudo wpa_cli  # 进入 wpa 命令行
 ```
 
-然后就进入了交互模式：
+然后就进入了交互模式，不同区域的 WiFi 网络认证协议也不相同。大多数情况下使用家庭网络的方式即可：
+
+::: code-tabs#shell
+
+@tab 家庭网络
 
 ```bash
 > add_network
 0
-> set_network 0 ssid "你的 SSID"
+> set_network 0 ssid "myhomenetwork"
 OK
-> set_network 0 psk "你的 WiFi 密码"
+> set_network 0 psk "mypassword"
 OK
-> set_network 0 key_mgmt WPA-PSK  # 加密方式
+> set_network 0 key_mgmt WPA-PSK
 OK
 > enable_network 0
+OK
 ```
 
-等待出现一条消息后即可 `quit` 退出交互模式。
+@tab 企业网络
+
+```bash
+> add_network
+0
+> set_network 0 ssid "eduroam"
+OK
+> set_network 0 identity "myname@example.com"
+OK
+> set_network 0 password "mypassword"
+OK
+> set_network 0 key_mgmt WPA-EAP
+OK
+> enable_network 0
+OK
+```
+
+:::
+
+```bash
+<3>CTRL-EVENT-CONNECTED - Connection to 32:85:ab:ef:24:5c completed [id=0 id_str=]
+```
+
+等待出现上面的消息后即可 `quit` 退出交互模式。
 
 #### 检测网络
 
@@ -136,40 +174,87 @@ ping 119.29.29.29 # 腾讯 DNSPod，不通请检查网络连接
 
 如果收到了大多数乃至全部包，说明网络是连通的。
 
-### 更换 substituters
+### 更换频道
 
-类似其他发行版的换源，我们当前修改的是 Live CD 的 `substituters`。
+使用以下命令将两个频道（系统频道和软件仓库频道）替换到镜像源频道：
 
-```bash
-sudo vim /etc/nixos/configuration.nix
-```
-
-::: tip vim
-vi/vim 是 linux 上最经典的文本编辑器之一，如果你不清楚操作的话这里简述一下：
-`i` 进入编辑模式，`Esc` 退出任意模式，进入命令模式，命令模式下输入 `:wq` 或 `:x` 保存。
-:::
-
-添加 `substituter`：
-
-```nix
-(config, pkgs,...):
-{  
-  imports = [ <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix> ];
-  nix.settings.substituters = [ "https://mirrors.ustc.edu.cn/nix-channels/store" ];
-}
-```
-
-::: warning 只读写入警告
-如果你发现打开文件以后，左下角出现 readonly 提示，那可能是你没有 sudo 提权，抑或你没有选择 copytoram 启动项。
-如果你确认了使用 sudo 提权，那么无视提示即可，编辑完成后只需要命令模式下输入 `:wq!` 强制保存即可。这一步的代价是可能损坏 ISO 文件，不过 ISO 是可以再下载的，就算损坏了也无所谓。
+::: warning 不要盲目复制
+在订阅系统版本时请指定系统版本，一般指定当前的最新稳定版。
+如果不清楚可以去官网查询或查看你的 Live CD 版本。
 :::
 
 ```bash
-sudo nixos-rebuild switch  # 由于更新了配置，重新“生成”系统
+sudo nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixpkgs-unstable nixpkgs  # 订阅镜像仓库频道
+sudo nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixos-22.11 nixos  # 请注意系统版本
+sudo nix-channel --list  # 列出频道
 sudo nix-channel --update  # 更新频道
-sudo nixos-rebuild switch --upgrade  # 若有系统更新，重新构建系统“生成”
+sudo nixos-rebuild --option substituters "https://mirrors.ustc.edu.cn/nix-channels/store" switch --upgrade  # 临时切换二进制缓存源，并更新生成
 ```
 
-### 分区
+### 分区与格式化
 
 首先，我们使用 `lsblk` 命令查看一手分区情况：
+
+```bash
+
+```
+
+你可以查看到当前的分区和驱动器信息，以 `sata` 开头的便是 sata 设备，`nvme` 设备亦然。
+选择你想要分区的驱动器：
+
+```bash
+sudo parted /dev/nvme0n1
+```
+
+我们已经进入了交互模式。在这个模式中，所有操作都是即时生效的，所以请再三确认。
+你可以输入 `help` 查看帮助手册。
+
+::: note 全新安装
+如果你想彻底格式化硬盘并且只在主机上安装 NixOS，重新创建一张分区表即可：
+
+```bash
+mklabel gpt
+```
+
+然后创建一个 ESP 分区（双系统安装会使用现有的 ESP 分区）：
+
+```bash
+mkpart ESP fat32 1MB 256MB  # 引导分区
+set 3 esp on  # 可启动标识
+```
+
+然后跟随下面的教程继续
+:::
+
+接下来我们使用 `print` 查看当前的分区情况：
+
+```bash
+mkpart nixos btrfs 300MB -2GB
+mkpart swap linux-swap -2GB 100%
+set 1 esp on
+quit
+mkfs.fat -F32 /dev/nvme0n1p1
+mkswap /dev/nvme0n1p3
+```
+
+挂载分区
+
+### 编辑系统配置
+
+我们使用以下命令生成基础配置：
+
+```bash
+sudo nixos-generate-config --root /mnt
+```
+
+然后编辑配置：
+
+```bash
+sudo vim /mnt/etc/nixos/configuration.nix
+```
+
+### 部署系统
+
+```bash
+sudo nixos-install --option substituters "https://mirrors.ustc.edu.cn/nix-channels/store"
+```
