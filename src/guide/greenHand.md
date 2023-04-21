@@ -34,7 +34,8 @@ Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsU
 
 你可以使用 Windows 自带的磁盘管理或 DiskGenius 等其他分区软件腾出这些空间。
 
-![](/images/GreenHand/WindowsDiskManager.webp)
+![Windows 磁盘管理](/images/GreenHand/WindowsDiskManager.webp)
+
 ### 制作引导媒介
 
 我们使用 [Ventoy](https://www.ventoy.net/cn/download.html) 制作引导媒介，Ventoy 会将引导写入媒介（驱动器），然后你可以间接选择引导你媒介中的镜像。这样的好处是你不用为了刻录整个驱动器，下次需要引导其他镜像时只需要把镜像拷贝到该驱动器即可。
