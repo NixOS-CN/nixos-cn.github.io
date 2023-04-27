@@ -1,18 +1,18 @@
 ---
 home: true
-icon: home
+icon: home-fill
 title: 主页
 heroImage: /nixos-cn.svg
 heroText: 重塑构建与可复现部署
 tagline: 函数式配置，灵活的构建，丰富的包仓库
 actions:
 
-- text: 快速入门 ➜
-  link: /guide/GreenHand
+- text: 即刻安装 ➜
+  link: /guide/installation
   type: primary
 
-- text: 文档
-  link: /docs/
+- text: 手册
+  link: /manual/
 
 features:
 

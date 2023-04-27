@@ -99,7 +99,7 @@ ls /sys/firmware/efi/efivars
 
 ![初遇](/images/GreenHand/TrulyMeet.webp)
 
-如果你是 ArchLinux 用户，那可能你会对这个 tty 界面无比熟悉。
+由于我们选择的是最小化镜像，所以是没有桌面环境的，当前在我们面前的是 `tty` 界面。
 
 我们现在进入的系统是由镜像直接初始化的，系统并未被安装到硬盘上，我们需要使用现在这个已经被加载的基本系统完成 NixOS 到硬盘的部署。
 

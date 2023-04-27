@@ -1,5 +1,6 @@
 ---
 shortTitle: Haskell
+icon: haskell
 title: Haskell 开发环境部署
 description: 以 GHC 实践
 author: Potato Hatsue

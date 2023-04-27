@@ -2,23 +2,28 @@ import {sidebar} from "vuepress-theme-hope";
 
 export default sidebar([
     {
-        text: "安装手册",
-        link: "/guide/greenhand",
-        icon: "fa-solid fa-person-walking-luggage",
+        text: "安装教程",
+        link: "/guide/installation",
+        icon: "bulb",
     },
     {
-        text: "渐进式学习",
-        link: "/guide/faq.md",
-        icon: "fa-solid fa-chalkboard-user",
+        text: "使用手册",
+        link: "/manual/",
+        icon: "book-fill",
+        prefix: "/manual/",
+        collapsible: true,
+        children: [
+            "configuration"
+        ],
     },
     {
         text: "Nix 表达式语言",
         link: "/guide/lang",
-        icon: "fa-solid fa-file-code",
+        icon: "nix",
     },
     {
         text: "开发环境部署",
-        icon: "fa-solid fa-code",
+        icon: "dev",
         link: "/guide/env/dev/",
         prefix: "/guide/env/dev/",
         collapsible: true,
