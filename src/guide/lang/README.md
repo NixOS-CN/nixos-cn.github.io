@@ -760,12 +760,12 @@ in
 
 除了一些 [内建操作符](https://nixos.org/manual/nix/stable/language/operators.html) （`+`, `==`, `&&`, 等）,我们还要学习一些被视为事实标准的库。
 
-### 内建方法
+### 内建函数
 
-它们在 Nix 语言中并不是 `<LAMBDA>` 类型，而是 `<PRIMOP>`  元操作类型（primitive operations）。我们尽量不提供新的自造词，所以将标题译作内建方法，实际使用和面对对象编程中的＂转换类＂相差无几，只不过这些方法是内置在 Nix 解释器中，由 C++ 实现。查询 [内建方法](https://nixos.org/manual/nix/stable/language/builtins.html) 以了解其使用方法。
+它们在 Nix 语言中并不是 `<LAMBDA>` 类型，而是 `<PRIMOP>`  元操作类型（primitive operations）。这些函数是内置在 Nix 解释器中，由 C++ 实现。查询 [内建函数](https://nixos.org/manual/nix/stable/language/builtins.html) 以了解其使用方法。
 
 ```nix
-builtins.toString()  # 通过 builtins 使用方法
+builtins.toString()  # 通过 builtins 使用函数
 ```
 
 ### 导入
@@ -912,7 +912,7 @@ builtins.fetchurl "https://github.com/NixOS/nix/archive/7c3ab5751568a0bc63430b33
 "/nix/store/7dhgs330clj36384akg86140fqkgh8zf-7c3ab5751568a0bc63430b33a5169c5e4784a0ff.tar.gz"
 ```
 
-如果你想让你抓取到的档案完成自动解压，可以使用这个内建方法：
+如果你想让你抓取到的档案完成自动解压，可以使用这个内建函数：
 
 ```nix
 builtins.fetchTarball "https://github.com/NixOS/nix/archive/7c3ab5751568a0bc63430b33a5169c5e4784a0ff.tar.gz"
@@ -928,7 +928,7 @@ builtins.fetchTarball "https://github.com/NixOS/nix/archive/7c3ab5751568a0bc6343
 
 每次衍生（构建任务），都会产生构建结果，构建结果可以为其他构建任务所用。
 
-Nix 原本提供的声明衍生的方法是使用内建方法 `builtins.derivation`。但是我们通常使用的都是一个被包装的方法 `stdenv.mkDerivation` 。
+Nix 原本提供的声明衍生的方法是使用内建函数 `builtins.derivation`。但是我们通常使用的都是一个被包装的函数 `stdenv.mkDerivation` 。
 
 下面是一个示例：
 

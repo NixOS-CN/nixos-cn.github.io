@@ -188,7 +188,6 @@ ping 119.29.29.29 # 腾讯 DNSPod，不通请检查网络连接
 sudo nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixpkgs-unstable nixpkgs  # 订阅镜像仓库频道
 sudo nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixos-22.11 nixos  # 请注意系统版本
 sudo nix-channel --list  # 列出频道
-sudo nix-channel --update  # 更新频道
 sudo nixos-rebuild --option substituters "https://mirrors.ustc.edu.cn/nix-channels/store" switch --upgrade  # 临时切换二进制缓存源，并更新生成
 ```
 

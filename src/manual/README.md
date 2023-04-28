@@ -89,7 +89,6 @@ Taball 是 `tar` 文件格式的全称，不是 Nix 独有。它可以将多个�
 ### 系统频道
 
 系统频道可以从 URL 中直观的体现。形如 `https://nixos.org/channels/nixos22.11` 你很快就了解到这是一个 22.11 版本的 NixOS 的频道。
-类似的例子 `https://nixos.org/channels/nixos22.11` 便是 22.11 版本的 arm64 架构的 NixOS 频道。
 
 ::: tip 默认订阅的频道
 
