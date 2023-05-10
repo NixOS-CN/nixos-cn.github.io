@@ -52,12 +52,12 @@ nix-repl> { a.b.c = 1; }
 ```nix
 let
   foo = { bar.qux = 1; };
-  lax = foo.bar.qux
+  lax = foo.bar.qux;
 in
   lax  # 我们需要 lax，lax 需要 foo.bar.qux
 ```
 
-我们可以输入 `:q` 启用详尽求值，所有表达式都将被立刻求值：
+我们可以输入 `:p` 启用详尽求值，所有表达式都将被立刻求值：
 
 ```bash
 nix-repl> :p { a.b.c = 1; }
