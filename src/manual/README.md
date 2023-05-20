@@ -120,9 +120,42 @@ nixpkgs https://nixos.org/channels/nixpkgs-unstable
 
 #### 升级系统 #TODO
 
-```bash
+<!-- source by https://nixos.org/manual/nixos/stable/#sec-upgrading -->
 
+你可以使用以下命令获取当前的 `nixos` 频道
+
+```bash
+nix-channel --list | grep nixos
 ```
+
+要切换到不同的NixOS通道，请执行
+
+```bash
+nix-channel --add https://nixos.org/channels/channel-name nixos
+```
+
+以 `nixos` 22.11 为例，命令为
+
+```bash
+nix-channel --add https://nixos.org/channels/nixos-22.11 nixos
+```
+
+使用以下命令以开始切换
+
+```bash
+nixos-rebuild switch --upgrade
+```
+
+该命令相当于 `nix-channel --update nixos`; `nixos-rebuild switch`
+
+::: note
+频道的切换是以用户为单位的。当你不以 `root` 权限执行时，不会影响 `/etc/nixos/configuration.nix` 的配置
+:::
+
+::: warning
+在频道之间来回切换通常是安全的。唯一的例外是，一个较新的NixOS也可能有一个较低的Nix版本，这可能涉及到Nix数据库模式的升级。这是不容易撤消的，所以在这种情况下，您将无法返回到原始频道。
+:::
+
 
 ### 软件仓库频道
 
