@@ -118,6 +118,18 @@ nixpkgs https://nixos.org/channels/nixpkgs-unstable
 除非升级系统或更换镜像频道，否则不要动系统默认的 `nixos` 频道。
 :::
 
+#### 一些特殊的频道
+<!-- 机翻 & 格式化 -->
+
+- 稳定（stable）频道。如 `nixos-22.11`。这些频道只能得到保守的错误修复和软件包升级。例如，频道更新可能会导致系统上的Linux内核从4.19.34升级到4.19.38（一个小错误修复），但不会从4.19.x升级到4.20.x（一个可能会破坏一切的重大更改）。在创建下一个稳定分支之前，通常会保持稳定的频道。
+- 不稳定（unstable）频道。这与 `nixos` 的主要开发分支相对应，因此可能有破坏性更新，不建议用于生产系统。
+- 小型（small）频道，如 `nixos-22.11-small` 或 `nix-unstable-small`。这些频道与上述稳定和不稳定频道相同，只是它们包含较少的二进制包。这意味着它们比常规通道更新得更快（例如，当一个关键的安全补丁被提交到NixOS的源代码树时），但可能有更多的包需要从源代码构建。它们主要用于服务器环境，因此包含很少的GUI应用程序。
+
+要查看可用的频道，请转到[官网频道页面](https://nixos.org/channels)。（请注意，各种频道的URI重定向到一个目录，该目录包含频道的最新版本，并包括ISO映像和VirtualBox设备。）
+
+请注意，在发布过程中，尚未发布的频道也将出现在此处。请参阅[官网Getting NixOS页面](https://nixos.org/nixos/download.html)以查找最新支持的稳定版本。
+
+
 #### 升级系统 #TODO
 
 <!-- source by https://nixos.org/manual/nixos/stable/#sec-upgrading -->
