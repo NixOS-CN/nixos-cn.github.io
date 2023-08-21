@@ -21,7 +21,7 @@ icon: modules
 environment.systemPackages = [ pkgs.firefox ];  # 将来源于 pkgs(Nixpkgs) 的包安装到系统
 ```
 
-== 配置文件并不是实时生效的== 。你需要运行 `sudo nixos-rebuild switch` 来生成当前配置文件描述的系统。
+==配置文件并不是实时生效的== 。你需要运行 `sudo nixos-rebuild switch` 来生成当前配置文件描述的系统。
 
 ::: note 依赖配置
 对于某些包（例如依赖 D-Bus 或 systemd 服务注册的包），仅仅是安装还是不够的，我们需要为它们对系统进行一些配置。
@@ -205,6 +205,41 @@ Retype new UNIX password: ***
 可以使用 `userdel -r alice` 删除该用户，`-r` 参数用于移除该用户的 `home` 目录。此外还有 `usermod`，`groupadd`, `groupmod` 和 `groupdel` 可以使用。
 
 ## 文件系统
+
+你可以使用 `fileSystems` 来配置文件系统，然后按照挂载点配置文件系统，分区的参数等等：
+
+```nix
+fileSystems."/data" =
+  { device = "/dev/disk/by-label/data";
+    fsType = "ext4";
+  };
+```
+
+这条配置生成 `/etc/fstab`，系统在开机时会根据这个表文件来挂载分区。
+
+`device` 不一定要根据 `label` 来指定，也可以通过 `uuid` 。
+
+::: tip 块的 UUID
+你可以用下面的方法查看到这些块的 UUID：
+
+```bash
+tritium@KOVA ~> lsblk -o name,mountpoint,size,uuid
+NAME
+    MOUNTPOINT         SIZE UUID
+sda                  363.3M
+sdb [SWAP]               2G 1159b63e-3072-4483-b374-78cd487e6460
+sdc                      1T 8108c250-d488-4724-9237-5d926569fbef
+sdd /mnt/wslg/distro     1T 8677e11d-56ab-4ecb-8dfd-8effb322493f
+```
+:::
+
+在默认情况下，所有被写在配置的分区都会被自动挂载，除非你指定了 `noauto` 的选项：
+
+你也可以缺省 `fsType` 的值，因为它会自动检测文件系统类型。
+
+::: tip nofail
+如果 `fstab` 内容有误，系统会在启动时显示令人窒息的急救 Shell，为了避免这种情况，你可以在 `option` 里加入 `nofail` 来确保挂载是异步的且不会严重影响启动。
+:::
 
 ## 显示服务
 
