@@ -38,7 +38,7 @@ Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsU
 
 ### 制作引导媒介
 
-我们使用 [Ventoy](https://www.ventoy.net/cn/download.html) 制作引导媒介，Ventoy 会将引导写入媒介（驱动器），然后你可以间接选择引导你媒介中的镜像。这样的好处是你不用为了刻录整个驱动器，下次需要引导其他镜像时只需要把镜像拷贝到该驱动器即可。
+我们使用 [Ventoy](https://www.ventoy.net/cn/download.html) 制作引导媒介，Ventoy 会将引导写入媒介（驱动器），然后你可以间接选择引导你媒介中的镜像。这样的好处是刻录一次就能引导多镜像（具体请参阅 Ventoy 官网以获取使用方法）。
 
 下载[最简镜像](https://nixos.org/download.html#nix-more:~:text=without%20a%20desktop.-,Minimal%20ISO%20image,-The%20minimal%20installation)
 （Minimal ISO image），我们不使用官方安装程序做演示，因为没有太多的自定义选项。下载完成后，拷贝镜像至已经安装 Ventoy 的驱动器的任意目录。
@@ -188,6 +188,7 @@ ping 119.29.29.29 # 腾讯 DNSPod，不通请检查网络连接
 sudo nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixpkgs-unstable nixpkgs  # 订阅镜像仓库频道
 sudo nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixos-22.11 nixos  # 请注意系统版本
 sudo nix-channel --list  # 列出频道
+sudo nix-channel --update  # 更新并解包频道
 sudo nixos-rebuild --option substituters "https://mirrors.ustc.edu.cn/nix-channels/store" switch --upgrade  # 临时切换二进制缓存源，并更新生成
 ```
 
@@ -195,9 +196,7 @@ sudo nixos-rebuild --option substituters "https://mirrors.ustc.edu.cn/nix-channe
 
 首先，我们使用 `lsblk` 命令查看一手分区情况：
 
-```bash
-
-```
+// TODO
 
 你可以查看到当前的分区和驱动器信息，以 `sata` 开头的便是 sata 设备，`nvme` 设备亦然。
 选择你想要分区的驱动器：
@@ -215,6 +214,10 @@ sudo parted /dev/nvme0n1
 ```bash
 mklabel gpt
 ```
+
+然后按 p 查看当前表情况
+
+我们需要将 ESP 分区设置为可启动的
 
 然后创建一个 ESP 分区（双系统安装会使用现有的 ESP 分区）：
 

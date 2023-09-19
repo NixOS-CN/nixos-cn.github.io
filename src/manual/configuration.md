@@ -238,8 +238,8 @@ sdd /mnt/wslg/distro     1T 8677e11d-56ab-4ecb-8dfd-8effb322493f
 
 你也可以缺省 `fsType` 的值，因为它会自动检测文件系统类型。
 
-::: tip nofail
-如果 `fstab` 内容有误，系统会在启动时显示令人窒息的急救 Shell，为了避免这种情况，你可以在 `option` 里加入 `nofail` 来确保挂载是异步的且不会严重影响启动。
+::: tip `nofail`
+如果 `fstab` 内容有误，系统会在启动时显示令人窒息的急救 Shell。为了避免这种情况，你可以在 `option` 里加入 `nofail` 来确保挂载是异步的且不会严重影响启动。
 :::
 
 ## 显示服务
