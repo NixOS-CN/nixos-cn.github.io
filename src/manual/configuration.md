@@ -260,7 +260,7 @@ services.xserver.enable = true;
 services.xserver.videoDrivers = [ "r128" ];
 ```
 
-通过以上配置就启用了 `xf86-video-intel` 驱动。
+通过以上配置就启用了 `xf86-video-r128` 驱动。
 
 然后你应该至少启用一个桌面管理器或窗口管理器。我通常为新手和不喜欢折腾的人推荐桌面管理器，窗口管理器为装逼和喜欢效率的极客所用。
 
@@ -334,6 +334,8 @@ services.xserver.videoDrivers = [ "modesetting" ];
 services.xserver.videoDrivers = [ "intel" ];
 ```
 
+这样你就启用了 `xf86-video-intel` 驱动。
+
 如果你遇到屏幕撕裂的问题，尝试以下设置：
 ```nix
 services.xserver.videoDrivers = [ "intel" ];
@@ -343,7 +345,7 @@ services.xserver.deviceSection = ''
 '';
 ```
 
-如果上面的改动不生效，也有可能是 Intel 自刷新适应的锅，在内核启动参数里加上 `i915.enable_psr=0` 也许会修复这种屏幕只刷新一半的情况。
+如果上面的改动不生效，也有可能是 Intel 自刷新适应的锅，在内核启动参数里加上 `i915.enable_psr=0` 也许会修复这种屏幕只刷新一半的情况（通常出现在机械革命 F1，联想 Yoga 14s 等机型上）。
 
 #### NVDIA 闭源驱动
 
@@ -373,6 +375,8 @@ services.xserver.videoDrivers = [ "nouveau" ];
 ```
 
 > “nouveau” 是法语中的 “新的” 的意思。
+
+效果见仁见智吧，反正 NVDIA 显卡的 Linux 用户日常没人权。
 
 #### AMD 闭源驱动
 

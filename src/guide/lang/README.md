@@ -99,8 +99,7 @@ $ nix-instantiate --eval --strict file.nix
 好的代码风格会让程序员身心愉悦，同时也增加了代码可维护性。
 
 ::: info 格式化
-[Alejandra](https://github.com/kamadorueda/alejandra) 是一个新兴的 Nix 代码格式化工具，使用 Rust
-编写。你可以[在线尝试](https://kamadorueda.com/alejandra/)它。
+[Alejandra](https://github.com/kamadorueda/alejandra) 是一个新兴的 Nix 代码格式化工具，使用 Rust 编写。你可以[在线尝试](https://kamadorueda.com/alejandra/)它。
 :::
 
 ## 当心空格
