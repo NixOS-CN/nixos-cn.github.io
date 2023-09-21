@@ -7,6 +7,18 @@ export default sidebar([
         icon: "bulb",
     },
     {
+        text: "安装教程",
+        icon: "dev",
+        link: "/guide/installation/",
+        prefix: "/guide/installation/",
+        collapsible: true,
+        children: [
+            "Virtual Machine",
+            "WSL2",
+            "Subsystem"
+        ],
+    },
+    {
         text: "使用手册",
         link: "/manual/",
         icon: "book-fill",

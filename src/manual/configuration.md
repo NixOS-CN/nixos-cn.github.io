@@ -242,11 +242,283 @@ sdd /mnt/wslg/distro     1T 8677e11d-56ab-4ecb-8dfd-8effb322493f
 如果 `fstab` 内容有误，系统会在启动时显示令人窒息的急救 Shell。为了避免这种情况，你可以在 `option` 里加入 `nofail` 来确保挂载是异步的且不会严重影响启动。
 :::
 
-## 显示服务
+## 显示系统
+
+X 窗口系统已经是上个世纪八十年代的软件了，冗余的功能拖累了它的性能，因此建议没有特殊需求的用户勇敢试水 Wayland。
 
 ### X11
 
+X 窗口系统可以提供最基础，成熟（稍微过时）的显示服务，只需要以下配置就能启用：
+
+```nix
+services.xserver.enable = true;
+```
+
+它会自动检测并启用适合的 xorg 驱动，比如 `mesa` 和 `xf86` 系列驱动。当然你也可以手动指定：
+
+```nix
+services.xserver.videoDrivers = [ "r128" ];
+```
+
+通过以上配置就启用了 `xf86-video-intel` 驱动。
+
+然后你应该至少启用一个桌面管理器或窗口管理器。我通常为新手和不喜欢折腾的人推荐桌面管理器，窗口管理器为装逼和喜欢效率的极客所用。
+
+```nix
+#  挑一个喜欢的吧
+services.xserver.desktopManager.plasma5.enable = true;
+services.xserver.desktopManager.xfce.enable = true;
+services.xserver.desktopManager.gnome.enable = true;
+services.xserver.desktopManager.mate.enable = true;
+services.xserver.windowManager.xmonad.enable = true;
+services.xserver.windowManager.twm.enable = true;
+services.xserver.windowManager.icewm.enable = true;
+services.xserver.windowManager.i3.enable = true;
+services.xserver.windowManager.herbstluftwm.enable = true;
+```
+
+NixOS 的默认显示管理器是 LightDM（它只在 X11 下工作），你也可以自行选择替代品：
+
+```nix
+services.xserver.displayManager.sddm.enable = true;  # KDE 的默认登录管理器
+services.xserver.displayManager.gdm.enable = true;  # GNOME 的默认登陆管理器
+```
+
+你还可以指定 x11 的键盘布局：
+
+```nix
+services.xserver.layout = "de";
+services.xserver.xkbVariant = "neo";
+```
+
+并且 x11 显示服务可以被手动启用或重启：
+
+```nix
+systemctl restart --now display-manager.service
+```
+
+在 64 位系统上，如果你想运行 32 位的 OpenGL 程序（比如 Wine）。你应该这样配置：
+
+```nix
+hardware.opengl.driSupport32Bit = true;
+```
+
+#### 自动登录
+
+如果你的电脑不需要限制其他人访问，你可以设置自动登录来跳过恼人的用户登录界面。在下面的例子中，我们定义了默认的会话，以便于自动登录到它：
+
+```nix
+services.xserver.displayManager.defaultSession = "none+i3";
+```
+
+格式是“桌面环境”+“窗口管理器”，但是光配置默认会话还不够，还需要将开启自动登陆的布尔值传递给显示管理器，并指定自动登录的用户是谁：
+
+```nix
+services.xserver.displayManager.lightdm.enable = true;
+services.xserver.displayManager.autoLogin.enable = true;
+services.xserver.displayManager.autoLogin.user = "alice";
+```
+
+#### Intel 图形驱动
+
+通常有两种驱动供 Intel 核心显卡用户选择：`modesetting` 与 `xf86-video-intel`。按照正常人的脑子想，肯定是带有 `intel` 的专用驱动性能和稳定性更佳，但实际情况是，后者缺乏维护，过时且不稳定。
+
+`modesetting` 是一种运行在 KMS（Kernel Mode Setting）的通用驱动：
+
+```nix
+services.xserver.videoDrivers = [ "modesetting" ];
+```
+
+如果你想启用专有驱动，也不是不可以：
+```nix
+services.xserver.videoDrivers = [ "intel" ];
+```
+
+如果你遇到屏幕撕裂的问题，尝试以下设置：
+```nix
+services.xserver.videoDrivers = [ "intel" ];
+services.xserver.deviceSection = ''
+  Option "DRI" "2"
+  Option "TearFree" "true"
+'';
+```
+
+如果上面的改动不生效，也有可能是 Intel 自刷新适应的锅，在内核启动参数里加上 `i915.enable_psr=0` 也许会修复这种屏幕只刷新一半的情况。
+
+#### NVDIA 闭源驱动
+
+皮衣客打死不做个能用的开源黄伟达驱动。由于专有驱动不自由，所以你需要手动启用它：
+
+```nix
+services.xserver.videoDrivers = [ "nvidia" ];
+```
+
+如果你的显卡很老了，那可能需要老驱动才能驱动它：
+
+```nix
+services.xserver.videoDrivers = [ "nvidiaLegacy390" ];
+services.xserver.videoDrivers = [ "nvidiaLegacy340" ];
+services.xserver.videoDrivers = [ "nvidiaLegacy304" ];
+```
+
+#### NVDIA 开源驱动
+
+- nvdia 不公开其显卡的硬件规格和编程接口，导致开源驱动开发者无法完全利用显卡的功能和性能。
+- nvdia 为其专有驱动添加了一些安全机制，如签名验证，固件加密等，使得开源驱动无法加载或修改这些驱动。
+
+nouveau 就是那个自由和开源的驱动 NVIDA 显卡的程序。nouveau 的目标是利用逆向工程 Nvidia 的专有 Linux 驱动程序来创建一个开放源码的驱动程序。
+
+```nix
+services.xserver.videoDrivers = [ "nouveau" ];
+```
+
+> “nouveau” 是法语中的 “新的” 的意思。
+
+#### AMD 闭源驱动
+
+AMD 的闭源驱动经常会坏掉，不建议使用：
+
+```nix
+services.xserver.videoDrivers = [ "amdgpu-pro" ];
+```
+
+建议用下面的开源驱动。
+
+#### AMD 开源驱动
+
+```nix
+services.xserver.enable = true;
+services.xserver.videoDrivers = [ "amdgpu" ];
+```
+
+#### 触控板
+
+笔记本电脑通常会带有触控板，启用配置如下：
+
+```nix
+services.xserver.libinput.enable = true;
+```
+
+这个驱动还有很多可配置的功能，例如关闭“触碰以点击”功能：
+
+```nix
+services.xserver.libinput.touchpad.tapping = false;
+```
+
+::: note 废弃的 synaptics 选项
+`services.xserver.synaptics` 选项在 NixOS 17.09 之后的版本中被废弃。
+:::
+
+#### GTK/QT 主题
+
+所有的主题你可以去仓库里找到。如果你想让 QT 和 GTK 的主题一致一些：
+
+```nix
+qt.enable = true;
+qt.platformTheme = "gtk2";
+qt.style = "gtk2";
+```
+
+#### 自定义键盘布局（XKB）
+
+这是一个例子，在这个例子中，我们稍微改造一下美式键盘。
+我们先创建一个文件 `us-greek`，放到一个 `symbols` 文件夹下面，在里面描述自定义的键位：
+
+```nix
+xkb_symbols "us-greek"
+{
+  include "us(basic)"            // 包含基础美式键盘
+  include "level3(ralt_switch)"  // 配置右 alt 作为一个第三级开关
+
+  key <LatA> { [ a, A, Greek_alpha ] };
+  key <LatB> { [ b, B, Greek_beta  ] };
+  key <LatG> { [ g, G, Greek_gamma ] };
+  key <LatD> { [ d, D, Greek_delta ] };
+  key <LatZ> { [ z, Z, Greek_zeta  ] };
+};
+```
+
+一个最小键盘布局还需要以下内容：
+
+```nix
+services.xserver.extraLayouts.us-greek = {
+  description = "US layout with alt-gr greek";
+  languages   = [ "eng" ];
+  symbolsFile = /yourpath/symbols/us-greek;
+};
+```
+
+`extraLayouts.` 后的名称应该与布局名匹配。
+
+但是你要知道，你写的 XKB 布局要是坏的，X 显示系统会崩掉的，所以强烈建议先测试再实装：
+
+```nix
+$ nix-shell -p xorg.xkbcomp
+$ setxkbmap -I/yourpath us-greek -print | xkbcomp -I/yourpath - $DISPLAY
+```
+
+你还可以从预置的 XKB 文件获取获取灵感：
+
+```nix
+echo "$(nix-build --no-out-link '<nixpkgs>' -A xorg.xkeyboardconfig)/etc/X11/xkb/"
+```
+
+更改配置以后，你需要注销再登录才能生效。 然后你键入 `setxkbmap us-greek` 并键入 Alt + a（可能在你的终端不会立马生效）。如果你要更改默认行为，还是配置一下 `services.xserver.layout`。
+
+一个布局可以拥有除了 `xkb_symbols` 以外的数个其他组件，比如我们可以为一些键码绑定多媒体功能。我们可以通过使用 `pkgs.xorg.xev` 来找到中意的按键的码，然后再创建定义：
+
+```nix
+xkb_keycodes "media"
+{
+ <volUp>   = 123;
+ <volDown> = 456;
+}
+```
+
+现在我们来引入刚刚新定义的键码：
+
+```nix
+xkb_symbols "media"
+{
+ key.type = "ONE_LEVEL";
+ key <volUp>   { [ XF86AudioLowerVolume ] };
+ key <volDown> { [ XF86AudioRaiseVolume ] };
+}
+```
+
+在这里完成总装：
+
+```nix
+services.xserver.extraLayouts.media = {
+  description  = "Multimedia keys remapping";
+  languages    = [ "eng" ];
+  symbolsFile  = /path/to/media-key;
+  keycodesFile = /path/to/media-sym;
+};
+```
+
+上面的两个自定义目录用于引用上面的两个 nix 模块。
+
 ### Wayland
+
+X11 其实是一种显示协议，X.org 才是显示服务器。Wayland 作为新生的显示服务器，非常缺乏生态，只能用某些方式才能部分兼容 X11。尽管如此，还是希望所有人能加入 Wayland 的阵营。
+
+X11 在设计之初就分为了服务端与窗口管理器，而一个 Wayland 混成器则类似 X 窗口管理器里内置了 服务端的功能，这样的设计让 Wayland 在本机体验上有了不少的提升。
+
+Sway 是一个支持 Wayland 的窗口管理器，类似的软件还有 Wayfire，Hyprland 等：
+
+```nix
+programs.sway.enable = true;
+```
+
+如果你使用基于 wlroot 的窗口管理器，并且有共享屏幕或录制屏幕的需求，记得启用的 wlr 对应的 portal。
+
+```nix
+xdg.portal.wlr.enable = true;
+```
+
+与之相关的还有 `services.pipewire.enable`。
+
 
 ## GPU 加速
 
