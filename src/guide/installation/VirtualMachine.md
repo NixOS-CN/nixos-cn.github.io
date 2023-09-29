@@ -2,7 +2,7 @@
 
 无论你使用什么虚拟机安装，过程都是大同小异的。需要注意的是 HyperV 的安全启动是默认开启的，需要你手动关掉。
 
-以下教程是基于 UEFI 的安装，所以还需要你启用 VMWARE 的 UEFI 选项（如果你真的使用 VMWARE 的话）。
+以下教程是基于 UEFI 的安装，所以还需要你启用 VMware 的 UEFI 选项（如果你真的使用 VMware 的话）。
 
 ![启用 UEFI](/images/GreenHand/EnableUefi.webp)
 
