@@ -19,7 +19,7 @@ export default navbar([
             {
                 text: "Channel 状态",
                 icon: "nix-channel",
-                link: "https://status.nixos.org/",
+                link: "https://status.nixos.org",
             },
             {
                 text: "软件包 Pull Request 追踪",

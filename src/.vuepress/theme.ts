@@ -8,7 +8,7 @@ export default hopeTheme({
         name: "NixOS-CN",
         url: "https://github.com/nixos-cn",
     },
-    iconAssets: "https://at.alicdn.com/t/c/font_4043253_1nmpv7tr2vk.css",
+    iconAssets: "https://at.alicdn.com/t/c/font_4043253_v7nldr3uv7.css",
     iconPrefix: "iconfont icon-",
     logo: "/nixos-cn.svg",
     repo: "nixos-cn/nixos-cn.github.io",
