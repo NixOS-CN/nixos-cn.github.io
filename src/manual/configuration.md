@@ -238,7 +238,7 @@ sdd /mnt/wslg/distro     1T 8677e11d-56ab-4ecb-8dfd-8effb322493f
 
 你也可以缺省 `fsType` 的值，因为它会自动检测文件系统类型。
 
-::: tip `nofail`
+::: tip nofail
 如果 `fstab` 内容有误，系统会在启动时显示令人窒息的急救 Shell。为了避免这种情况，你可以在 `option` 里加入 `nofail` 来确保挂载是异步的且不会严重影响启动。
 :::
 
@@ -329,7 +329,8 @@ services.xserver.displayManager.autoLogin.user = "alice";
 services.xserver.videoDrivers = [ "modesetting" ];
 ```
 
-如果你想启用专有驱动，也不是不可以：
+如果你想启用定制驱动，也不是不可以：
+
 ```nix
 services.xserver.videoDrivers = [ "intel" ];
 ```
@@ -337,6 +338,7 @@ services.xserver.videoDrivers = [ "intel" ];
 这样你就启用了 `xf86-video-intel` 驱动。
 
 如果你遇到屏幕撕裂的问题，尝试以下设置：
+
 ```nix
 services.xserver.videoDrivers = [ "intel" ];
 services.xserver.deviceSection = ''
@@ -457,8 +459,8 @@ services.xserver.extraLayouts.us-greek = {
 但是你要知道，你写的 XKB 布局要是坏的，X 显示系统会崩掉的，所以强烈建议先测试再实装：
 
 ```nix
-$ nix-shell -p xorg.xkbcomp
-$ setxkbmap -I/yourpath us-greek -print | xkbcomp -I/yourpath - $DISPLAY
+nix-shell -p xorg.xkbcomp
+setxkbmap -I/yourpath us-greek -print | xkbcomp -I/yourpath - $DISPLAY
 ```
 
 你还可以从预置的 XKB 文件获取获取灵感：
@@ -523,8 +525,9 @@ xdg.portal.wlr.enable = true;
 
 与之相关的还有 `services.pipewire.enable`。
 
-
 ## GPU 加速
+
+为了能够流畅的硬件解码视频，加速图形渲染等，我们需要配置一些常见的硬件加速 API。
 
 ## 桌面环境
 

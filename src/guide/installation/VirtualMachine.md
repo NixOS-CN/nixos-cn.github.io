@@ -159,14 +159,14 @@ vim /mnt/etc/nixos/configuration.nix
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   networking.networkmanager.enable = true;
-  networking.hostnName = "nixos";
+  networking.hostName = "nixos";
   time.timeZone = "Asia/Shanghai";
   i18n.defaultLocale = "en_US.UTF-8";
   services.xserver.enable = true;
-  services.xserver.displayManager.sddm = true;
-  services.xserver.desktopManager.plasma5 = true;
-  enviroment.systemPackages = with pkgs; [
-    vim,
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
+  environment.systemPackages = with pkgs; [
+    vim
     alacritty
   ];
   sound.enable = true;
@@ -185,7 +185,7 @@ vim /mnt/etc/nixos/configuration.nix
 由于生成配置命令没有写入 Btrfs 子卷的挂载参数，我们需要自己修改另一个配置文件：
 
 ```bash
-vim /mnt/etc/nixos/configuration.nix
+vim /mnt/etc/nixos/hardware-configuration.nix
 ```
 
 ![挂载参数](/images/GreenHand/HardwareConfig.webp)

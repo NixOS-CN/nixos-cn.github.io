@@ -14,9 +14,9 @@ wsl --install --no-distribution
 
 ## 手动启用
 
-与上面不同的是，这种方法可能适合稍旧一些系统。
+与上面不同的是，这种方法可能适合稍旧一些的系统。
 
-我们需要启用两个可选功能，他们分别是 “适用于 Linux 的 Windows 子系统” 和 “虚拟机平台”：
+我们需要启用两个可选功能，它们分别是 “适用于 Linux 的 Windows 子系统” 和 “虚拟机平台”：
 
 ```powershell
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart

@@ -119,20 +119,16 @@ nixpkgs https://nixos.org/channels/nixpkgs-unstable
 :::
 
 #### 一些特殊的频道
-<!-- 机翻 & 格式化 -->
 
-- 稳定（stable）频道。如 `nixos-22.11`。这些频道只能得到保守的错误修复和软件包升级。例如，频道更新可能会导致系统上的Linux内核从4.19.34升级到4.19.38（一个小错误修复），但不会从4.19.x升级到4.20.x（一个可能会破坏一切的重大更改）。在创建下一个稳定分支之前，通常会保持稳定的频道。
+- 稳定（stable）频道。如 `nixos-22.11`。这些频道只能得到保守的错误修复和软件包升级。例如，频道更新可能会导致系统上的Linux内核从 4.19.34 升级到 4.19.38（一个小错误修复），但不会从 4.19.x 升级到 4.20.x（一个可能会破坏一切的重大更改）。在创建下一个稳定分支之前，通常会保持稳定的频道。
 - 不稳定（unstable）频道。这与 `nixos` 的主要开发分支相对应，因此可能有破坏性更新，不建议用于生产系统。
-- 小型（small）频道，如 `nixos-22.11-small` 或 `nix-unstable-small`。这些频道与上述稳定和不稳定频道相同，只是它们包含较少的二进制包。这意味着它们比常规通道更新得更快（例如，当一个关键的安全补丁被提交到NixOS的源代码树时），但可能有更多的包需要从源代码构建。它们主要用于服务器环境，因此包含很少的GUI应用程序。
+- 小型（small）频道，如 `nixos-22.11-small` 或 `nix-unstable-small`。这些频道与上述稳定和不稳定频道相同，只是它们包含较少的二进制包。这意味着它们比常规通道更新得更快（例如，当一个关键的安全补丁被提交到 NixOS 的源代码树时），但可能有更多的包需要从源代码构建。它们主要用于服务器环境，因此包含很少的 GUI 应用程序。
 
-要查看可用的频道，请转到[官网频道页面](https://nixos.org/channels)。（请注意，各种频道的URI重定向到一个目录，该目录包含频道的最新版本，并包括ISO映像和VirtualBox设备。）
+要查看可用的频道，请转到[官方频道](https://nixos.org/channels)。（请注意，各种频道的 URI 重定向到一个包含最新版本频道的目录，还包括 ISO 映像和 VirtualBox 设备。）
 
-请注意，在发布过程中，尚未发布的频道也将出现在此处。请参阅[官网Getting NixOS页面](https://nixos.org/nixos/download.html)以查找最新支持的稳定版本。
-
+请注意，在发布过程中，尚未发布的频道也将出现在此处。请参阅[官方 Getting NixOS 页面](https://nixos.org/nixos/download.html)以查找最新支持的稳定版本。
 
 #### 升级系统 #TODO
-
-<!-- source by https://nixos.org/manual/nixos/stable/#sec-upgrading -->
 
 你可以使用以下命令获取当前的 `nixos` 频道
 
@@ -167,7 +163,6 @@ nixos-rebuild switch --upgrade
 ::: warning
 在频道之间来回切换通常是安全的。唯一的例外是，一个较新的NixOS也可能有一个较低的Nix版本，这可能涉及到Nix数据库模式的升级。这是不容易撤消的，所以在这种情况下，您将无法返回到原始频道。
 :::
-
 
 ### 软件仓库频道
 
@@ -221,9 +216,12 @@ nix-channel --add https://host/nixpkgs-unstable nixpkgs
 
 由于不可抗力的因素，大陆对于环大陆主机的访问显得异常艰难，所以我们需要使用国内的镜像频道来替代我们对官方频道（镜像频道通常由大学和企业公益性提供），下面列出了一些在中国可用的一些镜像频道：
 
-- [清华大学](https://mirrors.tuna.tsinghua.edu.cn/help/nix-channels/)
-- [中国科技大学](https://mirrors.ustc.edu.cn/help/nix-channels.html)
-- [上海交通大学](https://sjtug.org/post/mirror-help/nix-channels/)
+- 中国教育和科研计算机网（清华大学）`https://mirrors.cernet.edu.cn/nix-channels/store`
+- 中国科学技术大学 `https://mirrors.ustc.edu.cn/nix-channels/store`
+- 上海交通大学 `https://mirror.sjtu.edu.cn/nix-channels/store`
+- 北京外国语大学 `https://mirrors.bfsu.edu.cn/nix-channels/store`
+- 南京大学 `https://mirror.nju.edu.cn/nix-channels/store`
+- 中国科学院软件研究所 `https://mirror.iscas.ac.cn/nix-channels/store`
 
 我们使用镜像源替代官方的系统频道和软件仓库频道：
 
@@ -248,6 +246,23 @@ sudo nix-channel --list  # 列出频道
 ```nix
 nix.settings.substituters = [ "https://mirrors.ustc.edu.cn/nix-channels/store" ];
 ```
+
+由于官方的二进制缓存源是默认添加的，你可以通过下面的方式只启用自己指定的二进制缓存源：
+
+```nix
+# 记得导入 lib
+nix.settings.substituters = lib.mkForce [ "https://mirrors.cernet.edu.cn/nix-channels/store" ];
+```
+
+### 当前可用的二进制缓存主机列表
+
+- 中国科研和教育计算机网 `https://mirrors.cernet.edu.cn/nix-channels/store`
+- 中国科技大学 `https://mirrors.ustc.edu.cn/nix-channels/store`
+- 上海交通大学 `https://mirror.sjtu.edu.cn/nix-channels/store`
+- 中国教育和科研计算机网 `https://mirrors.cernet.edu.cn/nix-channels/store`
+- 北京外国语大学 `https://mirrors.bfsu.edu.cn/nix-channels/store`
+- 南京大学 `https://mirror.nju.edu.cn/nix-channels/store`
+- 中国科学院软件研究所 `https://mirror.iscas.ac.cn/nix-channels/store`
 
 ### Cachix 服务
 
