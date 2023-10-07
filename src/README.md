@@ -3,8 +3,8 @@ home: true
 icon: home-fill
 title: 主页
 heroImage: /nixos-cn.svg
-heroText: 重塑构建与可复现部署
-tagline: 函数式配置，灵活的构建，丰富的包仓库
+heroText: 重塑构建与可复现地部署
+tagline: 集数学的精确，函数的纯净，代码的可靠于一身
 actions:
 
 - text: 即刻安装 ➜
