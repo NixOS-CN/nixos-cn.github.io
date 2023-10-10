@@ -88,7 +88,7 @@ ls /sys/firmware/efi/efivars
 正常来说选择第一项正常启动即可。如果你想引导完成后移除启动媒介，可以使用 `copytoram` 启动项，这样会把系统复制到内存。
 
 ::: warning 屏幕工作不正常
-如果再正常的内核引导下，屏幕会有闪烁，撕裂的情况发生，导致安装难以继续。那么请重启后选择 `nomodeset` 项引导，此项会禁用一些内核针对显卡的功能。
+如果在正常的内核引导下，屏幕会有闪烁，撕裂的情况发生，导致安装难以继续。那么请重启后选择 `nomodeset` 项引导，此项会禁用一些内核针对显卡的功能。
 :::
 
 ## 进入 Live CD
@@ -217,13 +217,13 @@ nixos-rebuild --option substituters "https://mirror.sjtu.edu.cn/nix-channels/sto
 |-nvme0n1p2|259:2|0|16M|0|part||
 |-nvme0n1p3|259:3|0|320G|0|part||
 
-`TYPE` 列指示了块类型还是硬盘类型。这里需要的是硬盘，然后根据接口类型和硬盘容量大小，你很快就能分辨出我电脑的唯一硬盘是 `nvme0n1`，`sda` 是我的引导 U 盘。
+`TYPE` 列指示了分区类型还是硬盘类型。这里需要的是硬盘类型。根据接口类型和硬盘容量大小，你很快就能分辨出我电脑的唯一硬盘是 `nvme0n1`，`sda` 是我的引导 U 盘。
 
 ```bash
 parted -a optimal /dev/nvme0n1  # 启用对齐，并进行分区
 ```
 
-我们已经进入了交互模式。在这个模式中，所有操作都是即时生效的，所以请再三确认。
+我们已经进入了交互模式。在这个模式中，所有操作都是即时生效的，所以请再三确认你的操作。
 你可以输入 `help` 查看帮助手册，然后输入 `p` 查看当前分区状况。
 
 |Number|Start|End|Size|File system|Name|Flags|
@@ -336,7 +336,7 @@ swapon /dev/nvme0n1p5
 我们使用以下命令生成基础配置：
 
 ```bash
-sudo nixos-generate-config --root /mnt
+nixos-generate-config --root /mnt
 ```
 
 然后编辑配置：

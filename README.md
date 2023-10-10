@@ -3,7 +3,7 @@
 ## 项目结构
 
 本项目使用 [VuePress](https://vuepress.vuejs.org/zh/)
-框架，辅以 [vuepress-hope-theme](https://vuepress-theme-hope.github.io/v2/zh/) 主题完成整体构建。
+框架，辅以 [vuepress-hope-theme](https://theme-hope.vuejs.press/zh/) 主题完成整体构建。
 
 ```tree
 ├─.vuepress
@@ -16,7 +16,7 @@
 │  └─theme.ts  // 主题配置
 │
 ├─docs  // 文档目录
-└─guide  // 教程目录
+└─tutorials  // 教程目录
     └─lang  // 语言教程
 ```
 

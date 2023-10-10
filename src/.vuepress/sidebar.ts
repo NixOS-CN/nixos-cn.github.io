@@ -4,8 +4,8 @@ export default sidebar([
     {
         text: "安装教程",
         icon: "bulb",
-        link: "/guide/installation/",
-        prefix: "/guide/installation/",
+        link: "/tutorials/installation/",
+        prefix: "/tutorials/installation/",
         collapsible: true,
         children: [
             "VirtualMachine",
@@ -14,25 +14,25 @@ export default sidebar([
         ],
     },
     {
-        text: "使用手册",
-        link: "/manual/",
+        text: "伊始之章",
+        link: "/tutorials/concept/",
         icon: "book-fill",
-        prefix: "/manual/",
+        prefix: "/tutorials/concept/",
         collapsible: true,
         children: [
-            "configuration"
+            "BinaryAndSourceDistribution"
         ],
     },
     {
-        text: "Nix 表达式语言",
-        link: "/guide/lang",
+        text: "Nix 语言",
+        link: "/tutorials/lang",
         icon: "nix",
     },
     {
         text: "开发环境部署",
         icon: "dev",
-        link: "/guide/env/dev/",
-        prefix: "/guide/env/dev/",
+        link: "/tutorials/env/dev/",
+        prefix: "/tutorials/env/dev/",
         collapsible: true,
         children: [
             "haskell"
