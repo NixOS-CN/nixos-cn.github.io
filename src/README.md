@@ -3,7 +3,7 @@ home: true
 icon: home-fill
 title: 主页
 heroImage: /nixos-cn.svg
-heroText: 重塑构建与可复现地部署
+heroText: 可复现地构建与部署
 tagline: 集数学的精确，函数的纯净，代码的可靠于一身
 actions:
 

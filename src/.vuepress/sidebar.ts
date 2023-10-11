@@ -20,7 +20,8 @@ export default sidebar([
         prefix: "/tutorials/concept/",
         collapsible: true,
         children: [
-            "BinaryAndSourceDistribution"
+            "BinaryAndSourceDistribution",
+            "HowToResolvePathDependency"
         ],
     },
     {

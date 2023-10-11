@@ -1,6 +1,6 @@
 {
   "name": "nix-press",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "NixOS-CN official website",
   "license": "MIT",
   "type": "module",
