@@ -97,7 +97,7 @@ ls /sys/firmware/efi/efivars
 
 由于我们选择的是最小化镜像，所以是没有桌面环境的，当前在我们面前的是 `tty` 界面。
 
-我们现在进入的系统是由镜像直接初始化的，系统并未被安装到硬盘上，我们需要使用现在这个已经被加载的基本系统完成 NixOS 到硬盘的部署。
+我们现在进入的系统是由镜像直接初始化的，系统并未被安装到硬盘上。我们需要使用现在这个已经被加载的基本系统完成 NixOS 到硬盘的部署。
 
 ### 网络连接
 
@@ -252,9 +252,10 @@ Ignore/Cancel?**
 
 ==我在这里输入了 Ignore，忽略这个警告。==
 
-由于是 Disk Genius 给我创建的 GPT 表，而且我 Windows 已经装上了，所以我懒得管这个对齐问题了。如果你想让分区重新对齐，就只能重新创建 GPT 表，再重新安装两个系统。
+在我的设备上，现有的 GPT 分区表是由 Disk Genius 生成的，出现这个警告我并不意外，我选择忽略这个警告。
+这个警告提示你分区没有对齐，对齐以后才能获得最佳性能。如果你想让分区重新对齐，就只能重新创建 GPT 表，再重新安装两个系统。
 
-如果你想让你的分区对齐，可以使用百分比表示分区的开始和结束位置：
+如果你想让你的分区对齐，可以在创建第一张分区表时使用百分比表示分区的开始和结束位置：
 
 ```bash
 mkpart primary 0% 100%
@@ -265,8 +266,6 @@ mkpart primary 0% 100%
 ```bash
 parted -a optimal /dev/nvme0n1
 ```
-
-还有一种计算扇区的办法，较麻烦，不提及。
 
 你还可以使用下面的命令检查分区是否对齐，最后一个数字是分区序号：
 
@@ -385,11 +384,11 @@ vim /mnt/etc/nixos/configuration.nix
     sound.enable = true;
     hardware.pulseaudio.enable = true;
     nix.settings.substituters = [ "https://mirror.sjtu.edu.cn/nix-channels/store" ];
-    system.stateVersion = "23.11";  # 不要变动
+    system.stateVersion = "23.11";  # 不要改动
 }
 ```
 
-对于 `hardware-configuration.nix` 我并没有太多的改动，每个机器有不同的特征，==不要直接复制==：
+对于 `hardware-configuration.nix` 不需要太多改动。==每个机器有不同的特征，不要直接复制==：
 
 ```nix
 { config, lib, pkgs, modulesPath, ...}:

@@ -21,7 +21,8 @@ export default sidebar([
         collapsible: true,
         children: [
             "BinaryAndSourceDistribution",
-            "HowToResolvePathDependency"
+            "HowToResolvePathDependency",
+            "ConfigurationIsTheBlueprintOfTheSystem"
         ],
     },
     {
