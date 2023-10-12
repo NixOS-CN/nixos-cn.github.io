@@ -22,7 +22,8 @@ export default sidebar([
         children: [
             "BinaryAndSourceDistribution",
             "HowToResolvePathDependency",
-            "ConfigurationIsTheBlueprintOfTheSystem"
+            "ConfigurationIsTheBlueprintOfTheSystem",
+            "HowFunctionalProgrammingShapesNixOS"
         ],
     },
     {
