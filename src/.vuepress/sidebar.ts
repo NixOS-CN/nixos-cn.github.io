@@ -23,7 +23,8 @@ export default sidebar([
             "BinaryAndSourceDistribution",
             "HowToResolvePathDependency",
             "ConfigurationIsTheBlueprintOfTheSystem",
-            "HowFunctionalProgrammingShapesNixOS"
+            "HowFunctionalProgrammingShapesNixOS",
+            "PurityIsOurUltimatePursuit"
         ],
     },
     {
