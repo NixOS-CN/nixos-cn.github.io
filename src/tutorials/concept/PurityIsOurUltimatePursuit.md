@@ -30,21 +30,21 @@ Nix 文件可以访问任意文件（如 `~/.config/nixpkgs/config.nix`）、环
 - 控制输入的版本，从而达到输出的可预期性
 - 将 Nix 项目组织成一种易管理的形式
 
-于是 Flake 诞生了！
+于是 Flakes 诞生了！
 
-## 终极解决方案 Flake
+## 终极解决方案 Flakes
 
-Flake 是 Nix 2.4 版本引入的一个新特性，它可以让你用一种声明式和纯净的方式来定义和使用 Nix 项目。Flake 使用了一种 Flake 引用的方式来代替文件系统路径，URL 等。Flake 引用大致就是下面的用法：
+Flakes 是 Nix 2.4 版本引入的一个新特性，它可以让你用一种声明式和纯净的方式来定义和使用 Nix 项目。Flakes 使用了一种 Flake 引用的方式来代替文件系统路径，URL 等。Flake 引用大致就是下面的用法：
 
-- 类 URL 句法，例如 `github:NixOS/nixpkgs` 表示 Github 托管平台上一个叫做 `NixOS` 用户的 `nixpkgs` 仓库。这与裸 URL 不同，要是哪天 Github 域名搬家了，也不用你批量替换 URL，只需要等 Nix 更新 Flake引用的解析规则就成。
+- 类 URL 句法，例如 `github:NixOS/nixpkgs` 表示 Github 托管平台上一个叫做 `NixOS` 用户的 `nixpkgs` 仓库。这与裸 URL 不同，要是哪天 Github 域名搬家了，也不用你批量替换 URL，只需要等 Nix 更新 Flakes 引用的解析规则就成。
 
-- 类路径句法，比如 `/absolute/path/to/the/flake` 和 `./relative/path/to/the/flake`。你可能就会疑惑，这不就是平时的相对路径与绝对路径写法吗，究竟“类”在哪里了呢？“类”在这种引用既可能指向一个本地文件系统路径，也可能指向一个本地 Git 仓库。如果你的 URL 指向一个本地的 Git 仓库，它就会在 `flake.lock` 里面记录当前仓库的 commit hash，这就保证了输入的版本是不变的。那你又问，万一我要引入的目录没有版本控制呢？那我只能说你自己人工去保证输入的这个目录的内容是不变的吧。
+- 类路径句法，比如 `/absolute/path/to/the/Flakes` 和 `./relative/path/to/the/Flakes`。你可能就会疑惑，这不就是平时的相对路径与绝对路径写法吗，究竟“类”在哪里了呢？“类”在这种引用既可能指向一个本地文件系统路径，也可能指向一个本地 Git 仓库。如果你的 URL 指向一个本地的 Git 仓库，它就会在 `flake.lock` 里面记录当前仓库的 commit hash，这就保证了输入的版本是不变的。那你又问，万一我要引入的目录没有版本控制呢？那我只能说你自己人工去保证输入的这个目录的内容是不变的吧。
 
 为了保证输入的可获取性，我们一般用网络上的仓库作为输入，因为只要有网络，我们就能获得相同的输入。而使用本地文件系统路径作为输入则不然，我们很难保证每台主机的相应文件系统路径下都有一样的文件。因此，我们的建议是更多地依赖网络上的输入，除非你有一些隐私信息，才有必要使用本地文件系统输入。
 
 ```nix
 {
-  description = "A simple flake";
+  description = "A simple Flakes";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
@@ -67,6 +67,6 @@ Flake 是 Nix 2.4 版本引入的一个新特性，它可以让你用一种声�
 
 ## 钉住版本
 
-当你在 `flake.nix` 文件中指定了一个 Flake引用（例如 `github:NixOS/nixpkgs/nixos-unstable`）后，Nix会在第一次运行 `nix build` 或其他 Nix 命令时会生成一个 `flake.lock` 文件。这个文件会记录下所有输入 Flake 的具体版本（例如，Git 提交哈希）。有了版本锁，你什么时候构建，都是会根据 `flake.lock` 文件来确认依赖版本，使得构建结果也与之前并无二致。
+当你在 `Flakes.nix` 文件中指定了一个 Flakes引用（例如 `github:NixOS/nixpkgs/nixos-unstable`）后，Nix会在第一次运行 `nix build` 或其他 Nix 命令时会生成一个 `flake.lock` 文件。这个文件会记录下所有输入 Flakes 的具体版本（例如，Git 提交哈希）。有了版本锁，你什么时候构建，都是会根据 `flake.lock` 文件来确认依赖版本，使得构建结果也与之前并无二致。
 
 如果你想更新到最新的提交，你可以运行 `nix flake update` 命令。这个命令会去更新输入，并重新钉住最新输入的版本
