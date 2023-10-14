@@ -21,7 +21,7 @@ export default sidebar([
         collapsible: true,
         children: [
             "BinaryAndSourceDistribution",
-            "HowToResolvePathDependency",
+            "HowToMakePath-dependentProgramsWork",
             "ConfigurationIsTheBlueprintOfTheSystem",
             "HowFunctionalProgrammingShapesNixOS",
             "PurityIsOurUltimatePursuit"
