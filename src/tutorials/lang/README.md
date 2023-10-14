@@ -25,7 +25,7 @@ nix-repl> 1 + 2  # 输入表达式
 ```
 
 ::: tip 惰性求值
-Nix 语言默认是惰性求值的，这意味着它只会计算被直接依赖的值，不需要的值将不会被计算。
+Nix语言的求值是惰性的，这意味着表达式不会在被绑定到变量后立即求值，而是在该值被使用时才求值。
 :::
 
 ## 即时计算被直接依赖的值
@@ -43,11 +43,7 @@ nix-repl> { a.b.c = 1; }
 
 `a` 集合中的值并没有被这个匿名集合直接依赖，自然顶级以下的集合不会被立刻求值。占位的变成了 `...` 。
 
-::: warning 依赖关系
-直接依赖则是直接赋值（值类型）或调用（函数）的关系。当一个值的求值依赖其他值的求值，我们称这个值间接依赖其他值。
-:::
-
-在下面这个例子，我们将显式声明  `lax` 的直接依赖：
+在下面这个例子，我们将显式声明  `qux` 的直接依赖：
 
 ```nix
 let
@@ -78,8 +74,8 @@ $ nix-instantiate --eval file.nix  # 文件求值
 3  # 输出结果
 ```
 
-::: tip 详尽求值
-在文件求值的情景下可以通过在命令行添加 `--strict`  参数来启用详尽求值。
+::: tip 立即求值
+在文件求值的情景下可以通过在命令行添加 `--strict`  参数来启用立即求值。
 
 ```bash
 $ echo "{ a.b.c = 1; }" > file.nix
@@ -134,7 +130,7 @@ let x=1;y=2;in x+y
 
 ## 名称和值
 
-原始数据类型，列表，属性集与函数都可以被当作值。我们可以使用 `=`  为名称赋值，然后用分号分隔赋值语句：
+原始数据类型，列表，属性集与函数都可以被当作值。我们可以使用 `=`  为名称绑定值，然后用分号分隔赋值语句：
 
 ```nix
 let
@@ -144,7 +140,7 @@ in
   foo + bar
 ```
 
-名称不等同常见编程语言中的变量，没有声明时的开辟内存空间，因为每个名称在计算的时候都会被＂替换＂为常量。**名称赋值后是不可变的**。它们形成了一种绑定关系，一个值可以被多个名称绑定，一个名称只能绑定一个值。这种赋值没有副作用（传统的赋值会改变变量的状态，Nix 语言中的变量一旦赋值无法改变）。
+名称不等同常见编程语言中的变量，因为它一旦定义就无法修改。在概念上，它们更多地是形成了一种绑定关系，一个值可以被多个名称绑定，一个名称只能绑定一个值。这种赋值没有副作用（传统的赋值会改变变量的状态，Nix 语言中的变量一旦赋值无法改变）。
 
 ## 属性集
 
@@ -226,9 +222,9 @@ rec {
 元素的声明顺序并不决定元素在属性集中的排布顺序，属性集中的元素排布顺序是由求值顺序决定的，优先被求值的被放在了前面。
 :::
 
-## `let` 表达式 / `let` 绑定
+## `let` 绑定
 
-一个完整的`let` 表达式有两个部分： `let` 和 `in`。在 `let` 与 `in` 之间的语句中，你可以声明需要被复用的名称，并将其与值绑定。它们可以在 `in` 之后的表达式中发挥作用：
+一个完整的 `let` 绑定有两个部分： `let` 绑定名称与值， `in` 使用名称。在 `let` 与 `in` 之间的语句中，你可以声明需要被复用的名称，并将其与值绑定。它们可以在 `in` 之后的表达式中发挥作用：
 
 ```nix
 let
@@ -244,7 +240,7 @@ in
 你不需要关心名称的声明顺序，不会出现名称未定义的情况。
 :::
 
-**`in` 后面只能跟随一个表达式，并且 `let` 绑定的名称在该表达式是有效的的**，这里演示一个列表：
+**`in` 后面只能跟随一个表达式，并且 `let` 绑定的名称只在该表达式是有效的的**，这里演示一个列表：
 
 ```nix
 let
@@ -508,7 +504,7 @@ in
 <nixpkgs/lib>
 ```
 
-**这是一种亵渎**，因为这样指定相对路径会让配置与环境产生联系。我们的配置文件应该尽量保留纯函数式的特性，即输出只与输入有关，函数不应该与外界产生任何联系。
+**这是一种污染**，因为这样指定相对路径会让配置与环境产生联系。我们的配置文件应该尽量保留纯函数式的特性，即输出只与输入有关，纯函数不应该与外界产生任何联系。
 
 ## 多行字符串
 
@@ -571,11 +567,12 @@ x: y: x + y
 { a, b, ...}: a + b + c  # 即使传入的属性有 c，一样不会参与计算，这里会报错
 ```
 
-为额外的参数命名参数集，然后调用：
+为额外的参数绑定到参数集，然后调用：
 
 ```nix
 args@{ a, b, ... }: a + b + args.c
 { a, b, ... }@args: a + b + args.c  # 也可以是这样
+args@{ x, y, z, ... }: z + y + x + args.a  # 如果 a，b 没人用
 ```
 
 为函数命名：
@@ -608,7 +605,7 @@ Hello NixOS
 
 ## 柯里化函数
 
-我们将 `f (a,b,c)` 转换为 `f (a)(b)(c)` 的过程就是柯里化。为什么需要柯里化？因为它很灵活，可以避免重复传入参数，当你传入第一个参数的时候，该函数就已经具有了第一个参数的状态。说起状态我们就要引入闭包的概念，闭包就是带状态的函数。在离散数学中，闭包也是使某种关系具有某种性质的一种运算。
+我们将 `f (a,b,c)` 转换为 `f (a)(b)(c)` 的过程就是柯里化。为什么需要柯里化？因为它很灵活，可以避免重复传入参数，当你传入第一个参数的时候，该函数就已经具有了第一个参数的状态（闭包）。
 
 尝试声明一个柯里化函数：
 
@@ -663,7 +660,7 @@ in
 
 ## 属性集参数
 
-更为人知的名字是＂关键字参数＂或＂解构＂。当我们被要求必须传入多个参数时，使用这种函数声明方法：
+当我们被要求必须传入多个参数时，使用这种函数声明方法：
 
 ```nix
 {a, b}: a + b
@@ -787,233 +784,4 @@ import ./file.nix
 $ echo "x: x + 1" > file.nix
 import ./file.nix 1
 2
-```
-
-### 软件包仓库
-
-在之前，我们已经学习了检索路径，现在让我们来应用它。检索路径 `<nixpkgs>` 映射了一个路径值，接下来我们导入这个路径中的 `nix` 文件：
-
-```nix
-import <nixpkgs>
-```
-
-你知道你刚刚导入了什么吗？你导入了超级无敌威武举世无双开天辟地的 nix 软件包仓库（`nixpkgs`），其中有个非常重要的属性集 `lib`，其中提供了大量的有用的函数。
-
-导入就够了吗？我们需要使用它返回的值，所以声明一个命名保存它：
-
-```nix
-let
-  pkgs = import <nixpkgs>;
-in
-  pkgs.lib
-```
-
-你好奇这个 `<nixpkgs>.nix`  文件到底返回的是什么类型吗？返回的是 `<LAMBDA>`。这意味着我们需要传入参数使该函数返回一些东西。然后我们传入空参数 `{}` 使函数返回结果。
-
-```nix
-let
-  pkgs = import <nixpkgs> {};
-in
-  pkgs.lib.strings.toUpper "search paths considered harmful"
-```
-
-上后面的例子中，我们调用了一个转换大写字母的函数。
-
-::: tip pkgs 参数
-
-但在实际配置中，我们会见到 `pkgs` 作为参数传入函数：
-
-```nix
-{ pkgs, ... }:
-pkgs.lib.strings.removePrefix "no " "no true scotsman"
-```
-
-为了产生我们料想的结果，我们需要通过 shell 向文件传传递 `pkgs` 参数（在配置系统的时候包管理器会自动帮我们完成）：
-
-```bash
-$ nix-instantiate --eval test.nix --arg pkgs 'import <nixpkgs> {}'
-"true scotsman"
-```
-
-还有直接传入 `lib` 的例子：
-
-```nix
-{ lib, ... }:
-let
-  to-be = true;
-in
-  lib.trivial.or to-be (! to-be)
-```
-
-```bash
-$ nix-instantiate --eval file.nix --arg lib '(import <nixpkgs> {}).lib'
-true
-```
-
-其实 NixOS 的配置文件就像一个＂函数＂，包管理器往里面输入参数，你书写的＂函数＂决定了输出，然后包管理器按照＂函数＂输出来部署系统。
-
-:::
-
-::: note
-
-因为某些历史渊源， `pkgs.lib` 和  [`builtins`](https://nixos.org/guides/nix-language.html#builtins) 中的某些函数是等价的。
-
-:::
-
-## 污染
-
-在开篇的时候我们就介绍了纯粹在 Nix 语言的概念，现在我们来介绍与之对立的＂污染＂。在你实际使用 Nix 语言的时候，仍然避免不了一些被＂污染＂（与环境产生依赖）的情况。
-
-如果有唯一的因素能影响 Nix 代码的纯粹性，那就是从文件系统输入配置文件。我们不可能预知文件内容，所以我们就不可避免地读入文件系统，对文件进行求值，从而对文件系统产生了依赖。
-
-所以我们应当显式的使用路径值和专用函数。
-
-### 路径
-
-每当你使用一个路径值用于字符串插值，就会触发一个副作用——路径指向的文件将被复制到一个叫 Nix store 的特殊位置。然后这个被插入的路径变成了文件副本在 Nix store 中的路径：
-
-```bash
-$ echo 123 > data
-"${./data}"
-"/nix/store/h1qj5h5n05b5dl5q4nldrqq8mdg7dhqk-data"
-```
-
-::: tip
-
-Nix store 中的文件都是用哈希（Hash）进行索引的：
-
-```bash
-/nix/store/<hash>-<name>
-```
-
-:::
-
-### 外部抓取
-
-构建输入的文件并不一定要来自文件系统，也可以从网络抓取。
-
-以下是 Nix 语言提供的一些内建的不纯粹的函数，可以从网络上抓取配置协助求值：
-
-- [builtins.fetchurl](https://nixos.org/manual/nix/stable/language/builtins.html#builtins-fetchurl)
-- [builtins.fetchTarball](https://nixos.org/manual/nix/stable/language/builtins.html#builtins-fetchTarball)
-- [builtins.fetchGit](https://nixos.org/manual/nix/stable/language/builtins.html#builtins-fetchGit)
-- [builtins.fetchClosure](https://nixos.org/manual/nix/stable/language/builtins.html#builtins-fetchClosure)
-
-我们通过 URL 抓取参与求值的文件，在求值的时候它们会缓存到本地文件系统：
-
-```nix
-builtins.fetchurl "https://github.com/NixOS/nix/archive/7c3ab5751568a0bc63430b33a5169c5e4784a0ff.tar.gz"
-```
-
-然后被链接到 Nix store 里面：
-
-```bash
-"/nix/store/7dhgs330clj36384akg86140fqkgh8zf-7c3ab5751568a0bc63430b33a5169c5e4784a0ff.tar.gz"
-```
-
-如果你想让你抓取到的档案完成自动解压，可以使用这个内建函数：
-
-```nix
-builtins.fetchTarball "https://github.com/NixOS/nix/archive/7c3ab5751568a0bc63430b33a5169c5e4784a0ff.tar.gz"
-```
-
-如果网络异常，则会报错。更多细节，请参阅 [Fetchers](https://nixos.org/manual/nixpkgs/stable/#chap-pkgs-fetchers)
-
-## 衍生
-
-衍生（Derivations）是指一种描述如何构建软件包或构建过程的元数据格式，或者我们也可以称一次构建任务就是一次衍生。在 Nix 中，软件包的衍生通常是由一个 Nix 表达式描述的，这个表达式定义了如何从源代码构建软件包，包括依赖项、构建脚本和其他构建过程中需要的信息。衍生可以被视为一种构建规范，描述了如何构建软件包以及软件包依赖的其他软件包的版本和构建方式。Nix 使用这些衍生来构建可重复、可预测和隔离的软件包环境，这些环境中的软件包与主机系统和其他软件包环境是隔离的。
-
-为什么叫衍生？因为分发到用户端的包你可以添加额外的编译参数，为其打上额外的补丁，修改一部分功能。总之，它已经不是原本的形状了，所以我们称之为衍生的包。
-
-每次衍生（构建任务），都会产生构建结果，构建结果可以为其他构建任务所用。
-
-Nix 原本提供的声明衍生的方法是使用内建函数 `builtins.derivation`。但是我们通常使用的都是一个被包装的函数 `stdenv.mkDerivation` 。
-
-下面是一个示例：
-
-```nix
-{ lib, stdenv }:
-
-stdenv.mkDerivation rec {
-  pname = "hello";
-  version = "2.12";
-  src = builtins.fetchTarball {
-    url = "mirror://gnu/${pname}/${pname}-${version}.tar.gz";
-    sha256 = "1ayhp9v4m4rdhjmnl2bq3cibrbqqkgjbl3s7yk2nhlh8vj3ay16g";
-  };
-  meta = with lib; {
-    license = licenses.gpl3Plus;
-  };
-}
-```
-
-`stdenv.mkDerivation` 接收了一个属性集，属性集里面包含了这个包的一些属性（包名，版本，构建源，元数据等）然后当我们显式依赖它时，就会被立刻求值，求值的过程就是软件包衍生（构建）的过程。
-
-这里以 Nix 包仓库举例，我们获取包仓库中的 `nix` ，字符串插值的时候：
-
-```nix
-let
-  pkgs = import <nixpkgs> {};
-in
-  "${pkgs.nix}"
-```
-
-插入的依然是通过哈希链接的路径：
-
-```bash
-"/nix/store/sv2srrjddrp2isghmrla8s6lazbzmikd-nix-2.11.0"
-```
-
-::: note
-
-将 `pkgs.nix` 通过字符串插值转换为字符串是合法的， 同时对 `pkgs.nix` 求值就会产生一个衍生结果。
-
-:::
-
-## 示范案例
-
-以下案例的目的不是理解代码的含义或如何工作，而是理解代码在函数、属性集和其他Nix语言数据类型方面的结构。
-
-### Shell 环境
-
-```nix
-{ pkgs ? import <nixpkgs> {} }:
-let
-  message = "hello world";
-in
-pkgs.mkShell {
-  buildInputs = with pkgs; [ cowsay ];
-  shellHook = ''
-    cowsay ${message}
-  '';
-}
-```
-
-这个案例声明了一个 Shell 环境，`shellHook` 跟随的命令会在初始化时被执行。
-
-### NixOS 配置
-
-```nix
-{ config, pkgs, ... }: {
-  imports = [ ./hardware-configuration.nix ];
-  environment.systemPackages = with pkgs; [ git ];
-  # ...
-}
-```
-
-### 打包
-
-```nix
-{ lib, stdenv }:
-stdenv.mkDerivation rec {
-  pname = "hello";
-  version = "2.12";
-  src = builtins.fetchTarball {
-    url = "mirror://gnu/${pname}/${pname}-${version}.tar.gz";
-    sha256 = "1ayhp9v4m4rdhjmnl2bq3cibrbqqkgjbl3s7yk2nhlh8vj3ay16g";
-  };
-  meta = with lib; {
-    license = licenses.gpl3Plus;
-  };
-}
 ```
