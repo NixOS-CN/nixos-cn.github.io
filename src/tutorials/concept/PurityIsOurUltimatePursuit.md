@@ -30,6 +30,7 @@ Nix 文件可以访问任意文件（如 `~/.config/nixpkgs/config.nix`）、环
 
 - 尽量排除 Nix 文件互相引用时对本地文件系统路径的依赖
 - 控制输入的版本，从而达到输出的可预期性
+- 将 Nix 项目组织成一种易管理的形式
 
 于是 Flake 诞生了！
 
@@ -70,4 +71,4 @@ Flake 是 Nix 2.4 版本引入的一个新特性，它可以让你用一种声�
 
 当你在 `flake.nix` 文件中指定了一个 Flake引用（例如 `github:NixOS/nixpkgs/nixos-unstable`）后，Nix会在第一次运行 `nix build` 或其他 Nix 命令时会生成一个 `flake.lock` 文件。这个文件会记录下所有输入 Flake 的具体版本（例如，Git 提交哈希）。有了版本锁，你什么时候构建，都是会根据 `flake.lock` 文件来确认依赖版本，使得构建结果也与之前并无二致。
 
-如果你想更新到最新的提交，你可以运行 `nix flake update --update-input myflake`命令。这个命令会去更新输入，并重新钉住最新输入的版本。
+如果你想更新到最新的提交，你可以运行 `nix flake update` 命令。这个命令会去更新输入，并重新钉住最新输入的版本。
