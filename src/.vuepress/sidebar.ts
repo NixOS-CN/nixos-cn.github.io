@@ -31,6 +31,12 @@ export default sidebar([
         text: "Nix 语言",
         link: "/tutorials/lang",
         icon: "nix",
+        prefix: "/tutorials/lang/",
+        collapsible: true,
+        children: [
+            "Manuals",
+            "Utils"
+        ],
     },
     {
         text: "开发环境部署",
