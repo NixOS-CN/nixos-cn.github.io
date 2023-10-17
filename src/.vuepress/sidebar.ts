@@ -31,11 +31,11 @@ export default sidebar([
         text: "Nix 语言",
         link: "/tutorials/lang",
         icon: "nix",
-        prefix: "/tutorials/lang/",
         collapsible: true,
         children: [
-            "Manuals",
-            "Utils"
+            "/tutorials/lang/Manuals",
+            "/tutorials/lang/Utils",
+            "/tutorials/module"
         ],
     },
     {
