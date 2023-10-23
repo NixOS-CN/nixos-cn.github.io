@@ -254,7 +254,7 @@ scope 中包名对应的 Haskell derivations：
 * `configuration-ghc-x.nix` - 特定 GHC 版本上需要的修改，通常每个版本都需要将 GHC Boot Libraries 设置为 `null`。还有一些包的受
   GHC 版本影响，它们需要在这里手动指定版本，例如在 GHC 8 的配置中有 `ghc-lib = doDistribute self.ghc-lib_8_10_7_20220219`。
 
-* `cofiguration-common.nix` - 与前面特定架构的修改相似，但是它们与架构无关，通常是打一些补丁、jailbreak 等等。
+* `configuration-common.nix` - 与前面特定架构的修改相似，但是它们与架构无关，通常是打一些补丁、jailbreak 等等。
 
 * `configuration-nix.nix` - 因为 Nix
   带来问题而需要作出的修改。大部分是禁用测试，因为在构建时没有网络。还有一些是添加 `cabal2nix` 未能发现的依赖，例如一些需要运行期依赖其他软件的
