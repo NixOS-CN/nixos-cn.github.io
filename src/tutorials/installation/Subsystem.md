@@ -235,7 +235,7 @@ parted -a optimal /dev/nvme0n1  # 启用对齐，并进行分区
 在现有的 GPT 分区表上，我们添加额外的分区。首先我们需要一个 NixOS 的主分区，用来容纳 NixOS 的根文件系统。
 
 ```bash
-mkpart primary 244GB -16GiB
+mkpart primary 344GB -16GiB
 ```
 
 然后添加一个 SWAP 分区，它可以拓展你的内存能力以及将内存数据休眠于此。
@@ -351,20 +351,20 @@ vim /mnt/etc/nixos/configuration.nix
 {
     imports = [ ./hardware-configuration.nix ];
     boot.loader = {
+        grub = {
+            enable = true;
+            device = "nodev";
+            efiSupport = true;
+            extraEntries = ''
+                menuentry "Windows" {
+                    search --file --no-floppy --set=root /EFI/Microsoft/Boot/bootmgfw.efi
+                    chainloader (''${root})/EFI/Microsoft/Boot/bootmgfw.efi
+                }
+            '';
+        };
         efi = {
             canTouchEfiVariables = true;
             efiSysMountPoint = "/boot";
-            grub = {
-                enable = true;
-                device = "nodev";
-                efiSupport = true;
-                extraEntries = ''
-                    menuentry "Windows" {
-                        search --file --no-floppy --set=root /EFI/Micorsoft/Boot/bootmgfw.efi
-                        chainloader (''${root})/EFI/Microsoft/Boot/bootmgfw.efi
-                    }
-                '';
-            };
         };
     };
     networking = {
@@ -412,12 +412,12 @@ vim /mnt/etc/nixos/configuration.nix
             "/home" = {
                 device = "/dev/disk/bu-uuid/a3c4d78a-4e74-4c0a-9ecc-680d5f69f042";
                 fsType = "btrfs";
-                options = [ "subvol=root" "compress=zstd" ];
+                options = [ "subvol=home" "compress=zstd" ];
             };
             "/nix" = {
                 device = "/dev/disk/bu-uuid/a3c4d78a-4e74-4c0a-9ecc-680d5f69f042";
                 fsType = "btrfs";
-                options = [ "subvol=root" "noatime" "compress=zstd" ];
+                options = [ "subvol=nix" "noatime" "compress=zstd" ];
             };
             "/boot" = {
                 device = "/dev/disk/by-uuid/9DCC-7A56";
