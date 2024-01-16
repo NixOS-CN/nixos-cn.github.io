@@ -95,7 +95,7 @@ Taball 是 `tar` 文件格式的全称，不是 Nix 独有。它可以将多个�
 NixOS 默认订阅了官方频道 `nixos`，即使你安装完系统什么都不做，它们也是存在的：
 
 ```bash
-sudo nix-channel -list  # 列出频道
+sudo nix-channel --list  # 列出频道
 ```
 
 ```bash
