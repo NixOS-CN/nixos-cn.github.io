@@ -818,11 +818,11 @@ builtins.toString()  # 通过 builtins 使用函数
 
 ### 导入
 
-```nix
-import ./file.nix
-```
+`import` 表达式以其他 Nix 文件的路径为参数，返回该 Nix 文件的求值结果。
 
-`import` 会根据后面跟随的路径值导入该 `nix` 文件，读取该文件的返回值。
+`import` 的参数如果为文件夹路径，那么会返回该文件夹下的 `default.nix` 文件的执行结果。
+
+如下示例中，`import` 会导入 `./file.nix` 文件，并返回该文件的求值结果：
 
 ```bash
 $ echo 1 + 2 > file.nix
@@ -830,7 +830,9 @@ import ./file.nix
 3
 ```
 
-也可以导入函数：
+被导入的 Nix 文件可以返回任何内容，返回值可以向上面的例子一样是数值，也可以是属性集（attribute set）、函数、列表，等等。
+
+如下示例导入了 `file.nix` 文件中定义的一个函数，并使用参数调用了该函数：
 
 ```bash
 $ echo "x: x + 1" > file.nix
