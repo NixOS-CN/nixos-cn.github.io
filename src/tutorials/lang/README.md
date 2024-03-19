@@ -762,7 +762,7 @@ builtins.toString()  # 通过 builtins 使用函数
 
 ### 导入
 
-`import` 表达式以其他 Nix 文件的路径为参数，返回该 Nix 文件的执行结果。
+`import` 表达式以其他 Nix 文件的路径为参数，返回该 Nix 文件的求值结果。
 
 `import` 的参数如果为文件夹路径，那么会返回该文件夹下的 `default.nix` 文件的执行结果。
 
