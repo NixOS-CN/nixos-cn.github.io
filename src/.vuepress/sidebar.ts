@@ -29,7 +29,7 @@ export default sidebar([
     },
     {
         text: "Nix 语言",
-        link: "/tutorials/lang",
+        link: "/tutorials/lang/",
         icon: "nix",
         collapsible: true,
         children: [
