@@ -20,14 +20,14 @@ jobs:
       - name: 安装 pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 8.15.5
           run_install: true
 
 
       - name: 设置 Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 21.7.1
           cache: pnpm
 
 
