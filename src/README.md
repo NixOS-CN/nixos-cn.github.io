@@ -8,7 +8,7 @@ tagline: 集数学的精确，函数的纯净，代码的可靠于一身
 actions:
 
 - text: 即刻安装 ➜
-  link: /tutorials/installation
+  link: /tutorials/installation/
   type: primary
 
 - text: 手册
