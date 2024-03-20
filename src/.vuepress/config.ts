@@ -1,6 +1,8 @@
 import { defineUserConfig } from "vuepress";
-import { searchProPlugin } from "vuepress-plugin-search-pro";
-import { removePWAPlugin } from "vuepress-plugin-remove-pwa";
+
+import { removePwaPlugin } from "@vuepress/plugin-remove-pwa";
+import { viteBundler } from '@vuepress/bundler-vite'
+
 import theme from "./theme";
 
 export default defineUserConfig({
@@ -15,7 +17,10 @@ export default defineUserConfig({
     theme,
     shouldPrefetch: true,
     plugins: [
-        searchProPlugin({ indexContent: true }),
-        removePWAPlugin({}),
+        removePwaPlugin({}),
     ],
+    bundler: viteBundler({
+        viteOptions: {},
+        vuePluginOptions: {},
+      }),
 });

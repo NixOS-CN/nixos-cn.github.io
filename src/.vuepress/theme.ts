@@ -1,4 +1,5 @@
 import { hopeTheme } from "vuepress-theme-hope";
+import { searchProPlugin } from "vuepress-plugin-search-pro";
 import navbar from "./navbar";
 import sidebar from "./sidebar";
 
@@ -35,11 +36,11 @@ export default hopeTheme({
     },
 
     plugins: {
+        searchPro: {},
         mdEnhance: {
             align: true,
             attrs: true,
             codetabs: true,
-            container: true,
             demo: true,
             figure: true,
             flowchart: true,
