@@ -9,7 +9,8 @@ export default sidebar([
         children: [
             "VirtualMachine",
             "WSL2",
-            "Subsystem"
+            "Subsystem",
+            "Networking"
         ],
     },
     {
