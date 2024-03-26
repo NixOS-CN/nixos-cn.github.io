@@ -4,9 +4,8 @@ export default sidebar([
     {
         text: "安装教程",
         icon: "bulb",
-        link: "/tutorials/installation/",
         prefix: "/tutorials/installation/",
-        collapsible: true,
+        collapsible: false,
         children: [
             "VirtualMachine",
             "WSL2",
@@ -15,10 +14,9 @@ export default sidebar([
     },
     {
         text: "伊始之章",
-        link: "/tutorials/concept/",
         icon: "book-fill",
         prefix: "/tutorials/concept/",
-        collapsible: true,
+        collapsible: false,
         children: [
             "BinaryAndSourceDistribution",
             "HowToMakePath-dependentProgramsWork",
@@ -29,21 +27,19 @@ export default sidebar([
     },
     {
         text: "Nix 语言",
-        link: "/tutorials/lang/",
         icon: "nix",
-        collapsible: true,
+        collapsible: false,
         children: [
+            "/tutorials/lang/QuickOverview",
             "/tutorials/lang/Manuals",
-            "/tutorials/lang/Utils",
             "/tutorials/module"
         ],
     },
     {
         text: "开发环境部署",
         icon: "dev",
-        link: "/tutorials/env/dev/",
         prefix: "/tutorials/env/dev/",
-        collapsible: true,
+        collapsible: false,
         children: [
             "haskell"
         ],
