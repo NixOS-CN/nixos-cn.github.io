@@ -45,5 +45,15 @@ export default sidebar([
         children: [
             "haskell"
         ],
-    }
+    },
+    {
+        text: "NixOS 使用手册",
+        icon: "nix",
+        prefix: "/manual/",
+        collapsible: false,
+        children: [
+            "Intro",
+            "Configuration"
+        ],
+    },
 ]);

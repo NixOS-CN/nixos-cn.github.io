@@ -11,7 +11,7 @@ actions:
   link: /tutorials/installation/
   type: primary
 
-- text: 手册
+- text: NixOS 使用手册
   link: /manual/
 
 features:
