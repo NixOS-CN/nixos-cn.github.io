@@ -28,11 +28,12 @@ export default sidebar([
     {
         text: "Nix 语言",
         icon: "nix",
+        prefix: "/tutorials/",
         collapsible: false,
         children: [
-            "/tutorials/lang/QuickOverview",
-            "/tutorials/lang/Manuals",
-            "/tutorials/module"
+            "lang/QuickOverview",
+            "lang/Manuals",
+            "module-system/intro"
         ],
     },
     {
