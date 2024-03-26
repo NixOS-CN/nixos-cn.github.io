@@ -5,3 +5,14 @@ src/.vuepress/dist/
 .vuepress/.cache/
 .vuepress/.temp/
 .vuepress/dist/
+
+.DS_Store
+.idea/
+.vscode/
+*.cpuprofile
+*.local
+*.log
+*.pdf
+.eslintcache
+.direnv/
+.pre-commit-config.yaml
