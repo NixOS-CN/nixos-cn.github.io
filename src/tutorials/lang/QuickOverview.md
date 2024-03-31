@@ -640,7 +640,7 @@ in
 
 ```nix
 concat = { a, b }: a + b  # 等价于 concat = x: x.a + x.b
-concat { a = "Hello"; b = "NixOS"; }
+concat { a = "Hello "; b = "NixOS"; }
 ```
 
 输出：
