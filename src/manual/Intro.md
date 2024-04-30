@@ -49,7 +49,7 @@ nix-channel {--add url [name] | --remove name | --list | --update [names…] | -
 我们以官方频道 `nixpkgs-unstable` 为例，查看每个频道大致的构成。它们似乎都提供了 `nixexprs.tar.xz`，从文件名我们就了解到这是一个包含了若干 nix 文件的 tar 压缩档（Tarball）。
 
 ::: tip Tarball
-Taball 是 `tar` 文件格式的全称，不是 Nix 独有。它可以将多个文件打包在一起。如果你想在打包的时候压缩一下，还可以使用 gzip，bzip2 等软件压缩该档案。当你对 `tar` 文件启用压缩以后，后缀名会变更为 `tar.gz`, `tar.bz2` 等，具体取决于你使用的压缩软件。
+Tarball 是 `tar` 文件格式的全称，不是 Nix 独有。它可以将多个文件打包在一起。如果你想在打包的时候压缩一下，还可以使用 gzip，bzip2 等软件压缩该档案。当你对 `tar` 文件启用压缩以后，后缀名会变更为 `tar.gz`, `tar.bz2` 等，具体取决于你使用的压缩软件。
 :::
 
 于是我们解压它，列出目录树：
