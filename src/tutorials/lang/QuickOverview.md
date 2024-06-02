@@ -624,7 +624,6 @@ x: y: x + y
 ```nix
 args@{ a, b, ... }: a + b + args.c
 { a, b, ... }@args: a + b + args.c  # 也可以是这样
-args@{ x, y, z, ... }: z + y + x + args.a  # 如果 a，b 没人用
 ```
 
 为函数命名：
