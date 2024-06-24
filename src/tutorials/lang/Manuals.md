@@ -202,20 +202,25 @@ in inc 1
 
 ### 条件判断
 
-if-then-else 块
+if-then-else 表达式
+
+基本结构为 `if <exprCond> then <exprThen> else <exprElse>`，此表达式在
+_exprCond_ 求值为 `true` 时，结果为 _exprThen_ ，否则结果为 _exprElse_ 。
+
+定义时的使用例子如下：
 
 ```nix
-# 函数定义时
+# 定义函数的实现过程中与条件表达式搭配：
 myFunction = x: if x > 0 then "Positive" else "Non-positive"
 myFunction 0 # Non-positive
 myFunction 1 # Positive
 ```
 
 ```nix
-# 变量定义时
+# 定义变量时与条件表达式搭配：
 no = 7
 gt0 = if no > 0 then "yes" else "no"
-# gt0 变量值为`"yes"`
+# gt0 变量值为 "yes"
 gt0
 => "yes"
 ```
