@@ -203,14 +203,14 @@ _exprCond_ 求值为 `true` 时，结果为 _exprThen_ ，否则结果为 _exprE
 定义时的使用例子如下：
 
 ```nix
-# 定义函数的实现过程中与条件表达式搭配：
+# 使用 if-then-else 实现函数：
 myFunction = x: if x > 0 then "Positive" else "Non-positive"
 myFunction 0 # Non-positive
 myFunction 1 # Positive
 ```
 
 ```nix
-# 定义变量时与条件表达式搭配：
+# 使用 if-then-else 为变量动态赋值：
 no = 7
 gt0 = if no > 0 then "yes" else "no"
 # gt0 变量值为 "yes"
@@ -221,7 +221,7 @@ gt0
 亦可嵌套使用
 
 ```nix
-# 函数定义时
+# 使用 if-then-else 实现函数：
 myPlan = target: if target == "fitness" then "I'm going swimming."
                 else if target == "purchase" then "I'm going shopping."
                 else if target == "learning" then "I'm going to read a book."
@@ -229,7 +229,7 @@ myPlan = target: if target == "fitness" then "I'm going swimming."
 myPlan "fitness" # "I'm going swimming."
 myPlan null # "I'm not going anywhere."
 
-# 变量定义时
+# 使用 if-then-else 为变量动态赋值:
 x = null
 text =
   if x == "a" then
@@ -244,7 +244,7 @@ text =
 
 ### 循环控制
 
-在Nix语言中，没有传统编程语言中的循环控制结构。Nix 的设计思想是函数式编程范式，
+在Nix语言中，没有指令式编程语言中的循环控制结构。Nix 的设计思想是函数式编程范式，
 它更倾向于使用递归和内建以及官方包函数来处理数据，而不是显式地使用循环。
 
 在理解Nix语言的 “循环控制” 时，请先思考何时需要循环控制。普遍操作场景是在**列
