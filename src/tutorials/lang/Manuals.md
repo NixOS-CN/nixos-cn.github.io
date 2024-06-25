@@ -203,25 +203,25 @@ _exprCond_ 求值为 `true` 时，结果为 _exprThen_ ，否则结果为 _exprE
 定义时的使用例子如下：
 
 ```nix
-# 使用 if-then-else 实现函数：
+# 利用 if-then-else 表达式实现函数：
 myFunction = x: if x > 0 then "Positive" else "Non-positive"
 myFunction 0 # Non-positive
 myFunction 1 # Positive
 ```
 
 ```nix
-# 使用 if-then-else 为变量动态赋值：
+# 利用 if-then-else 表达式定义变量：
 no = 7
 gt0 = if no > 0 then "yes" else "no"
 # gt0 变量值为 "yes"
 gt0
-=> "yes"
+# => "yes"
 ```
 
 亦可嵌套使用
 
 ```nix
-# 使用 if-then-else 实现函数：
+# 利用 if-then-else 表达式实现函数：
 myPlan = target: if target == "fitness" then "I'm going swimming."
                 else if target == "purchase" then "I'm going shopping."
                 else if target == "learning" then "I'm going to read a book."
@@ -229,7 +229,7 @@ myPlan = target: if target == "fitness" then "I'm going swimming."
 myPlan "fitness" # "I'm going swimming."
 myPlan null # "I'm not going anywhere."
 
-# 使用 if-then-else 为变量动态赋值:
+#  利用 if-then-else 表达式定义变量：
 x = null
 text =
   if x == "a" then
@@ -257,10 +257,10 @@ text =
 #### 内建函数/官方库函数
 
 Nix 语言支持高阶函数，即可以将函数作为参数传递给其他函数。利用高阶函数的特性，可
-以创建一些函数来处理列表或集合中的每个元素，从而达到迭代的效果。Nix语言提供了一
+以创建一些函数来处理列表或集合中的每个元素，从而达到迭代的效果。Nix 语言提供了一
 些内建函数以及官方库来帮助实现需要循环控制才能做到的事情。
 
-下面是个例子,目的是生成指定范围的列表（实际上使用的range函数并不是高阶函数，但它
+下面是个例子，目的是生成指定范围的列表（实际上使用的`range`函数并不是高阶函数，但它
 的确做到了循环才可以实现的事情）：
 
 ```nix
@@ -268,11 +268,11 @@ Nix 语言支持高阶函数，即可以将函数作为参数传递给其他函�
 nixpkgs = import <nixpkgs> {}
 alist = nixpkgs.lib.range 4 7
 alist
-=> [ 4 5 6 7 ]
+# => [ 4 5 6 7 ]
 
 # 通过内建函数 filter，遍历列表中的元素并过滤
 builtins.filter (item: item == "hello") [ "hello" "world" ]
-=> [ "hello" ]
+# => [ "hello" ]
 ```
 
 具体请参考:
