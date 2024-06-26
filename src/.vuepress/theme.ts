@@ -45,6 +45,7 @@ export default hopeTheme({
             figure: true,
             flowchart: true,
             gfm: true,
+            breaks: false,
             imgLazyload: true,
             imgSize: true,
             include: true,
