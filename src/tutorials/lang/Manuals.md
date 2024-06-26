@@ -264,7 +264,7 @@ Nix 语言自身提供了一些精简的内建函数，可通过 `builtins.xxx` 
 例子如下：
 
 ```nix
-# 通过官方库函数 range，生成指定范围元素的列表
+# 通过 nixpkgs.lib.range，生成指定范围元素的列表
 nixpkgs = import <nixpkgs> {}
 alist = nixpkgs.lib.range 4 7
 alist
