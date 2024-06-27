@@ -251,7 +251,7 @@ Nix 是一种函数式编程语言，每一段 Nix 程序都是一个完整的�
 
 一言蔽之，Nix 语言中没有 while/for 循环这类控制结构，取而代之的是以递归为基础实现的一系列高阶函数。Nix 的标准库提供了一系列此类高阶函数用于对字符串、列表等可迭代对象进行操作。
 
-#### `builtins` 函数与 `nixpkgs.lib` 函数库
+#### 内建函数与 `nixpkgs.lib` 函数库
 
 Nix 语言自身提供了一些精简的内建函数，可通过 `builtins.xxx` 这种方式使用，官方文档参见 [Built-in Functions - Nix Manual](https://nix.dev/manual/nix/2.22/language/builtins#built-in-functions).
 
