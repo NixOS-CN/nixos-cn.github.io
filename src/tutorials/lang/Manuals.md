@@ -195,10 +195,14 @@ in inc 1
 
 ### 条件判断
 
-if-then-else 表达式
+Nix 的条件判断表达式的结构类似于这样：
 
-基本结构为 `if <exprCond> then <exprThen> else <exprElse>`，此表达式在
-_exprCond_ 求值为 `true` 时，结果为 _exprThen_ ，否则结果为 _exprElse_ 。
+```nix
+if <exprCond> then <exprThen> else <exprElse>
+```
+
+其中 _exprCond_ 的求值结果必须为布尔值 `true` 或 `false`.
+当 _exprCond_ 求值为 `true` 时，上述条件表达式的结果为 _exprThen_ ，否则结果为 _exprElse_.
 
 定义时的使用例子如下：
 
