@@ -287,7 +287,7 @@ builtins.filter (item: item == "hello") [ "hello" "world" ]
 这里举个简单的例子来说明 Nix 语言中如何实现一个递归函数：
 
 
-> ⚠️注意：对新手而言，`nixpkgs.lib` 中的函数基本够用了，建议优先查找使用 `nixpkgs.lib` 与 `builtins` 中的函数，如果找不到自己想要的功能再考虑自行实现。
+> ⚠️注意：对新手而言，`nixpkgs.lib` 中的函数基本够用了，建议优先查找使用内建函数和 `nixpkgs.lib` 中的函数，如果找不到自己想要的功能再考虑自行实现。
 
 ```nix
 let
