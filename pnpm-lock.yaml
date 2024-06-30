@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@searking/markdown-it-cjk-breaks':
+    specifier: 2.0.1-0
+    version: 2.0.1-0
   '@vuepress/bundler-vite':
     specifier: 2.0.0-rc.8
     version: 2.0.0-rc.8
@@ -14,9 +17,6 @@ dependencies:
   katex:
     specifier: ^0.16.9
     version: 0.16.9
-  markdown-it-cjk-breaks:
-    specifier: ^2.0.0
-    version: 2.0.0
   mermaid:
     specifier: ^10.9.0
     version: 10.9.0
@@ -705,6 +705,12 @@ packages:
     os: [win32]
     requiresBuild: true
     optional: true
+
+  /@searking/markdown-it-cjk-breaks@2.0.1-0:
+    resolution: {integrity: sha512-U3S7GVZ8geLRyk5PXLkEo/cFUyU5fs3qrqM5lkRKsPfKKTcb+toSkLf7LOaAP+J1D60TA6DZlqVSoMjq2D47Hg==}
+    dependencies:
+      get-east-asian-width: 1.2.0
+    dev: false
 
   /@sindresorhus/merge-streams@2.3.0:
     resolution: {integrity: sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==}
@@ -2225,12 +2231,6 @@ packages:
     dependencies:
       '@types/markdown-it': 13.0.7
       markdown-it: 14.1.0
-
-  /markdown-it-cjk-breaks@2.0.0:
-    resolution: {integrity: sha512-hzgyuNzXuHoNJuPW+b4IXEtqaLeD4xNloqFVWG/wzT3O0npoDiwaEFY6JiglFjUh5//xvE0N21GU07NMxw4TiA==}
-    dependencies:
-      get-east-asian-width: 1.2.0
-    dev: false
 
   /markdown-it-emoji@3.0.0:
     resolution: {integrity: sha512-+rUD93bXHubA4arpEZO3q80so0qgoFJEKRkRbjKX8RTdca89v2kfyF+xR3i2sQTwql9tpPZPOQN5B+PunspXRg==}

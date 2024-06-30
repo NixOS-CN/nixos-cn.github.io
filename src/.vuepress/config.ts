@@ -2,7 +2,7 @@ import { defineUserConfig } from "vuepress";
 
 import { removePwaPlugin } from "@vuepress/plugin-remove-pwa";
 import { viteBundler } from '@vuepress/bundler-vite'
-import cjk_breaks_plugin from 'markdown-it-cjk-breaks';
+import cjk_breaks_plugin from '@searking/markdown-it-cjk-breaks';
 
 import theme from "./theme";
 
