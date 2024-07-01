@@ -6,15 +6,13 @@
 
 ### 关闭快速启动
 
-若不关闭 Windows 的快速启动，可能会导致 NixOS 掉网卡。点击 “更改当前不可用配置”
-以后会出现一个 UAC 窗口，点击允许以后，再取消 “启用快速启动（推荐）” 复选框。
+若不关闭 Windows 的快速启动，可能会导致 NixOS 掉网卡。点击 “更改当前不可用配置” 以后会出现一个 UAC 窗口，点击允许以后，再取消 “启用快速启动（推荐）” 复选框。
 
 ![关闭快速启动](/images/GreenHand/TurnOffWindowsFastboot.webp)
 
 ### 调整时间设置
 
-由于 Windows 与 Linux 时间标准不同，从 Linux 切换回 Windows 会导致系统时间变更的
-问题。
+由于 Windows 与 Linux 时间标准不同，从 Linux 切换回 Windows 会导致系统时间变更的问题。
 
 在这里我们提供修改 Windows 设置，以让两种系统时间保持一致的的方法。
 
@@ -36,14 +34,10 @@ Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsU
 
 ### 制作引导媒介
 
-我们使用 [Ventoy](https://www.ventoy.net/cn/download.html) 制作引导媒介，Ventoy
-会将引导写入媒介（驱动器），然后你可以间接选择引导你媒介中的镜像。这样的好处是刻
-录一次就能引导多镜像（具体请参阅 Ventoy 官网以获取使用方法）。
+我们使用 [Ventoy](https://www.ventoy.net/cn/download.html) 制作引导媒介，Ventoy 会将引导写入媒介（驱动器），然后你可以间接选择引导你媒介中的镜像。这样的好处是刻录一次就能引导多镜像（具体请参阅 Ventoy 官网以获取使用方法）。
 
-下
-载[最简镜像](https://nixos.org/download.html#nix-more:~:text=without%20a%20desktop.-,Minimal%20ISO%20image,-The%20minimal%20installation)
-（Minimal ISO image），我们不使用官方安装程序做演示，因为没有太多的自定义选项。
-下载完成后，拷贝镜像至已经安装 Ventoy 的驱动器的任意目录。
+下载[最简镜像](https://nixos.org/download.html#nix-more:~:text=without%20a%20desktop.-,Minimal%20ISO%20image,-The%20minimal%20installation)
+（Minimal ISO image），我们不使用官方安装程序做演示，因为没有太多的自定义选项。下载完成后，拷贝镜像至已经安装 Ventoy 的驱动器的任意目录。
 
 ## 调整 BIOS 设置
 
@@ -51,61 +45,59 @@ Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsU
 
 ### 关闭安全引导
 
-在按下开机键，屏幕出现厂商品牌的时候，按住可以使你进入 BIOS 设置的按键，然后你会
-进入跟下图相同或类似的界面。
+在按下开机键，屏幕出现厂商品牌的时候，按住可以使你进入 BIOS 设置的按键，然后你会进入跟下图相同或类似的界面。
 
-::: warning 厂商差异具体情况以厂商主板为准。不同厂商生产的机型进入 BIOS 设置的按
-键不相同，甚至界面也不会相同。对于某些厂商（比如联想，宏碁），关闭安全启动需要为
-主板设置管理员密码，建议完成系统安装后立刻移除主板密码，以防止密码被遗忘。:::
+::: warning 厂商差异
+具体情况以厂商主板为准。
+不同厂商生产的机型进入 BIOS 设置的按键不相同，甚至界面也不会相同。
+对于某些厂商（比如联想，宏碁），关闭安全启动需要为主板设置管理员密码，建议完成系统安装后立刻移除主板密码，以防止密码被遗忘。
+:::
 
 ![关闭安全引导](/images/GreenHand/DisableSecureBoot.webp)
 
-请关闭安全引导，NixOS 官方暂时不支持安全引导。这一步没有代价，安装完成后，你随时
-可以把安全引导再开启。
+请关闭安全引导，NixOS 官方暂时不支持安全引导。这一步没有代价，安装完成后，你随时可以把安全引导再开启。
 
-::: tip 安全引导安全引导的技术原理是用数字签名来验证软件是否可信，如果不可信就不
-让它运行。:::
+::: tip 安全引导
+安全引导的技术原理是用数字签名来验证软件是否可信，如果不可信就不让它运行。
+:::
 
 ### 调整启动顺序
 
-::: warning UEFI 支持 UEFI 和 Legacy 是两种不同的引导方式，安装前请查阅你的主板
-是否支持 UEFI，或者当前系统是否以 UEFI 方式安装。对于 Windows 系统只需要使用磁盘
-管理或 DiskGenius 查看是否存在 ESP 分区即可。而对于 Linux，键入：
+::: warning UEFI 支持
+UEFI 和 Legacy 是两种不同的引导方式，安装前请查阅你的主板是否支持 UEFI，或者当前系统是否以 UEFI 方式安装。
+对于 Windows 系统只需要使用磁盘管理或 DiskGenius 查看是否存在 ESP 分区即可。
+而对于 Linux，键入：
 
 ```bash
 ls /sys/firmware/efi/efivars
 ```
 
-若存在输出，就代表支持 UEFI。:::
+若存在输出，就代表支持 UEFI。
+:::
 
-默认情况下，BIOS 会从本地硬盘开始查找 EFI（ESP） 分区，然后启动这个分区的启动管
-理器，所以我们要在 BIOS 设置中找到诸如“启动顺序”选项，将 USB 拉到最高优先级。
+默认情况下，BIOS 会从本地硬盘开始查找 EFI（ESP） 分区，然后启动这个分区的启动管理器，所以我们要在 BIOS 设置中找到诸如“启动顺序”选项，将 USB 拉到最高优先级。
 
 保存后重启，不出意外就到了接下来的环节。
 
 ## 引导选择
 
-你会先进入 Ventoy 的引导界面，然后使用上下按键选择你需要引导的镜像，回车确认。下
-图就是你即将见到的 NixOS 的引导界面：
+你会先进入 Ventoy 的引导界面，然后使用上下按键选择你需要引导的镜像，回车确认。下图就是你即将见到的 NixOS 的引导界面：
 
 ![初见引导界面](/images/GreenHand/FirstBoot.webp)
 
-正常来说选择第一项正常启动即可。如果你想引导完成后移除启动媒介，可以使用
-`copytoram` 启动项，这样会把系统复制到内存。
+正常来说选择第一项正常启动即可。如果你想引导完成后移除启动媒介，可以使用 `copytoram` 启动项，这样会把系统复制到内存。
 
-::: warning 屏幕工作不正常如果在正常的内核引导下，屏幕会有闪烁，撕裂的情况发生，
-导致安装难以继续。那么请重启后选择 `nomodeset` 项引导，此项会禁用一些内核针对显
-卡的功能。:::
+::: warning 屏幕工作不正常
+如果在正常的内核引导下，屏幕会有闪烁，撕裂的情况发生，导致安装难以继续。那么请重启后选择 `nomodeset` 项引导，此项会禁用一些内核针对显卡的功能。
+:::
 
 ## 进入 Live CD
 
 ![初遇](/images/GreenHand/TrulyMeet.webp)
 
-由于我们选择的是最小化镜像，所以是没有桌面环境的，当前在我们面前的是 `tty` 界
-面。
+由于我们选择的是最小化镜像，所以是没有桌面环境的，当前在我们面前的是 `tty` 界面。
 
-我们现在进入的系统是由镜像直接初始化的，系统并未被安装到硬盘上。我们需要使用现在
-这个已经被加载的基本系统完成 NixOS 到硬盘的部署。
+我们现在进入的系统是由镜像直接初始化的，系统并未被安装到硬盘上。我们需要使用现在这个已经被加载的基本系统完成 NixOS 到硬盘的部署。
 
 ### 网络连接
 
@@ -124,8 +116,7 @@ sudo systemctl start wpa_supplicant  # 启动服务
 sudo wpa_cli  # 进入 wpa 命令行交互模式
 ```
 
-然后就进入了交互模式，不同区域的 WiFi 网络认证协议也不相同。大多数情况下使用家庭
-网络的方式即可：
+然后就进入了交互模式，不同区域的 WiFi 网络认证协议也不相同。大多数情况下使用家庭网络的方式即可：
 
 ::: code-tabs#shell
 
@@ -139,7 +130,7 @@ OK
 > set_network 0 key_mgmt NONE
 OK
 > enable_network 0
-OK
+OK 
 ```
 
 @tab 家庭网络
@@ -151,7 +142,7 @@ OK
 OK
 > set_network 0 psk "WIFI 密码"
 OK
-> set_network 0 key_mgmt WPA-PSK
+> set_network 0 key_mgmt WPA-PSK  
 OK
 > enable_network 0
 OK
@@ -195,8 +186,10 @@ ping 119.29.29.29 -c 4  # 腾讯 DNSPod，不通请检查网络连接
 
 使用以下命令将两个频道（系统频道和软件仓库频道）替换到镜像源频道：
 
-::: warning 不要盲目复制在订阅系统版本时请指定系统版本，一般指定当前的最新稳定
-版。如果不清楚可以去官网查询或查看你的 Live CD 版本。:::
+::: warning 不要盲目复制
+在订阅系统版本时请指定系统版本，一般指定当前的最新稳定版。
+如果不清楚可以去官网查询或查看你的 Live CD 版本。
+:::
 
 ```bash
 sudo -i
@@ -211,37 +204,35 @@ nixos-rebuild --option substituters "https://mirror.sjtu.edu.cn/nix-channels/sto
 
 首先，我们使用 `lsblk` 命令查看一手分区情况：
 
-| NAME       | MAJ:MIN | RM  | SIZE   | RO  | TYPE | MOUNTPOINTS      |
-| ---------- | ------- | --- | ------ | --- | ---- | ---------------- |
-| loop0      | 7:0     | 0   | 799.4M | 1   | loop | `/nix/.ro-store` |
-| sda        | 8:0     | 1   | 0B     | 0   | disk |                  |
-| sdb        | 8:16    | 1   | 57.7G  | 0   | disk |                  |
-| -sdb1      | 8:17    | 1   | 57.6G  | 0   | part |                  |
-| --ventory  | 254:0   | 0   | 833M   | 1   | dm   | `/iso`           |
-| -sda2      | 8:18    | 1   | 32M    | 0   | part |                  |
-| nvme0n1    | 259:0   | 0   | 476.9G | 0   | disk |                  |
-| -nvme0n1p1 | 259:1   | 0   | 256M   | 0   | part |                  |
-| -nvme0n1p2 | 259:2   | 0   | 16M    | 0   | part |                  |
-| -nvme0n1p3 | 259:3   | 0   | 320G   | 0   | part |                  |
+|NAME|MAJ:MIN|RM|SIZE|RO|TYPE|MOUNTPOINTS|
+|---|---|---|---|---|---|---|
+|loop0|7:0|0|799.4M|1|loop|`/nix/.ro-store`|
+|sda|8:0|1|0B|0|disk||
+|sdb|8:16|1|57.7G|0|disk||
+|-sdb1|8:17|1|57.6G|0|part||
+|--ventory|254:0|0|833M|1|dm|`/iso`|
+|-sda2|8:18|1|32M|0|part||
+|nvme0n1|259:0|0|476.9G|0|disk||
+|-nvme0n1p1|259:1|0|256M|0|part||
+|-nvme0n1p2|259:2|0|16M|0|part||
+|-nvme0n1p3|259:3|0|320G|0|part||
 
-`TYPE` 列指示了分区类型还是硬盘类型。这里需要的是硬盘类型。根据接口类型和硬盘容
-量大小，你很快就能分辨出我电脑的唯一硬盘是 `nvme0n1`，`sda` 是我的引导 U 盘。
+`TYPE` 列指示了分区类型还是硬盘类型。这里需要的是硬盘类型。根据接口类型和硬盘容量大小，你很快就能分辨出我电脑的唯一硬盘是 `nvme0n1`，`sda` 是我的引导 U 盘。
 
 ```bash
 parted -a optimal /dev/nvme0n1  # 启用对齐，并进行分区
 ```
 
-我们已经进入了交互模式。在这个模式中，所有操作都是即时生效的，所以请再三确认你的
-操作。你可以输入 `help` 查看帮助手册，然后输入 `p` 查看当前分区状况。
+我们已经进入了交互模式。在这个模式中，所有操作都是即时生效的，所以请再三确认你的操作。
+你可以输入 `help` 查看帮助手册，然后输入 `p` 查看当前分区状况。
 
-| Number | Start  | End   | Size   | File system | Name                         | Flags                   |
-| ------ | ------ | ----- | ------ | ----------- | ---------------------------- | ----------------------- |
-| 1      | 20.5KB | 268MB | 268MB  | fat32       | EFI system partition         | boot, esp, no_automount |
-| 2      | 268MB  | 285MB | 16.8MB |             | Microsoft reserved partition | msftres, no_automount   |
-| 3      | 286MB  | 344GB | 344GB  | ntfs        | Basic data partition         | msftdata                |
+|Number|Start|End|Size|File system|Name|Flags|
+|---|---|---|---|---|---|---|
+|1|20.5KB|268MB|268MB|fat32|EFI system partition|boot, esp, no_automount|
+|2|268MB|285MB|16.8MB||Microsoft reserved partition|msftres, no_automount|
+|3|286MB|344GB|344GB|ntfs|Basic data partition|msftdata|
 
-在现有的 GPT 分区表上，我们添加额外的分区。首先我们需要一个 NixOS 的主分区，用来
-容纳 NixOS 的根文件系统。
+在现有的 GPT 分区表上，我们添加额外的分区。首先我们需要一个 NixOS 的主分区，用来容纳 NixOS 的根文件系统。
 
 ```bash
 mkpart primary 344GB -16GiB
@@ -253,19 +244,18 @@ mkpart primary 344GB -16GiB
 mkpart primary linux-swap -16GiB 100%
 ```
 
-::: warning 分区对齐不出意外的话，会出现一个警告：
+::: warning 分区对齐
+不出意外的话，会出现一个警告：
 
-**Warnning: The resulting partition is not properly aligned for best
-performance: 966660784s % 2048s != 0s Ignore/Cancel?**
+**Warnning: The resulting partition is not properly aligned for best performance: 966660784s % 2048s != 0s
+Ignore/Cancel?**
 
 ==我在这里输入了 Ignore，忽略这个警告。==
 
-在我的设备上，现有的 GPT 分区表是由 Disk Genius 生成的，出现这个警告我并不意外，
-我选择忽略这个警告。这个警告提示你分区没有对齐，对齐以后才能获得最佳性能。如果你
-想让分区重新对齐，就只能重新创建 GPT 表，再重新安装两个系统。
+在我的设备上，现有的 GPT 分区表是由 Disk Genius 生成的，出现这个警告我并不意外，我选择忽略这个警告。
+这个警告提示你分区没有对齐，对齐以后才能获得最佳性能。如果你想让分区重新对齐，就只能重新创建 GPT 表，再重新安装两个系统。
 
-如果你想让你的分区对齐，可以在创建第一张分区表时使用百分比表示分区的开始和结束位
-置：
+如果你想让你的分区对齐，可以在创建第一张分区表时使用百分比表示分区的开始和结束位置：
 
 ```bash
 mkpart primary 0% 100%
@@ -287,13 +277,13 @@ align-check optimal 1
 
 现在的分区表应当是：
 
-| Number | Start  | End   | Size   | File system    | Name                         | Flags                   |
-| ------ | ------ | ----- | ------ | -------------- | ---------------------------- | ----------------------- |
-| 1      | 20.5KB | 268MB | 268MB  | fat32          | EFI system partition         | boot, esp, no_automount |
-| 2      | 268MB  | 285MB | 16.8MB |                | Microsoft reserved partition | msftres, no_automount   |
-| 3      | 286MB  | 344GB | 344GB  | ntfs           | Basic data partition         | msftdata                |
-| 4      | 344GB  | 495GB | 151GB  |                | primary                      |                         |
-| 5      | 495GB  | 512GB | 17.2GB | linux-swap(v1) | primary                      | swap                    |
+|Number|Start|End|Size|File system|Name|Flags|
+|---|---|---|---|---|---|---|
+|1|20.5KB|268MB|268MB|fat32|EFI system partition|boot, esp, no_automount|
+|2|268MB|285MB|16.8MB||Microsoft reserved partition|msftres, no_automount|
+|3|286MB|344GB|344GB|ntfs|Basic data partition|msftdata|
+|4|344GB|495GB|151GB||primary||
+|5|495GB|512GB|17.2GB|linux-swap(v1)|primary|swap|
 
 然后输入 `quit` 退出交互模式。
 
@@ -354,8 +344,7 @@ nixos-generate-config --root /mnt
 vim /mnt/etc/nixos/configuration.nix
 ```
 
-因为是基本的安装，我并没有为配置加太多花，==不要改动你配置中的最后一行的版本号
-==：
+因为是基本的安装，我并没有为配置加太多花，==不要改动你配置中的最后一行的版本号==：
 
 ```nix
 { config, lib, pkgs, ...}:
@@ -399,8 +388,7 @@ vim /mnt/etc/nixos/configuration.nix
 }
 ```
 
-对于 `hardware-configuration.nix` 不需要太多改动。==每个机器有不同的特征，不要直
-接复制==：
+对于 `hardware-configuration.nix` 不需要太多改动。==每个机器有不同的特征，不要直接复制==：
 
 ```nix
 { config, lib, pkgs, modulesPath, ...}:
@@ -449,11 +437,7 @@ vim /mnt/etc/nixos/configuration.nix
 }
 ```
 
-你只需要修改各个子卷的挂载参数（添加 `"compress=zstd"` 和 `"noatime"`），还有启
-用最新的内核就好。需要注意的是上面的内核启动参数，对于我的机型，没有
-`i915.enable_psr=0` 屏幕显示就会闪烁撕裂，对于其他机型（比如联想 Yoga 14s），键
-盘会无法工作，这个时候就需要添加 `i8042.dumbkbd` 启动参数。其他机型遇到的各种问
-题请通过本页面底部的链接联系 NixOS-CN 社区以寻求支持。
+你只需要修改各个子卷的挂载参数（添加 `"compress=zstd"` 和 `"noatime"`），还有启用最新的内核就好。需要注意的是上面的内核启动参数，对于我的机型，没有 `i915.enable_psr=0` 屏幕显示就会闪烁撕裂，对于其他机型（比如联想 Yoga 14s），键盘会无法工作，这个时候就需要添加 `i8042.dumbkbd` 启动参数。其他机型遇到的各种问题请通过本页面底部的链接联系 NixOS-CN 社区以寻求支持。
 
 ### 部署系统
 
@@ -470,8 +454,6 @@ useradd -m -G wheel tritium  # 添加普通用户，并加入 wheel 组
 passwd tritium  # 设置普通账户密码
 ```
 
-然后关机，不出意外的话还是需要你去 BIOS 调整一下启动项，推荐把 NixOS 的启动项拉
-到最前面，因为在 GRUB 的界面你能选择引导至 NixOS 还是 Windows。当然有的机型可以
-在出现厂商 Logo 时直接按 F10（或其他按钮）来选择启动项。
+然后关机，不出意外的话还是需要你去 BIOS 调整一下启动项，推荐把 NixOS 的启动项拉到最前面，因为在 GRUB 的界面你能选择引导至 NixOS 还是 Windows。当然有的机型可以在出现厂商 Logo 时直接按 F10（或其他按钮）来选择启动项。
 
 最终退后三步朝电脑跪拜祈求它能正常开机，至此基本安装教程完毕。
