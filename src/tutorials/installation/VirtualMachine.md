@@ -1,32 +1,26 @@
 # 虚拟机安装
 
-无论你使用什么虚拟机安装，过程都是大同小异的。需要注意的是 HyperV 的安全启动是默
-认开启的，需要你手动关掉。
+无论你使用什么虚拟机安装，过程都是大同小异的。需要注意的是 HyperV 的安全启动是默认开启的，需要你手动关掉。
 
-以下教程是基于 UEFI 的安装，所以还需要你启用 VMware 的 UEFI 选项（如果你真的使用
-VMware 的话）。
+以下教程是基于 UEFI 的安装，所以还需要你启用 VMware 的 UEFI 选项（如果你真的使用 VMware 的话）。
 
 ![启用 UEFI](/images/GreenHand/EnableUefi.webp)
 
 ## 创建虚拟机
 
-虚拟机的资源大小取决于你的应用，这个教程仅为新手提供一种基本系统的安装方法，更加
-高阶的个性化教程会在额外的章节提及。
+虚拟机的资源大小取决于你的应用，这个教程仅为新手提供一种基本系统的安装方法，更加高阶的个性化教程会在额外的章节提及。
 
-本文使用创建的虚拟机的内存为 8GB，硬盘为 32GB 大小。如果你的计算机资源不够，理论
-上是可以尝试开辟更小的资源。
+本文使用创建的虚拟机的内存为 8GB，硬盘为 32GB 大小。如果你的计算机资源不够，理论上是可以尝试开辟更小的资源。
 
 ![资源分配](/images/GreenHand/VmResAllocation.webp)
 
 ## 检查虚拟网络
 
-部分 VMWARE 用户会遇到网络无法连接到宿主机网络的问题，可能是虚拟网络未配置导致
-的，推荐下面的 NAT 配置：
+部分 VMWARE 用户会遇到网络无法连接到宿主机网络的问题，可能是虚拟网络未配置导致的，推荐下面的 NAT 配置：
 
 ![虚拟网络](/images/GreenHand/VmNet.webp)
 
-如果你看到图上的按钮和文本框大多为灰色并无法修改，记得点击右下角的 UAC 蓝色盾牌
-以修改设置。HyperV 的虚拟交换机保持默认设置就好，一般而言没有那么容易出问题。
+如果你看到图上的按钮和文本框大多为灰色并无法修改，记得点击右下角的 UAC 蓝色盾牌以修改设置。HyperV 的虚拟交换机保持默认设置就好，一般而言没有那么容易出问题。
 
 ## 检查 UEFI 变量
 
@@ -61,8 +55,9 @@ ping 119.29.29.29 -c 4
 
 由于未知原因大陆访问远洋主机有点困难，还是用镜像服务器吧：
 
-::: warning 注意系统版本截至笔者截稿，NixOS 当前最新版本为 23.05，遂命令也是针对
-这个版本而生效的，更新的版本请注意替换命令中的==系统版本号==。:::
+::: warning 注意系统版本
+截至笔者截稿，NixOS 当前最新版本为 23.05，遂命令也是针对这个版本而生效的，更新的版本请注意替换命令中的==系统版本号==。
+:::
 
 ```bash
 sudo -i
@@ -89,11 +84,11 @@ lsblk
 
 可以看出 `/dev/sda` 就是我们要分区的设备。
 
-接下来进入 `parted` 的交互模式开始分区，请注意这些修改是实时生效的，所以不需要你
-操心保存的事。
+接下来进入 `parted` 的交互模式开始分区，请注意这些修改是实时生效的，所以不需要你操心保存的事。
 
-::: tip 单位问题两种单位的计算方法不一致，MB 以 10 为底计算，而 MiB 以 2 为底计
-算，这也许能解答你对 `parted` 显示的硬盘时大时小的疑惑。GiB 与 GB 同理。:::
+::: tip 单位问题
+两种单位的计算方法不一致，MB 以 10 为底计算，而 MiB 以 2 为底计算，这也许能解答你对 `parted` 显示的硬盘时大时小的疑惑。GiB 与 GB 同理。
+:::
 
 ```bash
 parted /dev/sda  # 分区该设备
@@ -107,9 +102,10 @@ p  # 确认当前分区情况
 quit  # 退出
 ```
 
-::: note 保留 1 MiB 1 MiB 可以保证分区标识，也就是说，分区的起始扇区包含了分区的
-类型、大小、位置等信息，这些信息是操作系统识别和加载分区的重要依据，如果这些信息
-被破坏或覆盖，就会导致分区无法启动或者数据丢失。::: 以上命令创建的分区有：
+::: note 保留 1 MiB
+1 MiB 可以保证分区标识，也就是说，分区的起始扇区包含了分区的类型、大小、位置等信息，这些信息是操作系统识别和加载分区的重要依据，如果这些信息被破坏或覆盖，就会导致分区无法启动或者数据丢失。
+:::
+以上命令创建的分区有：
 
 - 一个引导分区，存放内核和引导
 - 一个主分区，放置软件，用户数据
@@ -134,10 +130,13 @@ mount /dev/sda1 /mnt/boot  # 挂载 boot
 swapon /dev/sda3  # 启用交换分区
 ```
 
-::: tip 引导分区大多数厂商的主板只认 FAT32 格式的引导分区。:::
+::: tip 引导分区
+大多数厂商的主板只认 FAT32 格式的引导分区。
+:::
 
-::: tip Btrfs Btrfs 是一种比较新颖的文件系统（不提还在冲击内核的 Bcachefs 的
-话），支持 Cow，校验，快照等特性。划分子卷是为了更好的区分管理。:::
+::: tip Btrfs
+Btrfs 是一种比较新颖的文件系统（不提还在冲击内核的 Bcachefs 的话），支持 Cow，校验，快照等特性。划分子卷是为了更好的区分管理。
+:::
 
 我们还需要将当前状态生成配置到目标系统中：
 
@@ -172,15 +171,14 @@ vim /mnt/etc/nixos/configuration.nix
   ];
   sound.enable = true;
   hardware.pulseaudio.enable = true;
-  nix.settings.substituters = [
+  nix.settings.substituters = [ 
     "https://mirrors.cernet.edu.cn/nix-channels/store"
   ];
   system.stateVersion = "23.05";
 }
 ```
 
-你肯定在安装 NixOS 之前就了解过它是一个根据配置文件生成系统的发行版，在上面的配
-置中我们描述了一个带 KDE 桌面的基本系统。
+你肯定在安装 NixOS 之前就了解过它是一个根据配置文件生成系统的发行版，在上面的配置中我们描述了一个带 KDE 桌面的基本系统。
 
 由于生成配置命令没有写入 Btrfs 子卷的挂载参数，我们需要自己修改另一个配置文件：
 
@@ -190,8 +188,7 @@ vim /mnt/etc/nixos/hardware-configuration.nix
 
 ![挂载参数](/images/GreenHand/HardwareConfig.webp)
 
-加一些小参数，比如 `"compress=zstd"` 和 `"noatime"`，需要注意的是 Nix 的列表语法
-是用空格分隔元素的。
+加一些小参数，比如 `"compress=zstd"` 和 `"noatime"`，需要注意的是 Nix 的列表语法是用空格分隔元素的。
 
 然后开始部署系统：
 
@@ -199,9 +196,9 @@ vim /mnt/etc/nixos/hardware-configuration.nix
 nixos-install --option substituters https://mirrors.ustc.edu.cn/nix-channels/store
 ```
 
-::: note 缓存缺失如果缓存主机缺失某些二进制缓存，带来了冗长的编译环节，可以尝试
-更换一个 `substituter`，比如
-`https://mirror.sjtu.edu.cn/nix-channels/store`。:::
+::: note 缓存缺失
+如果缓存主机缺失某些二进制缓存，带来了冗长的编译环节，可以尝试更换一个 `substituter`，比如 `https://mirror.sjtu.edu.cn/nix-channels/store`。
+:::
 
 添加用户，`tritium` 是我的用户名，记得改成你自己的：
 
@@ -212,8 +209,9 @@ useradd -m -G wheel tritium  # 添加普通用户，并加入 wheel 组
 passwd tritium  # 设置普通账户密码
 ```
 
-::: note 重置 root 密码 `nixos-install` 有时候有毒，最后一步的设置密码不生效，所
-以才会有上面重置 root 密码这步。::: 然后重启（最好断掉虚拟机的光驱），就能看到安
-装好的系统了：
+::: note 重置 root 密码
+`nixos-install` 有时候有毒，最后一步的设置密码不生效，所以才会有上面重置 root 密码这步。
+:::
+然后重启（最好断掉虚拟机的光驱），就能看到安装好的系统了：
 
 ![好久不见，KDE](/images/GreenHand/HelloKde.webp)

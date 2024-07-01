@@ -1,25 +1,25 @@
-import { hopeTheme } from "vuepress-theme-hope"
-import { searchProPlugin } from "vuepress-plugin-search-pro"
-import navbar from "./navbar"
-import sidebar from "./sidebar"
+import { hopeTheme } from "vuepress-theme-hope";
+import { searchProPlugin } from "vuepress-plugin-search-pro";
+import navbar from "./navbar";
+import sidebar from "./sidebar";
 
 export default hopeTheme({
-  hostname: "https://nixos-cn.github.io",
-  author: {
-    name: "NixOS-CN",
-    url: "https://github.com/nixos-cn",
-  },
-  iconAssets: "https://at.alicdn.com/t/c/font_4043253_v7nldr3uv7.css",
-  iconPrefix: "iconfont icon-",
-  logo: "/nixos-cn.svg",
-  repo: "nixos-cn/nixos-cn.github.io",
-  docsDir: "src",
-  print: false,
-  locales: {
-    "/": {
-      navbar,
-      sidebar,
-      footer: `<a href="https://t.me/nixos_zhcn" target="_blank">
+    hostname: "https://nixos-cn.github.io",
+    author: {
+        name: "NixOS-CN",
+        url: "https://github.com/nixos-cn",
+    },
+    iconAssets: "https://at.alicdn.com/t/c/font_4043253_v7nldr3uv7.css",
+    iconPrefix: "iconfont icon-",
+    logo: "/nixos-cn.svg",
+    repo: "nixos-cn/nixos-cn.github.io",
+    docsDir: "src",
+    print: false,
+    locales: {
+        "/": {
+            navbar,
+            sidebar,
+            footer: `<a href="https://t.me/nixos_zhcn" target="_blank">
           Telegram 群组
         </a> | 
         <a href="https://matrix.to/#/#zh-cn:nixos.org" target="_blank">
@@ -28,47 +28,47 @@ export default hopeTheme({
         <a href="https://nixos.org/" target="_blank">
           NixOS 官网
         </a>`,
-      displayFooter: true,
-      metaLocales: {
-        editLink: "前往 GitHub 编辑此页",
-      },
-    },
-  },
-
-  plugins: {
-    searchPro: {},
-    mdEnhance: {
-      align: true,
-      attrs: true,
-      codetabs: true,
-      demo: true,
-      figure: true,
-      flowchart: true,
-      gfm: true,
-      breaks: false,
-      imgLazyload: true,
-      imgSize: true,
-      include: true,
-      katex: true,
-      mark: true,
-      mermaid: true,
-      stylize: [
-        {
-          matcher: "Recommended",
-          replacer: ({ tag }) => {
-            if (tag === "em")
-              return {
-                tag: "Badge",
-                attrs: { type: "tip" },
-                content: "Recommended",
-              }
-          },
+            displayFooter: true,
+            metaLocales: {
+                editLink: "前往 GitHub 编辑此页",
+            },
         },
-      ],
-      sub: true,
-      sup: true,
-      tabs: true,
-      vPre: true,
     },
-  },
-})
+
+    plugins: {
+        searchPro: {},
+        mdEnhance: {
+            align: true,
+            attrs: true,
+            codetabs: true,
+            demo: true,
+            figure: true,
+            flowchart: true,
+            gfm: true,
+            breaks: false,
+            imgLazyload: true,
+            imgSize: true,
+            include: true,
+            katex: true,
+            mark: true,
+            mermaid: true,
+            stylize: [
+                {
+                    matcher: "Recommended",
+                    replacer: ({ tag }) => {
+                        if (tag === "em")
+                            return {
+                                tag: "Badge",
+                                attrs: { type: "tip" },
+                                content: "Recommended",
+                            };
+                    },
+                },
+            ],
+            sub: true,
+            sup: true,
+            tabs: true,
+            vPre: true,
+        },
+    },
+});
