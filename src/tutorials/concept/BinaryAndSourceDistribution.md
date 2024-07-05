@@ -32,9 +32,12 @@ Deb 包里面只会包含二进制文件，以及控制这些二进制文件该�
 不同的打包方式带来了 Linux 软件包生态的分裂。你从 Debian 系发行版和 RHEL 系发行
 版就能观察到 “血脉兼容” 的现象。
 
-::: tip  
+<!-- prettier-ignore -->
+::: tip
 还存在一个 [Linux 时间线项目](https://github.com/FabioLolix/LinuxTimeline)，你可
-以看到宏观的 Linux 衍生历史。  
+以看到宏观的 Linux 衍生历史。
+
+<!-- prettier-ignore -->
 :::
 
 ## 以 Gentoo 作为源码分发的例子

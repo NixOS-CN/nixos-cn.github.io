@@ -37,10 +37,13 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
 wsl --set-default-version 2
 ```
 
-::: warning 尽力支持  
+<!-- prettier-ignore -->
+::: warning 尽力支持
 NixOS-WSL 对 inbox 版本的 WSL（即通过 Window 可选功能启用的 WSL）是尽力支持的，
 如果有条件，请更新到最新 Windows 使用 Windows 商店分发（使用第一种方法安装方式）
-的最新 WSL 支持。  
+的最新 WSL 支持。
+
+<!-- prettier-ignore -->
 :::
 
 ## 下载根文件系统
@@ -62,8 +65,11 @@ wsl --import NixOS E:\wslDistroStorage\NixOS nixos-wsl.tar.gz --version 2
 wsl -d NixOS
 ```
 
-::: tip 默认发行版  
-可以通过 `wsl -s NixOS` 将 NixOS 设置为默认启动的发行版。  
+<!-- prettier-ignore -->
+::: tip 默认发行版
+可以通过 `wsl -s NixOS` 将 NixOS 设置为默认启动的发行版。
+
+<!-- prettier-ignore -->
 :::
 
 第一次启用会稍久，但是你不够幸运的话，可能终端上会出现令人厌烦的错误码，你可以在

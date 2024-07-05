@@ -61,9 +61,12 @@ ping 119.29.29.29 -c 4
 
 由于未知原因大陆访问远洋主机有点困难，还是用镜像服务器吧：
 
-::: warning 注意系统版本  
+<!-- prettier-ignore -->
+::: warning 注意系统版本
 截至笔者截稿，NixOS 当前最新版本为 23.05，遂命令也是针对这个版本而生效的，更新的
-版本请注意替换命令中的==系统版本号==。  
+版本请注意替换命令中的==系统版本号==。
+
+<!-- prettier-ignore -->
 :::
 
 ```bash
@@ -94,9 +97,12 @@ lsblk
 接下来进入 `parted` 的交互模式开始分区，请注意这些修改是实时生效的，所以不需要你
 操心保存的事。
 
-::: tip 单位问题  
+<!-- prettier-ignore -->
+::: tip 单位问题
 两种单位的计算方法不一致，MB 以 10 为底计算，而 MiB 以 2 为底计算，这也许能解答
-你对 `parted` 显示的硬盘时大时小的疑惑。GiB 与 GB 同理。  
+你对 `parted` 显示的硬盘时大时小的疑惑。GiB 与 GB 同理。
+
+<!-- prettier-ignore -->
 :::
 
 ```bash
@@ -111,11 +117,14 @@ p  # 确认当前分区情况
 quit  # 退出
 ```
 
-::: note 保留 1 MiB  
+<!-- prettier-ignore -->
+::: note 保留 1 MiB
 1 MiB 可以保证分区标识，也就是说，分区的起始扇区包含了分区的类型、大小、位置等信
 息，这些信息是操作系统识别和加载分区的重要依据，如果这些信息被破坏或覆盖，就会导
-致分区无法启动或者数据丢失。  
-:::  
+致分区无法启动或者数据丢失。
+
+<!-- prettier-ignore -->
+:::
 以上命令创建的分区有：
 
 - 一个引导分区，存放内核和引导
@@ -141,13 +150,19 @@ mount /dev/sda1 /mnt/boot  # 挂载 boot
 swapon /dev/sda3  # 启用交换分区
 ```
 
-::: tip 引导分区  
-大多数厂商的主板只认 FAT32 格式的引导分区。  
+<!-- prettier-ignore -->
+::: tip 引导分区
+大多数厂商的主板只认 FAT32 格式的引导分区。
+
+<!-- prettier-ignore -->
 :::
 
-::: tip Btrfs  
+<!-- prettier-ignore -->
+::: tip Btrfs
 Btrfs 是一种比较新颖的文件系统（不提还在冲击内核的 Bcachefs 的话），支持 Cow，校
-验，快照等特性。划分子卷是为了更好的区分管理。  
+验，快照等特性。划分子卷是为了更好的区分管理。
+
+<!-- prettier-ignore -->
 :::
 
 我们还需要将当前状态生成配置到目标系统中：
@@ -210,9 +225,12 @@ vim /mnt/etc/nixos/hardware-configuration.nix
 nixos-install --option substituters https://mirrors.ustc.edu.cn/nix-channels/store
 ```
 
-::: note 缓存缺失  
+<!-- prettier-ignore -->
+::: note 缓存缺失
 如果缓存主机缺失某些二进制缓存，带来了冗长的编译环节，可以尝试更换一个
-`substituter`，比如 `https://mirror.sjtu.edu.cn/nix-channels/store`。  
+`substituter`，比如 `https://mirror.sjtu.edu.cn/nix-channels/store`。
+
+<!-- prettier-ignore -->
 :::
 
 添加用户，`tritium` 是我的用户名，记得改成你自己的：
@@ -224,10 +242,13 @@ useradd -m -G wheel tritium  # 添加普通用户，并加入 wheel 组
 passwd tritium  # 设置普通账户密码
 ```
 
-::: note 重置 root 密码  
+<!-- prettier-ignore -->
+::: note 重置 root 密码
 `nixos-install` 有时候有毒，最后一步的设置密码不生效，所以才会有上面重置 root 密
-码这步。  
-:::  
+码这步。
+
+<!-- prettier-ignore -->
+:::
 然后重启（最好断掉虚拟机的光驱），就能看到安装好的系统了：
 
 ![好久不见，KDE](/images/GreenHand/HelloKde.webp)

@@ -1,7 +1,10 @@
 # NixOS 入门
 
-::: warning 内容施工中  
-本节内容正在修缮中，当前内容可能已经过时，仅供参考。  
+<!-- prettier-ignore -->
+::: warning 内容施工中
+本节内容正在修缮中，当前内容可能已经过时，仅供参考。
+
+<!-- prettier-ignore -->
 :::
 
 ## 何谓 nix-channel
@@ -54,11 +57,14 @@ NixOS 中的“频道”概念和传统发行版中“软件源”的区别。
 `nixexprs.tar.xz`，从文件名我们就了解到这是一个包含了若干 nix 文件的 tar 压缩档
 （Tarball）。
 
-::: tip Tarball  
+<!-- prettier-ignore -->
+::: tip Tarball
 Tarball 是 `tar` 文件格式的全称，不是 Nix 独有。它可以将多个文件打包在一起。如果
 你想在打包的时候压缩一下，还可以使用 gzip，bzip2 等软件压缩该档案。当你对 `tar`
 文件启用压缩以后，后缀名会变更为 `tar.gz`, `tar.bz2` 等，具体取决于你使用的压缩
-软件。  
+软件。
+
+<!-- prettier-ignore -->
 :::
 
 于是我们解压它，列出目录树：
@@ -83,17 +89,23 @@ Tarball 是 `tar` 文件格式的全称，不是 Nix 独有。它可以将多个
     ......
 ```
 
-::: note 仅供演示  
-以上目录树是笔者为了方便演示而精简过的部分，实际构成肯定有差别。  
+<!-- prettier-ignore -->
+::: note 仅供演示
+以上目录树是笔者为了方便演示而精简过的部分，实际构成肯定有差别。
+
+<!-- prettier-ignore -->
 :::
 
 上面的每个子目录中都有一个 `default.nix` 文件，这是导入该目录时默认被求值的文
 件。每个包名文件夹下面的 `nix` 文件，这些文件和脚本类似，运行它们时，会从五湖四
 海获取源码和其他资源，再根据脚本的描述构建出相应的二进制包。
 
-::: tip  
+<!-- prettier-ignore -->
+::: tip
 如果你还没有学习过 Nix 表达式语言，大抵是看不懂的，你可以前往
-[Nix 语言概览](https://nixos-cn.org/guide/lang/) 进行初步学习。  
+[Nix 语言概览](https://nixos-cn.org/guide/lang/) 进行初步学习。
+
+<!-- prettier-ignore -->
 :::
 
 每个频道都应该提供一个名为 `nixexprs` 的 Tarball。其中 `default.nix` 既是根目录
@@ -108,6 +120,7 @@ Tarball 是 `tar` 文件格式的全称，不是 Nix 独有。它可以将多个
 系统频道可以从 URL 中直观的体现。形如 `https://nixos.org/channels/nixos22.11` 你
 很快就了解到这是一个 22.11 版本的 NixOS 的频道。
 
+<!-- prettier-ignore -->
 ::: tip 默认订阅的频道
 
 NixOS 默认订阅了官方频道 `nixos`，即使你安装完系统什么都不做，它们也是存在的：
@@ -120,9 +133,12 @@ sudo nix-channel --list  # 列出频道
 nixos https://nixos.org/channels/nixos22.11
 ```
 
-这个频道提供了组成系统的一些驱动，设施等等。  
+这个频道提供了组成系统的一些驱动，设施等等。
+
+<!-- prettier-ignore -->
 :::
 
+<!-- prettier-ignore -->
 ::: warning
 
 这里的 `nixos` 与 `https://nixos.org/channels/nixos22.11` 并不是并列关系，前者是
@@ -135,7 +151,9 @@ nixos https://nixos.org/channels/nixos22.11
 nixpkgs https://nixos.org/channels/nixpkgs-unstable
 ```
 
-除非升级系统或更换镜像频道，否则不要动系统默认的 `nixos` 频道。  
+除非升级系统或更换镜像频道，否则不要动系统默认的 `nixos` 频道。
+
+<!-- prettier-ignore -->
 :::
 
 #### 一些特殊的频道
@@ -187,15 +205,21 @@ nixos-rebuild switch --upgrade
 
 该命令相当于 `nix-channel --update nixos`; `nixos-rebuild switch`
 
-::: note  
+<!-- prettier-ignore -->
+::: note
 频道的切换是以用户为单位的。当你不以 `root` 权限执行时，不会影响
-`/etc/nixos/configuration.nix` 的配置。  
+`/etc/nixos/configuration.nix` 的配置。
+
+<!-- prettier-ignore -->
 :::
 
-::: warning  
+<!-- prettier-ignore -->
+::: warning
 在频道之间来回切换通常是安全的。唯一的例外是，一个较新的NixOS也可能有一个较低的
 Nix版本，这可能涉及到Nix数据库模式的升级。这是不容易撤消的，所以在这种情况下，您
-将无法返回到原始频道。  
+将无法返回到原始频道。
+
+<!-- prettier-ignore -->
 :::
 
 ### 软件仓库频道
@@ -205,9 +229,12 @@ Nix版本，这可能涉及到Nix数据库模式的升级。这是不容易撤�
 
 #### 订阅 `nixpkgs-unstable` 频道
 
-::: tip nixpkgs 仓库  
+<!-- prettier-ignore -->
+::: tip nixpkgs 仓库
 nixpkgs 仓库更新非常快，所以没有稳定版。不过 darwin 是例外，因为 Nix 包管理器不
-能保证实时兼容当前的 darwin 平台，所以要做版本控制。  
+能保证实时兼容当前的 darwin 平台，所以要做版本控制。
+
+<!-- prettier-ignore -->
 :::
 
 ```bash
@@ -217,7 +244,8 @@ sudo nix-channel --update  # 更新频道
 
 如此，你便订阅上了官方的 nixpkgs-unstable 软件源。
 
-::: warning 推荐订阅镜像频道  
+<!-- prettier-ignore -->
+::: warning 推荐订阅镜像频道
 上文仅供教学。在下一节我们会指引大家订阅国内能正常访问的镜像频道，键入下面的命令
 以退订官方的 `nixpkgs-unstable` 频道：
 
@@ -225,8 +253,10 @@ sudo nix-channel --update  # 更新频道
 sudo nix-channel --remove nixpkgs-unstable
 ```
 
+<!-- prettier-ignore -->
 :::
 
+<!-- prettier-ignore -->
 ::: tip 自定义频道名
 
 默认情况下，频道名是截取自 URL 的最后一级：
@@ -247,6 +277,7 @@ nixpkgs-unstable https://host/nixpkgs-unstable
 nix-channel --add https://host/nixpkgs-unstable nixpkgs
 ```
 
+<!-- prettier-ignore -->
 :::
 
 ## 使用镜像频道
@@ -271,8 +302,11 @@ sudo nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixos-22.11 nixo
 sudo nix-channel --list  # 列出频道
 ```
 
-::: note  
-特地修改频道名是因为许多表达式都会把 nixpkgs 而不是 nixpkgs-unstable 作输入。  
+<!-- prettier-ignore -->
+::: note
+特地修改频道名是因为许多表达式都会把 nixpkgs 而不是 nixpkgs-unstable 作输入。
+
+<!-- prettier-ignore -->
 :::
 
 ## 二进制构建缓存
@@ -310,8 +344,8 @@ nix.settings.substituters = lib.mkForce [ "https://mirrors.cernet.edu.cn/nix-cha
 ### Cachix 服务
 
 Cachix 服务是 Nix 二进制缓存服务实现的方式之一，你可以使用它在服务器构建缓存，然
-后连接到该服务器的主机可以分享这些缓存，从而避免了二次构建。  
-了解详情请参阅 [Cachix 官网](https://www.cachix.org/)。
+后连接到该服务器的主机可以分享这些缓存，从而避免了二次构建。了解详情请参阅
+[Cachix 官网](https://www.cachix.org/)。
 
 ## Nix 生态构成简述
 

@@ -54,11 +54,14 @@ Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsU
 在按下开机键，屏幕出现厂商品牌的时候，按住可以使你进入 BIOS 设置的按键，然后你会
 进入跟下图相同或类似的界面。
 
-::: warning 厂商差异  
-具体情况以厂商主板为准。  
-不同厂商生产的机型进入 BIOS 设置的按键不相同，甚至界面也不会相同。  
+<!-- prettier-ignore -->
+::: warning 厂商差异
+具体情况以厂商主板为准。
+不同厂商生产的机型进入 BIOS 设置的按键不相同，甚至界面也不会相同。
 对于某些厂商（比如联想，宏碁），关闭安全启动需要为主板设置管理员密码，建议完成系
-统安装后立刻移除主板密码，以防止密码被遗忘。  
+统安装后立刻移除主板密码，以防止密码被遗忘。
+
+<!-- prettier-ignore -->
 :::
 
 ![关闭安全引导](/images/GreenHand/DisableSecureBoot.webp)
@@ -66,23 +69,29 @@ Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsU
 请关闭安全引导，NixOS 官方暂时不支持安全引导。这一步没有代价，安装完成后，你随时
 可以把安全引导再开启。
 
-::: tip 安全引导  
-安全引导的技术原理是用数字签名来验证软件是否可信，如果不可信就不让它运行。  
+<!-- prettier-ignore -->
+::: tip 安全引导
+安全引导的技术原理是用数字签名来验证软件是否可信，如果不可信就不让它运行。
+
+<!-- prettier-ignore -->
 :::
 
 ### 调整启动顺序
 
-::: warning UEFI 支持  
+<!-- prettier-ignore -->
+::: warning UEFI 支持
 UEFI 和 Legacy 是两种不同的引导方式，安装前请查阅你的主板是否支持 UEFI，或者当前
-系统是否以 UEFI 方式安装。  
-对于 Windows 系统只需要使用磁盘管理或 DiskGenius 查看是否存在 ESP 分区即可。  
+系统是否以 UEFI 方式安装。
+对于 Windows 系统只需要使用磁盘管理或 DiskGenius 查看是否存在 ESP 分区即可。
 而对于 Linux，键入：
 
 ```bash
 ls /sys/firmware/efi/efivars
 ```
 
-若存在输出，就代表支持 UEFI。  
+若存在输出，就代表支持 UEFI。
+
+<!-- prettier-ignore -->
 :::
 
 默认情况下，BIOS 会从本地硬盘开始查找 EFI（ESP） 分区，然后启动这个分区的启动管
@@ -100,9 +109,12 @@ ls /sys/firmware/efi/efivars
 正常来说选择第一项正常启动即可。如果你想引导完成后移除启动媒介，可以使用
 `copytoram` 启动项，这样会把系统复制到内存。
 
-::: warning 屏幕工作不正常  
+<!-- prettier-ignore -->
+::: warning 屏幕工作不正常
 如果在正常的内核引导下，屏幕会有闪烁，撕裂的情况发生，导致安装难以继续。那么请重
-启后选择 `nomodeset` 项引导，此项会禁用一些内核针对显卡的功能。  
+启后选择 `nomodeset` 项引导，此项会禁用一些内核针对显卡的功能。
+
+<!-- prettier-ignore -->
 :::
 
 ## 进入 Live CD
@@ -135,6 +147,7 @@ sudo wpa_cli  # 进入 wpa 命令行交互模式
 然后就进入了交互模式，不同区域的 WiFi 网络认证协议也不相同。大多数情况下使用家庭
 网络的方式即可：
 
+<!-- prettier-ignore -->
 ::: code-tabs#shell
 
 @tab 开放网络
@@ -182,6 +195,7 @@ OK
 OK
 ```
 
+<!-- prettier-ignore -->
 :::
 
 ```bash
@@ -203,9 +217,12 @@ ping 119.29.29.29 -c 4  # 腾讯 DNSPod，不通请检查网络连接
 
 使用以下命令将两个频道（系统频道和软件仓库频道）替换到镜像源频道：
 
-::: warning 不要盲目复制  
-在订阅系统版本时请指定系统版本，一般指定当前的最新稳定版。  
-如果不清楚可以去官网查询或查看你的 Live CD 版本。  
+<!-- prettier-ignore -->
+::: warning 不要盲目复制
+在订阅系统版本时请指定系统版本，一般指定当前的最新稳定版。
+如果不清楚可以去官网查询或查看你的 Live CD 版本。
+
+<!-- prettier-ignore -->
 :::
 
 ```bash
@@ -242,8 +259,7 @@ parted -a optimal /dev/nvme0n1  # 启用对齐，并进行分区
 ```
 
 我们已经进入了交互模式。在这个模式中，所有操作都是即时生效的，所以请再三确认你的
-操作。  
-你可以输入 `help` 查看帮助手册，然后输入 `p` 查看当前分区状况。
+操作。你可以输入 `help` 查看帮助手册，然后输入 `p` 查看当前分区状况。
 
 | Number | Start  | End   | Size   | File system | Name                         | Flags                   |
 | ------ | ------ | ----- | ------ | ----------- | ---------------------------- | ----------------------- |
@@ -264,7 +280,8 @@ mkpart primary 344GB -16GiB
 mkpart primary linux-swap -16GiB 100%
 ```
 
-::: warning 分区对齐  
+<!-- prettier-ignore -->
+::: warning 分区对齐
 不出意外的话，会出现一个警告：
 
 **Warnning: The resulting partition is not properly aligned for best
@@ -273,9 +290,8 @@ performance: 966660784s % 2048s != 0s Ignore/Cancel?**
 ==我在这里输入了 Ignore，忽略这个警告。==
 
 在我的设备上，现有的 GPT 分区表是由 Disk Genius 生成的，出现这个警告我并不意外，
-我选择忽略这个警告。  
-这个警告提示你分区没有对齐，对齐以后才能获得最佳性能。如果你想让分区重新对齐，就
-只能重新创建 GPT 表，再重新安装两个系统。
+我选择忽略这个警告。这个警告提示你分区没有对齐，对齐以后才能获得最佳性能。如果你
+想让分区重新对齐，就只能重新创建 GPT 表，再重新安装两个系统。
 
 如果你想让你的分区对齐，可以在创建第一张分区表时使用百分比表示分区的开始和结束位
 置：
@@ -296,6 +312,7 @@ parted -a optimal /dev/nvme0n1
 align-check optimal 1
 ```
 
+<!-- prettier-ignore -->
 :::
 
 现在的分区表应当是：

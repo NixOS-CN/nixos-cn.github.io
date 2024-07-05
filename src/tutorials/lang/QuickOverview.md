@@ -1,8 +1,11 @@
 # Nix 语言快速入门
 
-::: tip  
+<!-- prettier-ignore -->
+::: tip
 Nix 语言的主要工作是**描述打包过程**。同时 Nix 语言也是一门强类型和动态类型的语
-言。  
+言。
+
+<!-- prettier-ignore -->
 :::
 
 ## 交互模式
@@ -21,9 +24,12 @@ nix-repl> 1 + 2  # 输入表达式
 3  # 输出结果
 ```
 
-::: tip 惰性求值  
+<!-- prettier-ignore -->
+::: tip 惰性求值
 Nix语言的求值是惰性的，这意味着表达式不会在被绑定到变量后立即求值，而是在该值被
-使用时才求值。  
+使用时才求值。
+
+<!-- prettier-ignore -->
 :::
 
 ## 即时计算被直接依赖的值
@@ -35,8 +41,11 @@ nix-repl> { a.b.c = 1; }
 
 在上面的例子中，我们输入了一个匿名集合，而这个匿名集合包含 `a` 集合。
 
-::: note 匿名集合  
-匿名集合即没有分配名称的集合，与之对立的是命名集合，例如 `foo = { bar };`。  
+<!-- prettier-ignore -->
+::: note 匿名集合
+匿名集合即没有分配名称的集合，与之对立的是命名集合，例如 `foo = { bar };`。
+
+<!-- prettier-ignore -->
 :::
 
 `a` 集合中的值并没有被这个匿名集合直接依赖，自然顶级以下的集合不会被立刻求值。占
@@ -59,8 +68,11 @@ nix-repl> :p { a.b.c = 1; }
 { a = { b = { c = 1; }; }; }
 ```
 
-::: warning  
-`:p` 参数只能在交互模式使用，输入 `:q` 可以退出交互模式。  
+<!-- prettier-ignore -->
+::: warning
+`:p` 参数只能在交互模式使用，输入 `:q` 可以退出交互模式。
+
+<!-- prettier-ignore -->
 :::
 
 ## 文件求值
@@ -75,7 +87,8 @@ $ nix-instantiate --eval file.nix  # 文件求值
 3  # 输出结果
 ```
 
-::: tip 立即求值  
+<!-- prettier-ignore -->
+::: tip 立即求值
 在文件求值的情景下可以通过在命令行添加 `--strict` 参数来启用立即求值。
 
 ```bash
@@ -84,21 +97,29 @@ $ nix-instantiate --eval --strict file.nix
 { a = { b = { c = 1; }; }; }
 ```
 
-:::  
-::: info echo 命令  
+<!-- prettier-ignore -->
+:::
+
+<!-- prettier-ignore -->
+::: info echo 命令
 `echo` 是 Linux 中最常见的命令之一，主要作用是输出文本，追加文本，返回输出。
 
-你可以键入 `help echo` 来获取该命令的使用帮助。  
+你可以键入 `help echo` 来获取该命令的使用帮助。
+
+<!-- prettier-ignore -->
 :::
 
 ## 代码风格
 
 好的代码风格会让程序员身心愉悦，同时也增加了代码可维护性。
 
-::: info 格式化  
+<!-- prettier-ignore -->
+::: info 格式化
 [Alejandra](https://github.com/kamadorueda/alejandra) 是一个新兴的 Nix 代码格式
 化工具，使用 Rust 编写。你可
-以[在线尝试](https://kamadorueda.com/alejandra/)它。  
+以[在线尝试](https://kamadorueda.com/alejandra/)它。
+
+<!-- prettier-ignore -->
 :::
 
 ## 当心空格
@@ -106,6 +127,7 @@ $ nix-instantiate --eval --strict file.nix
 空格用于分隔词法标记（Lexical tokens），在一些场景是必要的，不然会无法区分关键
 字。
 
+<!-- prettier-ignore -->
 ::: note
 
 在许多中文资料中，混淆了 Lexical，Syntax 和 Grammar 三者的概念：
@@ -119,6 +141,7 @@ $ nix-instantiate --eval --strict file.nix
 - Grammar（语法）：是指语言中的规则体系，包括了语法规则、语义规则和语用规则等。
   它涉及到语言的整个结构和组成方式，而不仅仅是句子的构成。
 
+<!-- prettier-ignore -->
 :::
 
 下面的两种示例是等价的：
@@ -156,11 +179,13 @@ in
 
 ## 属性集
 
+<!-- prettier-ignore -->
 ::: tip 集合
 
 还记得我们在上面提到的集合吗？其实它真正的名字是属性集，没有过早引入属性集的概念
 是为了方便读者渐进式地理解。
 
+<!-- prettier-ignore -->
 :::
 
 属性集就是装载若干对名称与值的集合，**集合内的名称被称为这个集合的属性，集合内中
@@ -183,7 +208,8 @@ in
 }
 ```
 
-::: info json 样式  
+<!-- prettier-ignore -->
+::: info json 样式
 你可能觉得莫名的像 json，下面是 json 的示例：
 
 ```json
@@ -203,6 +229,7 @@ in
 }
 ```
 
+<!-- prettier-ignore -->
 :::
 
 注意到了吗？
@@ -228,9 +255,12 @@ rec {
 { one = 1; three = 3; two = 2; }
 ```
 
-::: note  
+<!-- prettier-ignore -->
+::: note
 元素的声明顺序并不决定元素在属性集中的排布顺序，属性集中的元素排布顺序是由求值顺
-序决定的，优先被求值的被放在了前面。  
+序决定的，优先被求值的被放在了前面。
+
+<!-- prettier-ignore -->
 :::
 
 ## `let` 绑定
@@ -249,8 +279,11 @@ in
 
 引用到 `a` 的地方有两处，它们都会将 `a` ＂替换＂成值来计算或赋值，类似于常量。
 
-::: tip  
-你不需要关心名称的声明顺序，不会出现名称未定义的情况。  
+<!-- prettier-ignore -->
+::: tip
+你不需要关心名称的声明顺序，不会出现名称未定义的情况。
+
+<!-- prettier-ignore -->
 :::
 
 **`in` 后面只能跟随一个表达式，并且 `let` 绑定的名称只在该表达式是有效的的**，这
@@ -271,7 +304,8 @@ in
 [ 1 2 3 ]
 ```
 
-::: danger 作用域  
+<!-- prettier-ignore -->
+::: danger 作用域
 **`let` 绑定是有作用域的，绑定的名称只能在作用域使用，或者说每个 `let` 绑定的名
 称只能在该表达式内使用：**
 
@@ -295,6 +329,7 @@ error: undefined variable 'x'
             4| }
 ```
 
+<!-- prettier-ignore -->
 :::
 
 ## 属性访问
@@ -595,9 +630,8 @@ in
 ```
 
 但如果我们希望在字符串中使用原始字符 `''`，因为会与多行字符串原有的语义冲突，不
-能直接写 `''`，而必须改用 `'''` 三个单引号。  
-也就是说，在多行字符串中的 `'''` 三个单引号这样的组合，实际输出的是原始字符串
-`''`.
+能直接写 `''`，而必须改用 `'''` 三个单引号。也就是说，在多行字符串中的 `'''` 三
+个单引号这样的组合，实际输出的是原始字符串 `''`.
 
 举个例子：
 

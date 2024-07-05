@@ -1,7 +1,10 @@
 # NixOS 配置
 
-::: warning 内容施工中  
-本节内容正在修缮中，当前内容可能已经过时，仅供参考。  
+<!-- prettier-ignore -->
+::: warning 内容施工中
+本节内容正在修缮中，当前内容可能已经过时，仅供参考。
+
+<!-- prettier-ignore -->
 :::
 
 ## 包管理
@@ -26,11 +29,14 @@ environment.systemPackages = [ pkgs.firefox ];  # 将来源于 pkgs(Nixpkgs) 的
 ==配置文件并不是实时生效的== 。你需要运行 `sudo nixos-rebuild switch` 来生成当前
 配置文件描述的系统。
 
-::: note 依赖配置  
+<!-- prettier-ignore -->
+::: note 依赖配置
 对于某些包（例如依赖 D-Bus 或 systemd 服务注册的包），仅仅是安装还是不够的，我们
-需要为它们对系统进行一些配置。  
+需要为它们对系统进行一些配置。
 你可以访问[选项列表](https://nixos.org/manual/nixos/stable/options.html)来检索需
-要启用的 NixOS 模块。  
+要启用的 NixOS 模块。
+
+<!-- prettier-ignore -->
 :::
 
 你可以使用以下命令获取在线包仓库中可用的软件包的列表：
@@ -43,8 +49,11 @@ nixos.firefox   firefox-23.0   Mozilla Firefox - the browser, reloaded
 
 通常会输出很多行可以获取的包的信息。第一列输出是属性名（例如`nixos.firefox`）。
 
-::: note 前缀  
-`nixos` 前缀表明当前包是从 `nixos` 频道获取的。  
+<!-- prettier-ignore -->
+::: note 前缀
+`nixos` 前缀表明当前包是从 `nixos` 频道获取的。
+
+<!-- prettier-ignore -->
 :::
 
 如果你想卸载这个包，修改配置后重新生成系统即可。
@@ -59,8 +68,11 @@ nixos.firefox   firefox-23.0   Mozilla Firefox - the browser, reloaded
 nixpkgs.config.firefox.enableGoogleTalkPlugin = true;
 ```
 
-::: warning 难以查询  
-遗憾的是，Nixpkgs 依然无法提供一种简易查询这些选项的方式。  
+<!-- prettier-ignore -->
+::: warning 难以查询
+遗憾的是，Nixpkgs 依然无法提供一种简易查询这些选项的方式。
+
+<!-- prettier-ignore -->
 :::
 
 除了高阶选项外，你还可以以几乎任意方式调整软件包，例如更改或禁用软件包的依赖项。
@@ -72,13 +84,16 @@ environment.systemPackages = [ (pkgs.emacs.override { gtk = pkgs.gtk3; }) ];
 ```
 
 我们使用了 `override` 函数指定了用户定义的参数，意味着我们覆写了一部分原本的参
-数，构建的包也因此改变了。  
-让我们来细看这个语句，`gtk` 默认是接受 `pkgs.gtk2` 参数的，我们使用 `pkgs.gtk3`
-作输入的时候，默认参数已经失效了，于是构建出来的包是依赖 GTK 3 的了。
+数，构建的包也因此改变了。让我们来细看这个语句，`gtk` 默认是接受 `pkgs.gtk2` 参
+数的，我们使用 `pkgs.gtk3` 作输入的时候，默认参数已经失效了，于是构建出来的包是
+依赖 GTK 3 的了。
 
-::: warning 运算优先级  
+<!-- prettier-ignore -->
+::: warning 运算优先级
 圆括号是必要的，因为在 Nix 语言中，列表构造优先级高于函数。如果不使用括号，列表
-将会认为它接收了两个元素。  
+将会认为它接收了两个元素。
+
+<!-- prettier-ignore -->
 :::
 
 我们还可以使用 `overrideAttrs` 函数做出更多定制。`override` 函数的机制是覆写了包
@@ -112,7 +127,8 @@ environment.systemPackages = [
 这种方式不持久是相对于声明式包管理的。声明式包管理可以保证系统的一致性和可复制
 性，所以是持久的。不过 Ad-Hoc 方式非常灵活。
 
-::: tip Ad-Hoc  
+<!-- prettier-ignore -->
+::: tip Ad-Hoc
 这个词语的起源是拉丁语，意思是“为此”。它通常表示一种针对特定目的，问题或任务的解
 决方案，而不是一种可以适用于其他情况的通用解决方案。例如，一个政府为了解决一个具
 体问题而设立的委员会就是一个 ad-hoc 委员会。更宽松地说，它也可以意味着“自发的
@@ -120,7 +136,9 @@ environment.systemPackages = [
 
 在 nixos 中，Ad-Hoc 的意义是指可以在一个临时的 shell 环境中使用任何用 nix 打包的
 程序，而不需要永久地安装它。这样可以方便地创建和使用开发环境，而不影响系统的状
-态。  
+态。
+
+<!-- prettier-ignore -->
 :::
 
 通过 `nix-env` 命令，你可以像常规发行版那样使用命令安装软件：
@@ -265,7 +283,8 @@ fileSystems."/data" =
 
 `device` 不一定要根据 `label` 来指定，也可以通过 `uuid` 。
 
-::: tip 块的 UUID  
+<!-- prettier-ignore -->
+::: tip 块的 UUID
 你可以用下面的方法查看到这些块的 UUID：
 
 ```bash
@@ -278,15 +297,19 @@ sdc                      1T 8108c250-d488-4724-9237-5d926569fbef
 sdd /mnt/wslg/distro     1T 8677e11d-56ab-4ecb-8dfd-8effb322493f
 ```
 
+<!-- prettier-ignore -->
 :::
 
 在默认情况下，所有被写在配置的分区都会被自动挂载，除非你指定了 `noauto` 的选项：
 
 你也可以缺省 `fsType` 的值，因为它会自动检测文件系统类型。
 
-::: tip nofail  
+<!-- prettier-ignore -->
+::: tip nofail
 如果 `fstab` 内容有误，系统会在启动时显示令人窒息的急救 Shell。为了避免这种情
-况，你可以在 `option` 里加入 `nofail` 来确保挂载是异步的且不会严重影响启动。  
+况，你可以在 `option` 里加入 `nofail` 来确保挂载是异步的且不会严重影响启动。
+
+<!-- prettier-ignore -->
 :::
 
 ## 显示系统
@@ -470,8 +493,11 @@ services.xserver.libinput.enable = true;
 services.xserver.libinput.touchpad.tapping = false;
 ```
 
-::: note 废弃的 synaptics 选项  
-`services.xserver.synaptics` 选项在 NixOS 17.09 之后的版本中被废弃。  
+<!-- prettier-ignore -->
+::: note 废弃的 synaptics 选项
+`services.xserver.synaptics` 选项在 NixOS 17.09 之后的版本中被废弃。
+
+<!-- prettier-ignore -->
 :::
 
 #### GTK/QT 主题
@@ -486,9 +512,8 @@ qt.style = "gtk2";
 
 #### 自定义键盘布局（XKB）
 
-这是一个例子，在这个例子中，我们稍微改造一下美式键盘。  
-我们先创建一个文件 `us-greek`，放到一个 `symbols` 文件夹下面，在里面描述自定义的
-键位：
+这是一个例子，在这个例子中，我们稍微改造一下美式键盘。我们先创建一个文件
+`us-greek`，放到一个 `symbols` 文件夹下面，在里面描述自定义的键位：
 
 ```nix
 xkb_symbols "us-greek"

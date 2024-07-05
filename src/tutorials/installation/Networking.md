@@ -90,9 +90,12 @@ sudo systemctl restart nix-daemon
 [添加自定义缓存服务器](https://nixos-and-flakes.thiscute.world/zh/nixos-with-flakes/add-custom-cache-servers)
 ，注意这部分内容可能需要一定的 NixOS 使用经验才能理解。
 
-::: warning GitHub 报 HTTP 403 错误  
+<!-- prettier-ignore -->
+::: warning GitHub 报 HTTP 403 错误
 注意：使用一些商用代理或公共代理时你可能会遇到 GitHub 下载时报 HTTP 403 错误
 （[nixos-and-flakes-book/issues/74](https://github.com/ryan4yin/nixos-and-flakes-book/issues/74)），
 可尝试通过更换代理服务器或者设置
-[access-tokens](https://github.com/NixOS/nix/issues/6536) 来解决。  
+[access-tokens](https://github.com/NixOS/nix/issues/6536) 来解决。
+
+<!-- prettier-ignore -->
 :::

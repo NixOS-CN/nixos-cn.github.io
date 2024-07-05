@@ -8,10 +8,13 @@
 为了设计一个纯净的函数，我们应该尽量地把它设计得封闭，使之隔离外部环境。但是 Nix
 并不是这样，Nix 为了编译那些 Nix 文件，依然需要访问到外部世界的东西。
 
-::: tip  
+<!-- prettier-ignore -->
+::: tip
 Nix 文件可以访问任意文件（如 `~/.config/nixpkgs/config.nix`）、环境变量、Git仓
 库、Nix搜索路径（`$NIX_PATH`）中的文件、命令行参数（`--arg`）以及系统类型
-（`builtins.currentSystem`）。  
+（`builtins.currentSystem`）。
+
+<!-- prettier-ignore -->
 :::
 
 这就意味着这个函数的求值过程并不完全封闭。如果你在两台不同的机器上运行相同的 Nix
