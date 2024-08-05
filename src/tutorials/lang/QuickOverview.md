@@ -407,7 +407,7 @@ error: undefined variable 'x'
 
 ## `inherit` 表达式
 
-`inhherit` 本意就是继承，我们可以使用它完成一对命名相同的名称和属性之间的赋值：
+`inherit` 本意就是继承，我们可以使用它完成一对命名相同的名称和属性之间的赋值：
 
 ```nix
 let
