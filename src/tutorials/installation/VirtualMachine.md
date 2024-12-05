@@ -182,7 +182,7 @@ vim /mnt/etc/nixos/configuration.nix
 {
     imports = [
         ./hardware-configuration.nix
-    ]
+    ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   networking.networkmanager.enable = true;
@@ -196,8 +196,7 @@ vim /mnt/etc/nixos/configuration.nix
     vim
     alacritty
   ];
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
+
   nix.settings.substituters = [
     "https://mirrors.cernet.edu.cn/nix-channels/store"
   ];
