@@ -225,13 +225,14 @@ ping 119.29.29.29 -c 4  # 腾讯 DNSPod，不通请检查网络连接
 <!-- prettier-ignore -->
 :::
 
+添加最新(nixos-unstable) channel 的国内镜像，关于 [nix channel](https://nixos.wiki/wiki/Nix_channels)，由于我们没有使用flake，channel将决定安装的系统的软件包版本。
+
+以下命令添加 `nixos-unstable` 作为安装使用的默认channel，如果需要使用稳定版，可替换以下 `nixos-unstable` 为 `nixos-24.11` (截至2024年12月的最新发行)。
+
 ```bash
 sudo -i
-nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixpkgs-unstable nixpkgs  # 订阅镜像仓库频道
-nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixos-22.11 nixos  # 请注意系统版本
-nix-channel --list  # 列出频道
+nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixos-unstable nixos
 nix-channel --update  # 更新并解包频道
-nixos-rebuild --option substituters "https://mirror.sjtu.edu.cn/nix-channels/store" switch --upgrade  # 临时切换二进制缓存源，并更新生成
 ```
 
 ### 分区与格式化
@@ -488,7 +489,7 @@ vim /mnt/etc/nixos/configuration.nix
 ### 部署系统
 
 ```bash
-sudo nixos-install --option substituters "https://mirror.sjtu.edu.cn/nix-channels/store"
+sudo nixos-install --option extra-substituters "https://mirror.sjtu.edu.cn/nix-channels/store"
 ```
 
 添加用户，tritium 是我的用户名，记得改成你自己的：

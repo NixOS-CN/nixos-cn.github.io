@@ -6,7 +6,7 @@ export default sidebar([
     icon: "bulb",
     prefix: "/tutorials/installation/",
     collapsible: false,
-    children: ["VirtualMachine", "WSL2", "Subsystem", "Networking"],
+    children: ["VirtualMachine", "WSL2", "DualBoot", "Networking"],
   },
   {
     text: "伊始之章",
