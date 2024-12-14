@@ -227,6 +227,8 @@ ping 119.29.29.29 -c 4  # 腾讯 DNSPod，不通请检查网络连接
 
 添加最新(nixos-unstable) channel 的国内镜像，关于 [nix channel](https://nixos.wiki/wiki/Nix_channels)，由于我们没有使用flake，channel将决定安装的系统的软件包版本。
 
+以下命令添加 `nixos-unstable` 作为安装使用的默认channel，如果需要使用稳定版，可替换以下 `nixos-unstable` 为 `nixos-24.11` (截至2024年12月的最新发行)。
+
 ```bash
 sudo -i
 nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixos-unstable nixos
