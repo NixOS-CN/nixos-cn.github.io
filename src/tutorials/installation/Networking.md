@@ -71,8 +71,8 @@ nix shell nixpkgs#cowsay --option substituters "https://mirrors.tuna.tsinghua.ed
 理加速 nix 的网络访问：
 
 ```bash
-sudo mkdir /run/systemd/system/nix-daemon.service.d/
-cat << EOF >/run/systemd/system/nix-daemon.service.d/override.conf
+sudo mkdir -p /run/systemd/system/nix-daemon.service.d/
+sudo tee /run/systemd/system/nix-daemon.service.d/override.conf << EOF
 [Service]
 Environment="https_proxy=socks5h://localhost:7891"
 EOF
