@@ -45,9 +45,9 @@ nix shell nixpkgs#cowsay --option substituters "https://mirrors.tuna.tsinghua.ed
 ```nix
 {
   inputs = {
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
-    nixpkgs.url = "https://mirrors.ustc.edu.cn/nix-channels/nixos-23.11/nixexprs.tar.xz";
-    # nixpkgs.url = "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/nixpkgs-23.11/nixexprs.tar.xz";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "https://mirrors.ustc.edu.cn/nix-channels/nixos-25.05/nixexprs.tar.xz";
+    # nixpkgs.url = "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/nixpkgs-25.05/nixexprs.tar.xz";
   };
   outputs = inputs@{ self, nixpkgs, ... }: {
     nixosConfigurations.my-nixos = nixpkgs.lib.nixosSystem {
