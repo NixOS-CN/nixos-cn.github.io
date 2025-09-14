@@ -87,7 +87,7 @@ sudo systemctl restart nix-daemon
 下。或者也可以使用旁路网关或 TUN 等全局代理方案。
 
 更详细的说明与其他用法介绍，请移步
-[添加自定义缓存服务器](https://nixos-and-flakes.thiscute.world/zh/nixos-with-flakes/add-custom-cache-servers)
+[添加自定义缓存服务器](https://nixos-and-flakes.thiscute.world/zh/nix-store/add-binary-cache-servers)
 ，注意这部分内容可能需要一定的 NixOS 使用经验才能理解。
 
 <!-- prettier-ignore -->
