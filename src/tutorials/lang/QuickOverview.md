@@ -8,31 +8,7 @@ Nix 语言的主要工作是**描述打包过程**。同时 Nix 语言也是一�
 <!-- prettier-ignore -->
 :::
 
-## 交互模式
-
-以下交互式教程需要使用 `nix repl` 命令调出交互命令模式：
-
-```bash
-$ nix repl
-Welcome to Nix 2.5.1. Type :? for help.
-```
-
-它有点像用于调试 JavaScript 的控制台或 Python 的交互模式？
-
-```bash
-nix-repl> 1 + 2  # 输入表达式
-3  # 输出结果
-```
-
-<!-- prettier-ignore -->
-::: tip 惰性求值
-Nix语言的求值是惰性的，这意味着表达式不会在被绑定到变量后立即求值，而是在该值被
-使用时才求值。
-
-<!-- prettier-ignore -->
-:::
-
-## 集合
+## 基础知识：集合
 
 在 Nix 语法中，集合是最常见的数据类型之一，基本示例如下：
 ```nix
@@ -59,6 +35,30 @@ foo.a = 1;
 foo.b.c = 2;
 foo.b.d = 3;
 ```
+
+## 交互模式
+
+以下交互式教程需要使用 `nix repl` 命令调出交互命令模式：
+
+```bash
+$ nix repl
+Welcome to Nix 2.5.1. Type :? for help.
+```
+
+它有点像用于调试 JavaScript 的控制台或 Python 的交互模式？
+
+```bash
+nix-repl> 1 + 2  # 输入表达式
+3  # 输出结果
+```
+
+<!-- prettier-ignore -->
+::: tip 惰性求值
+Nix语言的求值是惰性的，这意味着表达式不会在被绑定到变量后立即求值，而是在该值被
+使用时才求值。
+
+<!-- prettier-ignore -->
+:::
 
 ## 即时计算被直接依赖的值
 
