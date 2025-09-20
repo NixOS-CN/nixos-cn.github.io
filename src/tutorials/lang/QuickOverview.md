@@ -11,7 +11,7 @@
 :::
 
 Nix 作为语言，是一门简单的函数式语言，它被专门设计并用于 Nix 包管理器及相关生态
-（NixOS、Nix Flakes、Home-Manager 等）。
+（NixOS、Home-Manager 等）。
 
 ## 实践环境
 
