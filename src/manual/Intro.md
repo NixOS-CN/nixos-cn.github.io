@@ -26,7 +26,7 @@ nix-channel {--add url [name] | --remove name | --list | --update [names…] | -
 
 上面我们演示了命令行工具的使用方式，却没有告知频道从哪里获取。
 
-频道最直接的体现是一个形如 `https://nixos.org/channels/nixos22.11` 的 URL。
+频道最直接的体现是一个形如 `https://nixos.org/channels/nixos25.05` 的 URL。
 
 官方提供了[官方频道集合](https://channels.nixos.org/)。订阅了其中的频道以后，就
 会从相应的频道获取更新，大致和你使用其他发行版的软件源类似，不过我们后面会详述
@@ -36,19 +36,17 @@ NixOS 中的“频道”概念和传统发行版中“软件源”的区别。
 代表一个频道，官方提供了若干个频道：
 
 ```
-2022/8/4 22:51:25               0.1 kB         nixos-21.11
-2022/8/4 22:59:10               0.1 kB         nixos-21.11-aarch64
-2022/8/2 23:24:22               0.1 kB         nixos-21.11-small
-2023/1/3 23:39:40               0.1 kB         nixos-22.05
-2023/1/3 22:43:29               0.1 kB         nixos-22.05-aarch64
-2023/1/2 04:11:11               0.1 kB         nixos-22.05-small
-2023/3/16 05:19:03              0.1 kB         nixos-22.11
-2023/3/16 22:18:18              0.1 kB         nixos-22.11-small
-2023/3/16 14:55:20              0.1 kB         nixos-unstable
-2023/3/16 21:27:06              0.1 kB         nixos-unstable-small
-2023/1/2 21:05:38               0.1 kB         nixpkgs-22.05-darwin
-2023/3/17 00:30:11              0.1 kB         nixpkgs-22.11-darwin
-2023/3/16 04:06:35              0.1 kB         nixpkgs-unstable
+2024/5/15 10:30:00               0.1 kB         nixos-24.11
+2024/5/15 10:30:00               0.1 kB         nixos-24.11-aarch64
+2024/5/15 10:30:00               0.1 kB         nixos-24.11-small
+2025/1/15 10:30:00               0.1 kB         nixos-25.05
+2025/1/15 10:30:00               0.1 kB         nixos-25.05-aarch64
+2025/1/15 10:30:00               0.1 kB         nixos-25.05-small
+2025/1/15 10:30:00               0.1 kB         nixos-unstable
+2025/1/15 10:30:00               0.1 kB         nixos-unstable-small
+2024/5/15 10:30:00               0.1 kB         nixpkgs-24.11-darwin
+2025/1/15 10:30:00               0.1 kB         nixpkgs-25.05-darwin
+2025/1/15 10:30:00               0.1 kB         nixpkgs-unstable
 ```
 
 ### 项目结构
@@ -117,8 +115,8 @@ Tarball 是 `tar` 文件格式的全称，不是 Nix 独有。它可以将多个
 
 ### 系统频道
 
-系统频道可以从 URL 中直观的体现。形如 `https://nixos.org/channels/nixos22.11` 你
-很快就了解到这是一个 22.11 版本的 NixOS 的频道。
+系统频道可以从 URL 中直观的体现。形如 `https://nixos.org/channels/nixos25.05` 你
+很快就了解到这是一个 25.05 版本的 NixOS 的频道。
 
 <!-- prettier-ignore -->
 ::: tip 默认订阅的频道
@@ -130,7 +128,7 @@ sudo nix-channel --list  # 列出频道
 ```
 
 ```bash
-nixos https://nixos.org/channels/nixos22.11
+nixos https://nixos.org/channels/nixos25.05
 ```
 
 这个频道提供了组成系统的一些驱动，设施等等。
@@ -141,13 +139,13 @@ nixos https://nixos.org/channels/nixos22.11
 <!-- prettier-ignore -->
 ::: warning
 
-这里的 `nixos` 与 `https://nixos.org/channels/nixos22.11` 并不是并列关系，前者是
+这里的 `nixos` 与 `https://nixos.org/channels/nixos25.05` 并不是并列关系，前者是
 频道名，后面是被订阅的 URL。
 
 当你有两个及两个以上频道的时候，你就会理解我的意思：
 
 ```bash
-nixos https://nixos.org/channels/nixos22.11
+nixos https://nixos.org/channels/nixos25.05
 nixpkgs https://nixos.org/channels/nixpkgs-unstable
 ```
 
@@ -158,13 +156,13 @@ nixpkgs https://nixos.org/channels/nixpkgs-unstable
 
 #### 一些特殊的频道
 
-- 稳定（stable）频道。如 `nixos-22.11`。这些频道只能得到保守的错误修复和软件包升
-  级。例如，频道更新可能会导致系统上的Linux内核从 4.19.34 升级到 4.19.38（一个小
-  错误修复），但不会从 4.19.x 升级到 4.20.x（一个可能会破坏一切的重大更改）。在
+- 稳定（stable）频道。如 `nixos-25.05`。这些频道只能得到保守的错误修复和软件包升
+  级。例如，频道更新可能会导致系统上的Linux内核从 6.12.1 升级到 6.12.5（一个小
+  错误修复），但不会从 6.12.x 升级到 6.13.x（一个可能会破坏一切的重大更改）。在
   创建下一个稳定分支之前，通常会保持稳定的频道。
 - 不稳定（unstable）频道。这与 `nixos` 的主要开发分支相对应，因此可能有破坏性更
   新，不建议用于生产系统。
-- 小型（small）频道，如 `nixos-22.11-small` 或 `nix-unstable-small`。这些频道与
+- 小型（small）频道，如 `nixos-25.05-small` 或 `nix-unstable-small`。这些频道与
   上述稳定和不稳定频道相同，只是它们包含较少的二进制包。这意味着它们比常规通道更
   新得更快（例如，当一个关键的安全补丁被提交到 NixOS 的源代码树时），但可能有更
   多的包需要从源代码构建。它们主要用于服务器环境，因此包含很少的 GUI 应用程序。
@@ -191,10 +189,10 @@ nix-channel --list | grep nixos
 nix-channel --add https://nixos.org/channels/channel-name nixos
 ```
 
-以 `nixos` 22.11 为例，命令为
+以 `nixos` 25.05 为例，命令为
 
 ```bash
-nix-channel --add https://nixos.org/channels/nixos-22.11 nixos
+nix-channel --add https://nixos.org/channels/nixos-25.05 nixos
 ```
 
 使用以下命令以开始切换
@@ -298,7 +296,7 @@ nix-channel --add https://host/nixpkgs-unstable nixpkgs
 
 ```bash
 sudo nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixpkgs-unstable nixpkgs  # 订阅镜像仓库频道
-sudo nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixos-22.11 nixos  # 请注意系统版本
+sudo nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixos-25.05 nixos  # 请注意系统版本
 sudo nix-channel --list  # 列出频道
 ```
 
