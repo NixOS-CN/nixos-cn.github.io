@@ -149,18 +149,6 @@ let a = builtins.div 2 0; b = 3; in b
 }
 ```
 
-此外，`nix eval --expr` 则会直接进行迭代求值：
-
-```bash
-nix eval --expr '{ a.b.c = 1; }'
-```
-
-结果如下：
-
-```plain
-{ a = { b = { c = 1; }; }; }
-```
-
 </details>
 <!-- prettier-ignore -->
 :::
