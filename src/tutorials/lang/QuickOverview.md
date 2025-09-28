@@ -405,6 +405,18 @@ error: undefined variable 'x'
 <!-- prettier-ignore -->
 :::
 
+<!-- prettier-ignore -->
+::: note 局部变量（？）
+Nix 中不存在“全局变量”，因而“局部变量”的说法可能引起误会，应当尽量避免使用。
+
+不过，[Nix manual](https://nix.dev/manual/nix/2.31/language/syntax.html) 中对 let 绑定的介绍提到了局部变量（local variable）。
+> A let-expression allows you to define local variables for an expression.
+
+这种说法可能不合适，但既然官方文档也有用到，其他地方自然也可能会出现，留心即可。
+
+<!-- prettier-ignore -->
+:::
+
 ### 属性访问
 
 使用 `.` 访问属性：
