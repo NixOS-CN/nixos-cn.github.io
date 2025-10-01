@@ -63,7 +63,7 @@ ping 119.29.29.29 -c 4
 
 <!-- prettier-ignore -->
 ::: warning 注意系统版本
-截至笔者截稿，NixOS 当前最新版本为 23.05，遂命令也是针对这个版本而生效的，更新的
+截至笔者截稿，NixOS 当前最新版本为 25.05，遂命令也是针对这个版本而生效的，更新的
 版本请注意替换命令中的==系统版本号==。
 
 <!-- prettier-ignore -->
@@ -72,7 +72,7 @@ ping 119.29.29.29 -c 4
 ```bash
 sudo -i
 nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixpkgs-unstable nixpkgs  # 订阅镜像仓库频道
-nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixos-23.05 nixos  # 请注意系统版本
+nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixos-25.05 nixos  # 请注意系统版本
 nix-channel --list  # 列出频道，这一步是确认修改没有出错
 nix-channel --update  # 更新并解包频道
 nixos-rebuild --option substituters https://mirrors.ustc.edu.cn/nix-channels/store switch --upgrade  # 临时切换二进制缓存源，并更新生成
@@ -200,7 +200,7 @@ vim /mnt/etc/nixos/configuration.nix
   nix.settings.substituters = [
     "https://mirrors.cernet.edu.cn/nix-channels/store"
   ];
-  system.stateVersion = "23.05";
+  system.stateVersion = "25.05";
 }
 ```
 
