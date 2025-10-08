@@ -415,16 +415,22 @@ vim /mnt/etc/nixos/configuration.nix
     };
     time.timeZone = "Asia/Shanghai";
     i18n.defaultLocale = "en_US.UTF-8";
-    services.xserver = {
-        enable = true;
+    services = {
+        xserver.enable = true;
         displayManager.sddm.enable = true;
-        desktopManager.plasma5.enable = true;
+        desktopManager.plasma6.enable = true;
     };
     environment.systemPackages = with pkgs; [
         vim alacritty
     ];
-    sound.enable = true;
-    hardware.pulseaudio.enable = true;
+
+    services.pipewire = {
+        enable = true; # if not already enabled
+        alsa.enable = true;
+        alsa.support32Bit = true;
+        pulse.enable = true;
+    };
+
     nix.settings.substituters = [ "https://mirror.sjtu.edu.cn/nix-channels/store" ];
     system.stateVersion = "23.11";  # 不要改动
 }
