@@ -495,7 +495,7 @@ vim /mnt/etc/nixos/configuration.nix
 ### 部署系统
 
 ```bash
-sudo nixos-install --option extra-substituters "https://mirror.sjtu.edu.cn/nix-channels/store"
+sudo nixos-install --option substituters https://mirror.sjtu.edu.cn/nix-channels/store
 ```
 
 添加用户，tritium 是我的用户名，记得改成你自己的：
