@@ -650,15 +650,25 @@ in
 
 由于 `x` 的值为数字类型，对此求值的报错如下：
 
-```bash
+```plain
+# ... 前面略
 error: cannot coerce an integer to a string
+```
 
-       at «string»:4:2:
+如果确实需要将数字作为插值参数，应该怎么办呢？
 
-            3| in
-            4| "${x} + ${x} = ${x + x}"
-             |  ^
-            5|
+虽然有点超纲，悄悄告诉你——
+对于非字符串类型，可以显式使用内置函数 `toString`，将其转换为字符串类型：
+
+```nix
+let
+  x = 1;
+in
+  "${toString x} + ${toString x} = ${toString (x + x)}"
+```
+求值的结果如下：
+```plain
+"1 + 1 = 2"
 ```
 
 <!-- prettier-ignore -->
