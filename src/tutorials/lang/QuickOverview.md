@@ -758,7 +758,7 @@ error: syntax error, unexpected '.'
 :::
 
 ```nix
-[ <nixpkgs> ]
+<nixpkgs>
 ```
 
 这个时候 `<nixpkgs>` 实际上依赖了系统变量中一个名为
