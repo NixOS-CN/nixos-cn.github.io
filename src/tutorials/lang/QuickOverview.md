@@ -768,7 +768,7 @@ error: syntax error, unexpected '.'
 [`$NIX_PATH`](https://nixos.org/manual/nix/unstable/command-ref/env-common.html?highlight=nix_path#env-NIX_PATH)
 的路径值：
 
-```nix
+```plain
 /nix/var/nix/profiles/per-user/root/channels/nixpkgs
 ```
 
