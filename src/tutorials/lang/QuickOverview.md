@@ -750,6 +750,9 @@ error: syntax error, unexpected '.'
 检索路径（lookup paths）又名“尖括号语法”（angle bracket syntax），
 是通过系统变量来获取路径的语法。
 其最简单的形式是以一对尖引号 `<` `>` 包裹所需内容。
+
+例如：
+
 <!-- prettier-ignore -->
 ::: warning
 请不要急着运行下面的示例，因为它实际包含更多内容。
