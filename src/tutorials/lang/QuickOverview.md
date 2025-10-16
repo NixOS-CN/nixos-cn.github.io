@@ -699,7 +699,7 @@ error: syntax error, unexpected '.'
 ```nix
 /.
 ```
-- 不能写成 `/`
+- 不能写成 `/`（路径不能以 `/` 结尾）
 
 求值结果：
 ```plain
@@ -726,7 +726,8 @@ error: syntax error, unexpected '.'
 ./Downloads
 ```
 - 也可以写成 `Downloads/.`
-- 但是不能写成 `Downloads`
+- 但是不能写成 `Downloads`（缺少 `/`，不构成路径）
+- 也不能写成 `Downloads/`（路径不能以 `/` 结尾）
 
 求值结果：
 ```plain
