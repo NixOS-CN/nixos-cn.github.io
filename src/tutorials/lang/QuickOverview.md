@@ -617,7 +617,7 @@ in
 ```
 
 <!-- prettier-ignore -->
-::: tip 利用 `inherit` 提升“嵌套级别”
+::: tip 利用 inherit 提升“嵌套级别”
 
 由于 `inherit` 可实现这种属性访问的效果，
 它的用法还可以更灵活。比如下面的例子：
