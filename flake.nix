@@ -2,7 +2,7 @@
   description = "A Nix-flake-based Node.js development environment";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     flake-utils.url = "github:numtide/flake-utils";
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
   };
@@ -16,9 +16,8 @@
     flake-utils.lib.eachDefaultSystem (system: let
       overlays = [
         (self: super: rec {
-          nodejs = super.nodejs_20;
-          pnpm = super.nodePackages.pnpm;
-          yarn = super.yarn.override {inherit nodejs;};
+          nodejs = super.nodejs_22;
+          pnpm = super.pnpm.override {inherit nodejs;};
           prettier = super.nodePackages.prettier;
         })
       ];
@@ -26,7 +25,6 @@
       packages = with pkgs; [
         nodejs
         pnpm
-        yarn
         prettier
 
         git
@@ -38,18 +36,22 @@
         pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
           hooks = {
-            typos.enable = true; # Source code spell checker
-            alejandra.enable = true; # Nix linter
-            prettier.enable = true; # Markdown & TS formatter
-          };
-          settings = {
+            alejandra.enable = true; # formatter
+            # Source code spell checker
             typos = {
-              write = true; # Automatically fix typos
-              ignored-words = [];
+              enable = true;
+              settings = {
+                write = true; # Automatically fix typos
+                ignored-words = [];
+                # configPath = "./.typos.toml"; # relative to the flake root
+              };
             };
             prettier = {
-              write = true; # Automatically format files
-              configPath = "./.prettierrc.yaml";
+              enable = true;
+              settings = {
+                write = true; # Automatically format files
+                configPath = "./.prettierrc.yaml"; # relative to the flake root
+              };
             };
           };
         };
@@ -59,7 +61,7 @@
         inherit packages;
 
         shellHook = ''
-          echo "node `${pkgs.nodejs}/bin/node --version`"
+          echo "node `node --version`"
           ${self.checks.${system}.pre-commit-check.shellHook}
         '';
       };
