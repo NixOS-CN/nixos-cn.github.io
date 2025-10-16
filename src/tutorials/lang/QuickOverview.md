@@ -680,7 +680,9 @@ error: syntax error, unexpected '.'
 <!-- prettier-ignore -->
 :::
 
-**绝对路径**以 `/` 开头，例如 `/etc/os-release` 文件
+**绝对路径**以 `/` 开头。
+
+例一：`/etc/os-release` 文件
 ```nix
 /etc/os-release
 ```
@@ -693,7 +695,7 @@ error: syntax error, unexpected '.'
 /etc/os-release
 ```
 
-再如根目录
+例二：根目录
 ```nix
 /.
 ```
@@ -705,23 +707,21 @@ error: syntax error, unexpected '.'
 ```
 
 **相对路径**不以 `/` 开头，
-且求值结果与当前所在目录有关。
+且求值结果与当前所在目录（以下假设 `/home/user`）有关。
 
-下面的例子假设当前所在目录为 `/home/user`。
-
-用 `.` 可以表示当前目录：
+例一：当前目录（用 `.` 表示）：
 ```nix
 ./.
 ```
 - （虽然一般不合适）还可以写成 `././././.`
-- 但是不能写成 `.`
+- 但是不能写成 `.`（缺少 `/`，不构成路径）
 
 求值结果：
 ```plain
 /home/user
 ```
 
-再如，当前目录下的 `Downloads`
+例二：当前目录下的 `Downloads`
 ```nix
 ./Downloads
 ```
@@ -733,7 +733,7 @@ error: syntax error, unexpected '.'
 /home/user/Downloads
 ```
 
-还可用 `..` 指定上级目录，例如
+例三：用 `..` 指定上级目录
 ```nix
 ../../etc
 ```
