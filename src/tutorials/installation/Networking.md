@@ -35,19 +35,17 @@ nix shell nixpkgs#cowsay --option substituters "https://mirrors.tuna.tsinghua.ed
 ## 2. 使用国内镜像地址加速 Flakes Inputs 的下载
 
 如果你想使用 Flakes，但访问 GitHub 速度太慢，你可以使用国内的镜像地址来加速。
-
-但需要注意的是，这种方式下无法锁定 nixpkgs 版本，也就失去了 Flakes 锁定依赖版本
-的优势。
-
-示例如下，主要是将 `nixpkgs.url` 替换成国内镜像源的 `nixexprs.tar.xz` 文件的路
-径：
+需要注意的是，如果将 `nixpkgs.url` 替换成 `nixexprs.tar.xz` 文件，
+则无法锁定 nixpkgs 版本，也就失去了 Flakes 锁定依赖版本的优势。
+因此，建议选择 Git 浅克隆的方式拉取 nixpkgs 镜像：
 
 ```nix
 {
   inputs = {
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
-    nixpkgs.url = "https://mirrors.ustc.edu.cn/nix-channels/nixos-23.11/nixexprs.tar.xz";
-    # nixpkgs.url = "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/nixpkgs-23.11/nixexprs.tar.xz";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "git+https://mirrors.nju.edu.cn/git/nixpkgs.git?ref=nixos-25.05&shallow=1";
+    # nixpkgs.url = "git+https://mirrors.tuna.tsinghua.edu.cn/git/nixpkgs.git?ref=nixos-25.05&shallow=1";
+    # nixpkgs.url = "https://mirrors.ustc.edu.cn/nix-channels/nixos-25.05/nixexprs.tar.xz";
   };
   outputs = inputs@{ self, nixpkgs, ... }: {
     nixosConfigurations.my-nixos = nixpkgs.lib.nixosSystem {
