@@ -1310,7 +1310,8 @@ in
 ```
 
 ### 作为参数的属性集：额外属性
-为了在调用函数时能传入额外属性，需要在属性集中添加一个占位符 `...`。
+前面已经提到，在调用函数时如果传入额外属性，会引发报错。
+但有时我们需要传入额外属性，此时就需要在属性集中添加一个占位符 `...`。
 
 例如：
 ```nix
@@ -1319,7 +1320,7 @@ let
 in
 {
   R1 = concat2 { a = "Hello "; b = "world"; };
-  # 传入额外的 c 不会引发报错
+  # 传入额外属性 c，这次不会引发报错
   R2 = concat2 { a = "Hello "; b = "world"; c = "!"; };
 }
 ```
@@ -1406,9 +1407,21 @@ in
 柯里化（currying）指的是将一个 N 元函数转换为 N 个一元函数的嵌套序列的过程。
 
 <!-- prettier-ignore -->
+::: note 拓展说明：柯里的由来
+“柯里”是 curry 的音译（也可译作“卡瑞”“加里”等），
+它得名自数理逻辑学家 Haskell Brooks Curry。
+
+curry 还有其它音译，
+但它们可能代表完全不同的其他含义，
+例如咖喱、库里，等等。
+
+<!-- prettier-ignore -->
+:::
+
+<!-- prettier-ignore -->
 ::: note 拓展说明：数学上的柯里化
 
-这里所说的一元函数不是普通的函数，在数学上对应的概念实际上是映射。
+上述一元函数并不是数学意义上的函数，在数学上对应的概念实际上是映射。
 
 例如，三元函数 $F(x,y,z)=x+y+z$ 也即映射 $F: x,y,z\mapsto x+y+z$
 可以转换为三个一元映射的嵌套，分别是：
@@ -1419,28 +1432,22 @@ in
 <!-- prettier-ignore -->
 :::
 
-例如，函数 `{x,y}:x+y` 的柯里化形式如下：
+例如，函数 `{ x , y } : 10 * x + y` 的柯里化形式如下：
 
 ```nix
-x: (y: x + y)
+x: (y: 10 * x + y)
+# 虽然会降低可读性，下面的写法也是可以的：
+# x: y: 10 * x + y
 ```
-
-<!-- prettier-ignore -->
-::: tip
-虽然会降低可读性，下面的写法也是可以的：
-```nix
-x: y: x + y
-```
-<!-- prettier-ignore -->
-:::
 
 虽然这个柯里化函数最终需要两个参数，
 但它可以逐次接受这两个参数。
+
 例如我们先给它其中一个参数作为 `x` 的值：
 
 ```nix
 let
-  f = x: (y: x + y);
+  f = x: (y: 10 * x + y);
 in
   f 1
 ```
@@ -1450,28 +1457,29 @@ in
 ```
 也即 `f 1` 的值依然是函数，此函数实际上就是
 ```nix
-y: 1 + y;
+y: 10 + y;
 ```
 
 我们可以将 `f 1` 绑定到名称 `g` 以保存起来，
-以供后续使用，例如 `g 2`。
-其中 1 会作为参数 `x` 的值。
-而 2 会作为参数 `y` 的值。
+以供后续使用。
+例如
 ```nix
 let
-  f = x: (y: x + y);
+  f = x: (y: 10 * x + y);
 in
   let
+    # 1 对应函数定义中的 x
     g = f 1;
   in
+    # 2 对应函数定义中的 y
     g 2
 ```
-求值结果为 `3`。
+求值结果为 `12`。
 
 也可以一次性接收两个参数（求值结果不变）：
 ```nix
 let
-  f = x: (y: x + y);
+  f = x: (y: 10 * x + y);
 in
   f 1 2
 ```
@@ -1521,12 +1529,13 @@ in
 ## 函数库
 
 前面我们已经接触到了 `+`、`-`、`*`、`/` 等运算符号，
-实际上它们都属于 Nix 语言中的内建操作符。
+实际上它们都属于 Nix 语言中的内建操作符（built-in operator）。
+
 常用的内建操作符还有 `==` `&&` 等。
 建议至少浏览一遍[内建操作符的文档页面](https://nix.dev/manual/nix/stable/language/operators.html)，
 以熟悉可用的功能。
 
-除了内建操作符之外，还有两个被广泛使用的函数库，
+除了内建操作符之外，还有两个被广泛使用的函数库（function library），
 它们加在一起被视为 Nix 语言的事实标准。
 
 ### builtins
@@ -1534,9 +1543,7 @@ builtins 即内建函数，也称为“原始操作”
 （primitive operations，简写为 primops）。
 
 Nix 附带许多内建函数，
-它们作为 Nix 语言解释器的一部分，用 C++ 实现。
-
-Nix 手册列出了所有 [builtins](https://nix.dev/manual/nix/stable/language/builtins.html) 函数。
+均在 [Nix 手册](https://nix.dev/manual/nix/stable/language/builtins.html) 列出。
 
 这些函数可以通过常量 `builtins` 访问，例如前面提到过的 `toString`：
 
@@ -1547,6 +1554,17 @@ builtins.toString
 ```plain
 <PRIMOP>
 ```
+
+<!-- prettier-ignore -->
+::: note 拓展说明：primop 类型
+注意这里返回的结果不是 `<LAMBDA>`，
+说明内建函数与普通的函数是有差别的。
+
+实际上，普通的函数由 Nix 语言实现，
+而这些内建函数则作为 Nix 语言解释器的一部分，由 C++ 实现。
+
+<!-- prettier-ignore -->
+:::
 
 <!-- prettier-ignore -->
 ::: info import 函数
@@ -1566,7 +1584,8 @@ import ./foo.nix
 求值，结果为 `3`。
 
 被导入的 Nix 文件必须是 Nix 表达式，
-这个表达式自然也可以是函数本身。
+这个表达式自然也可以是函数本身，
+而函数是可以接受参数的。
 
 例如，令 `foo.nix` 的文件内容为 `x: x + 1`，
 有如下示例
@@ -1626,7 +1645,7 @@ pkgs.lib.strings.toUpper "Have a good day!"
 因此使用 `<nixpkgs>` 也足够了。
 
 然而，更复杂的情况下，要保证完全可重复的例子，
-应该像下面这样使用固定（pin）版本的 Nixpkgs：
+应当为 Nixpkgs 固定（pin）版本，例如：
 
 ```nix
 let
