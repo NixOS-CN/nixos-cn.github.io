@@ -1062,7 +1062,7 @@ x: x + 1
 :::
 
 <!-- prettier-ignore -->
-:::tip 直接调用匿名函数
+::: tip 直接调用匿名函数
 利用 `(` `)` 将匿名函数的整体包裹起来，就可以直接调用了，例如
 ```nix
 (x: x + 1) 2
@@ -1095,6 +1095,14 @@ in
 那么对于多元函数，比如 $f(x,y)=3x+\frac{y}{2}$，在 Nix 中应该怎么实现呢？
 - 坏消息是，根据 Nix 语法规范，每个函数在形式上**有且仅有一个参数**。
 - 好消息是，这个参数**可以是属性集**，并且在函数体中可以将属性集中的**各个属性单独拿出来使用**。
+
+<!-- prettier-ignore -->
+::: tip
+“每个函数在形式上有且仅有一个参数”，
+这个特性为我们后面将会提到的函数的柯里化提供了方便。
+
+<!-- prettier-ignore -->
+:::
 
 例如
 
@@ -1139,7 +1147,7 @@ in
 这相当于定义了函数 $f(x,y)=3x+\frac{y}{2}$ 之后求值 $f(1,4)$，结果为 5。
 
 <!-- prettier-ignore -->
-:::tip 更多示例
+::: tip 更多示例
 Nix 的函数也能处理其它数据类型。
 
 例如，定义一个函数 `concat3` 并调用它来拼接 `"Hello"` `" "` 和 `"world"`：
@@ -1173,7 +1181,7 @@ in
 :::
 
 <!-- prettier-ignore -->
-:::warning
+::: warning
 函数被调用时所接受的属性集，
 必须符合**定义中作为参数的属性集的要求**，
 否则就会报错。
@@ -1221,11 +1229,11 @@ let
   greet = { greeting ? "Hello, ", object }: greeting + object + "!";
 in
   {
-    # 对 world 进行问候
+    # 对 world 进行问候（默认问候语）
     R1 = greet { object = "world"; } ;
-    # 对 my friend 进行问候
+    # 对 my friend 进行问候（默认问候语）
     R2 = greet { object = "my friend"; } ;
-    # 自定义问候语，对 my friend 进行问候
+    # 对 my friend 进行问候（自定义问候语）
     R3 = greet { greeting = "Welcome, "; object = "my friend"; } ;
   }
 ```
@@ -1298,7 +1306,7 @@ in
 ```
 
 <!-- prettier-ignore -->
-:::info 命名属性集
+::: info 命名属性集
 与匿名函数的概念类似，
 若一个属性集没有与名称绑定，
 则称其为匿名属性集。
@@ -1338,7 +1346,7 @@ in
 柯里化（currying）指的是将一个 N 元函数转换为 N 个一元函数的嵌套序列的过程。
 
 <!-- prettier-ignore -->
-:::note 拓展说明：数学上的柯里化
+::: note 拓展说明：数学上的柯里化
 
 这里所说的一元函数不是普通的函数，在数学上对应的概念实际上是映射。
 
@@ -1351,17 +1359,6 @@ in
 <!-- prettier-ignore -->
 :::
 
-<!-- prettier-ignore -->
-:::note 拓展说明：柯里化的核心优点
-
-柯里化很灵活，可以避免重复传入参数。
-
-当你传入第一个参数的时候，
-该函数就已经具有了第一个参数的状态（闭包）。
-
-<!-- prettier-ignore -->
-:::
-
 例如，函数 `{x,y}:x+y` 的柯里化形式如下：
 
 ```nix
@@ -1369,7 +1366,7 @@ x: (y: x + y)
 ```
 
 <!-- prettier-ignore -->
-:::tip
+::: tip
 虽然会降低可读性，下面的写法也是可以的：
 ```nix
 x: y: x + y
@@ -1383,7 +1380,7 @@ x: y: x + y
 
 ```nix
 let
-  f = x: y: x + y;
+  f = x: (y: x + y);
 in
   f 1
 ```
@@ -1396,13 +1393,13 @@ in
 y: 1 + y;
 ```
 
-我们可以保存这个状态的函数，稍后再来使用。
-例如将 `f 1` 绑定到名称 `g`，再求值 `g 2`。
+我们可以将 `f 1` 绑定到名称 `g` 以保存起来，
+以供后续使用，例如 `g 2`。
 其中 1 会作为参数 `x` 的值。
 而 2 会作为参数 `y` 的值。
 ```nix
 let
-  f = x: y: x + y;
+  f = x: (y: x + y);
 in
   let
     g = f 1;
@@ -1414,10 +1411,52 @@ in
 也可以一次性接收两个参数（求值结果不变）：
 ```nix
 let
-  f = x: y: x + y;
+  f = x: (y: x + y);
 in
   f 1 2
 ```
+
+<!-- prettier-ignore -->
+::: note 柯里化与闭包
+
+前面提到，
+> 我们可以将 `f 1` 绑定到名称 `g` 以保存起来，
+> 以供后续使用，例如 `g 2`。
+
+这种“保存了某种状态”的函数，被称为闭包（closure）。
+利用闭包，有时可以避免重复传入参数。
+
+之前，为了演示默认值，我们自定义了一个问候函数 `greet`：
+```nix
+let
+  greet = { greeting ? "Hello, ", object }: greeting + object + "!";
+in
+  {
+    R1 = greet { object = "world"; } ;
+    R2 = greet { object = "my friend"; } ;
+    R3 = greet { greeting = "Welcome, "; object = "my friend"; } ;
+  }
+```
+这里我们改用柯里化结合闭包的方法来实现，
+甚至可以更加简洁（求值结果与之前例子相同）：
+```nix
+let
+  greet = greeting : ( object : greeting + object + "!" );
+  # greet_Hello 就是一个闭包，调用它可以避免重复传入 "Hello, "
+  greet_Hello = greet "Hello, ";
+in
+  {
+    # 对 world 进行问候（用 greet_Hello）
+    R1 = greet_Hello "world";
+    # 对 my friend 进行问候（用 greet_Hello）
+    R2 = greet_Hello "my friend";
+    # 对 my friend 进行问候（自定义问候语）
+    R3 = greet "Welcome, " "my friend";
+  }
+```
+
+<!-- prettier-ignore -->
+:::
 
 ## 函数库
 
@@ -1450,7 +1489,7 @@ builtins.toString
 ```
 
 <!-- prettier-ignore -->
-:::info import 函数
+::: info import 函数
 大多数内置函数只能通过 `builtins` 访问。
 一个显著的例外是 `import`，它可在顶层直接使用。
 
@@ -1487,7 +1526,8 @@ import ./foo.nix 4
 这些函数是基于 Nix 语言实现的，
 而不是像 `builtins` 那样本身作为语言的一部分而存在。
 
-这些函数通常通过 `pkgs.lib` 访问，因为 Nixpkgs 的属性集通常约定命名为 `pkgs`。
+这些函数通常通过 `pkgs.lib` 访问，
+因为 Nixpkgs 的属性集通常约定命名为 `pkgs`。
 
 例如能够将小写转大写的 `pkgs.lib.strings.toUpper` 函数，示例：
 
@@ -1502,6 +1542,8 @@ pkgs.lib.strings.toUpper "Have a good day!"
 "HAVE A GOOD DAY!"
 ```
 
+<!-- prettier-ignore -->
+::: tip 详细说明
 上面的例子较为复杂，不过到现在你应该熟悉它的各个组成部分了。
 
 名称 `pkgs` 被声明为从路径为 `<nixpkgs>` 的文件 `import` 出来的表达式。
@@ -1516,7 +1558,10 @@ pkgs.lib.strings.toUpper "Have a good day!"
 > Converts an ASCII string s to upper-case.
 
 <!-- prettier-ignore -->
-:::note 固定 Nixpkgs 的版本
+:::
+
+<!-- prettier-ignore -->
+::: note 固定 Nixpkgs 的版本
 函数 `toUpper` 足够简单，使用不同版本的 Nixpkgs 一般不会有不同的结果，
 因此使用 `<nixpkgs>` 也足够了。
 
@@ -1535,7 +1580,7 @@ pkgs.lib.strings.toUpper "Have a good day!"
 :::
 
 <!-- prettier-ignore -->
-:::tip 作为参数的 pkgs 和 lib
+::: tip 作为参数的 pkgs 和 lib
 
 `pkgs` 常被作为参数传递给函数。
 按约定，可以假设它指的是 Nixpkgs 的属性集，
@@ -1588,7 +1633,7 @@ nix-instantiate --eval foo.nix --arg lib '(import <nixpkgs> {}).lib'
 :::
 
 <!-- prettier-ignore -->
-:::note
+::: note
 出于历史原因，`pkgs.lib` 中的一些函数与同名的 `builtins` 等价。
 
 <!-- prettier-ignore -->
