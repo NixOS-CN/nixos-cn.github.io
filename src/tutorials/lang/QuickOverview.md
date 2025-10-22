@@ -11,7 +11,7 @@
 :::
 
 <details><summary>仅面向本文维护者的说明，单击以切换折叠/展开</summary>
-本文在设计上是线性的，也即只需要读者具备一点点基础，就可以通过按顺序从头读到尾的方式完成本文的学习。因此，请留心说明顺序，例如讲 let 绑定时如果举了一个列表的例子，你需要确保前面已经正式介绍过列表。再如，讲 with 语法糖的时候同时用到 let 绑定和列表，那么这两个概念都需要在前面已经正式介绍过。否则，读者很可能会面对初次接触的语法或者概念而被卡住，这会严重影响学习效率甚至是完成率。若出于顺序安排的其他合理性原因，实在无法避开在说明中涉及陌生概念，可以提示读者相关部分不需要理解，后面会讲到。
+本文在设计上是线性的，也即只需要读者具备一点点基础，就可以通过按顺序从头读到尾的方式完成本文的学习。因此，请留心说明顺序，例如讲 let 绑定时如果举了一个列表的例子，你需要确保前面已经正式介绍过列表。再如，讲 with 语法糖的时候同时用到 let 绑定和列表，那么这两个概念都需要在前面已经正式介绍过。否则，读者很可能会面对初次接触的语法或者概念而被卡住，这会严重影响学习效率甚至是完成率。若出于顺序安排的其他合理性原因，实在无法避开在说明中涉及陌生概念，可以提示读者相关部分不需要理解，后面会讲到。另外，常用的 callout 块中，info 显示为蓝色，适用于普通知识点；而 note 显示为灰色，适用于就算不理解也没关系的高阶或补充知识。至于 tip 和 warning，它们有可能涉及到知识，也可能不涉及，重点区别在于 tip 偏向于“实用建议/能帮助理解或加强记忆的提示”，而 warning 偏向于“能够避免损失的提示”（包括时间精力方面的）以及“一不小心就可能陷入误区”。
 </details>
 
 Nix 作为语言，是一门简单的函数式语言，它被专门设计并用于 Nix 包管理器及相关生态
@@ -1037,7 +1037,7 @@ x: x + 1
 在此例中，左边的 `x` 是参数，右边的 `x+1` 是函数体。
 
 <!-- prettier-ignore -->
-::: info 匿名函数
+::: info 匿名函数与 λ
 机智的你可能会发现，
 此示例实现的 $f(x)=x+1$ 并不完整——
 
@@ -1050,6 +1050,9 @@ x: x + 1
 ```
 
 这里的 LAMBDA（即希腊字母 λ）就是函数的代表符号。
+
+在一些语言中，λ 特指匿名函数，
+而在 Nix 语言中，`<LAMBDA>` 只是一种数据类型，指代一般的函数。
 
 至于为什么 λ 被用来代表函数，
 请自行搜索“lambda 演算”以及“函数式编程”，
@@ -1069,7 +1072,7 @@ x: x + 1
 <!-- prettier-ignore -->
 :::
 
-函数本身作为数据类型，是可以与名称绑定的。
+函数是一种数据类型，自然可以将函数与名称绑定。
 
 在前面例子的基础上，我们将函数绑定到名称 `f`，并且将 2 作为其参数来调用：
 
@@ -1084,14 +1087,14 @@ in
 ```plain
 3
 ```
-这相当于定义了函数 $f(x)=x+1$ 之后求值 $f(2)$，结果为 3。
+这相当于先定义函数 $f(x)=x+1$ ，再求 $f(2)$ 的值，结果为 3。
 
 ### 作为参数的属性集：基本形式
-在前面的例子中，我们只实现了一个非常简单的一元函数 $f(x)=x+1$。
+在前面的例子中，我们只实现了一个简单的一元函数 $f(x)=x+1$。
 
 那么对于多元函数，比如 $f(x,y)=3x+\frac{y}{2}$，在 Nix 中应该怎么实现呢？
 - 坏消息是，根据 Nix 语法规范，每个函数在形式上**有且仅有一个参数**。
-- 好消息是，这个参数可以是属性集，并且在函数体中可以将属性集中的**各个属性单独拿出来使用**。
+- 好消息是，这个参数**可以是属性集**，并且在函数体中可以将属性集中的**各个属性单独拿出来使用**。
 
 例如
 
@@ -1103,7 +1106,7 @@ in
 实际功能却相当于数学上的二元函数 $f(x,y)=3x+\frac{y}{2}$。
 
 <!-- prettier-ignore -->
-::: tip 属性集的语法细节
+::: warning 属性集的语法细节
 在**函数定义**中作为参数出现的属性集，只包含属性名称，并且用 `,` 分隔。
 
 这与之前介绍的属性集和列表都不同。
@@ -1418,49 +1421,175 @@ in
 
 ## 函数库
 
-前面我们已经接触到了 `+`、`-`、`*`、`/` 等运算符号，实际上它们都是 Nix 语言中的[内建操作符](https://nixos.org/manual/nix/stable/language/operators.html)。
+前面我们已经接触到了 `+`、`-`、`*`、`/` 等运算符号，
+实际上它们都属于 Nix 语言中的内建操作符。
+常用的内建操作符还有 `==` `&&` 等。
+建议至少浏览一遍[内建操作符的文档页面](https://nix.dev/manual/nix/stable/language/operators.html)，
+以熟悉可用的功能。
 
-除了内建操作符之外，还有两个被广泛使用的函数库，它们加在一起被视为 Nix 语言的事实标准。
+除了内建操作符之外，还有两个被广泛使用的函数库，
+它们加在一起被视为 Nix 语言的事实标准。
 
-### 内建函数 builtins
+### builtins
+builtins 即内建函数，也称为“原始操作”
+（primitive operations，简写为 primops）。
 
-它们在 Nix 语言中并不是 `<LAMBDA>` 类型，而是 `<PRIMOP>` 元操作类型（primitive
-operations）。这些函数是内置在 Nix 解释器中，由 C++ 实现。查询
-[内建函数](https://nixos.org/manual/nix/stable/language/builtins.html) 以了解其
-使用方法。
+Nix 附带许多内建函数，
+它们作为 Nix 语言解释器的一部分，用 C++ 实现。
+
+Nix 手册列出了所有 [builtins](https://nix.dev/manual/nix/stable/language/builtins.html) 函数。
+
+这些函数可以通过常量 `builtins` 访问，例如前面提到过的 `toString`：
 
 ```nix
-builtins.toString()  # 通过 builtins 使用函数
+builtins.toString
+```
+求值，结果如下：
+```plain
+<PRIMOP>
 ```
 
 <!-- prettier-ignore -->
-:::info import
+:::info import 函数
+大多数内置函数只能通过 `builtins` 访问。
+一个显著的例外是 `import`，它可在顶层直接使用。
 
-`import` 表达式以其他 Nix 文件的路径为参数，返回该 Nix 文件的求值结果。
+`import` 接受的参数是 Nix 文件的路径，
+会对其进行文件求值并返回结果。
+此路径也可以是目录，
+这种情况下则会使用该目录下的 `default.nix` 文件。
 
-`import` 的参数如果为文件夹路径，那么会返回该文件夹下的 `default.nix` 文件的执行
-结果。
-
-如下示例中，`import` 会导入 `./file.nix` 文件，并返回该文件的求值结果：
-
-```bash
-$ echo 1 + 2 > file.nix
-import ./file.nix
-3
+例如，令 `foo.nix` 的文件内容为 `1 + 2`，
+有如下示例
+```nix
+import ./foo.nix
 ```
+求值，结果为 `3`。
 
-被导入的 Nix 文件可以返回任何内容，返回值可以向上面的例子一样是数值，也可以是属
-性集（attribute set）、函数、列表，等等。
+被导入的 Nix 文件必须是 Nix 表达式，
+这个表达式自然也可以是函数本身。
 
-如下示例导入了 `file.nix` 文件中定义的一个函数，并使用参数调用了该函数：
-
-```bash
-$ echo "x: x + 1" > file.nix
-import ./file.nix 1
-2
+例如，令 `foo.nix` 的文件内容为 `x: x + 1`，
+有如下示例
+```nix
+import ./foo.nix 4
 ```
+求值，结果为 `5`。
 
 <!-- prettier-ignore -->
 :::
 
 ### pkgs.lib
+
+[`nixpkgs`](https://github.com/NixOS/nixpkgs) 仓库包含一个名为 [`lib`](https://github.com/NixOS/nixpkgs/blob/master/lib/default.nix) 的属性集，
+它提供了大量有用的函数，详见 [Nixpkgs 手册](https://nixos.org/manual/nixpkgs/stable/#sec-functions-library)。
+
+这些函数是基于 Nix 语言实现的，
+而不是像 `builtins` 那样本身作为语言的一部分而存在。
+
+这些函数通常通过 `pkgs.lib` 访问，因为 Nixpkgs 的属性集通常约定命名为 `pkgs`。
+
+例如能够将小写转大写的 `pkgs.lib.strings.toUpper` 函数，示例：
+
+```nix
+let
+  pkgs = import <nixpkgs> {};
+in
+pkgs.lib.strings.toUpper "Have a good day!"
+```
+求值，结果如下：
+```plain
+"HAVE A GOOD DAY!"
+```
+
+上面的例子较为复杂，不过到现在你应该熟悉它的各个组成部分了。
+
+名称 `pkgs` 被声明为从路径为 `<nixpkgs>` 的文件 `import` 出来的表达式。
+至于 `<nixpkgs>` 的具体值则由环境变量 `$NIX_PATH` 决定。
+由于该表达式是一个函数，需要一个参数才能求值，
+在这个例子中传入空的属性集 `{}` 就足够了。
+
+现在 `pkgs` 在 `let ... in ...` 的作用域内，其下的属性可以被访问。
+据 Nixpkgs 手册可知，
+其下存在一个函数 [`lib.strings.toUpper`](https://nixos.org/manual/nixpkgs/stable/#function-library-lib.strings.toUpper)，
+作用是小写转大写：
+> Converts an ASCII string s to upper-case.
+
+<!-- prettier-ignore -->
+:::note 固定 Nixpkgs 的版本
+函数 `toUpper` 足够简单，使用不同版本的 Nixpkgs 一般不会有不同的结果，
+因此使用 `<nixpkgs>` 也足够了。
+
+然而，更复杂的情况下，要保证完全可重复的例子，
+应该像下面这样使用固定（pin）版本的 Nixpkgs：
+
+```nix
+let
+  nixpkgs = fetchTarball "https://github.com/NixOS/nixpkgs/archive/06278c77b5d162e62df170fec307e83f1812d94b.tar.gz";
+  pkgs = import nixpkgs {};
+in
+pkgs.lib.strings.toUpper "Have a good day!"
+```
+
+<!-- prettier-ignore -->
+:::
+
+<!-- prettier-ignore -->
+:::tip 作为参数的 pkgs 和 lib
+
+`pkgs` 常被作为参数传递给函数。
+按约定，可以假设它指的是 Nixpkgs 的属性集，
+该属性集有一个 `lib` 属性。
+
+例如，将下面的例子写入 `foo.nix`：
+```nix
+{ pkgs, ... }:
+pkgs.lib.strings.removePrefix "I " "I see you!"
+```
+在命令行将 `{ pkgs = import <nixpkgs> {}; }` 作为参数，
+进行文件求值：
+```bash
+nix-instantiate --eval foo.nix --arg pkgs 'import <nixpkgs> {}'
+```
+运行结果如下：
+```plain
+"see you!"
+```
+
+而在 NixOS 配置中以及 Nixpkgs 内部，
+你还经常会看到直接传入 `lib` 的情况。
+此时可以假设它指的是 Nixpkgs 的属性集下的 `lib`，
+也即前面那种情况下的 `pkgs.lib`。
+
+例如，将下面的例子写入 `foo.nix`：
+```nix
+{ lib, ... }:
+lib.strings.removePrefix "I " "I see you!"
+```
+在命令行将 `{ lib = (import <nixpkgs> {}).lib; }` 作为参数，
+进行文件求值：
+```bash
+nix-instantiate --eval foo.nix --arg lib '(import <nixpkgs> {}).lib'
+```
+运行结果与前面一例相同。
+
+有时还会同时传入 `pkgs` 和 `lib`，
+此时可以假设 `pkgs.lib` 与 `lib` 是等价的。
+这样做则是为了通过避免重复使用 `pkgs.lib` 来提高可读性。
+
+示例：
+```nix
+{ pkgs, lib, ... }:
+# ... 多次使用 `pkgs`
+# ... 多次使用 `lib`
+```
+
+<!-- prettier-ignore -->
+:::
+
+<!-- prettier-ignore -->
+:::note
+出于历史原因，`pkgs.lib` 中的一些函数与同名的 `builtins` 等价。
+
+<!-- prettier-ignore -->
+:::
