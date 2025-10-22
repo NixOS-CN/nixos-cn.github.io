@@ -1036,15 +1036,75 @@ x: x + 1
 
 在此例中，左边的 `x` 是参数，右边的 `x+1` 是函数体。
 
-每个函数在形式上仅能接受一个参数，但这个参数还可以是属性集，例如
+<!-- prettier-ignore -->
+::: info 匿名函数
+机智的你可能会发现，
+此示例实现的 $f(x)=x+1$ 并不完整——
 
-```nix
-{ a, b }: a + b
+毕竟，$f(x)=x+1$ 的函数名 $f$ 去哪里了？
+
+确实，上面的例子所写的是**匿名函数**，即没有和名称绑定。
+我们对它进行求值，结果如下：
+```plain
+<LAMBDA>
 ```
 
+这里的 LAMBDA（即希腊字母 λ）就是匿名函数的代表符号。
+
+至于为什么 λ 被用来代表匿名函数，
+请自行搜索“lambda 演算”以及“函数式编程”，
+这里不再展开。
+
 <!-- prettier-ignore -->
-::: tip
-注意语法细节，在函数中作为参数出现的属性集，只包含属性名称，并且用 `,` 分隔。
+:::
+
+<!-- prettier-ignore -->
+:::tip 直接调用匿名函数
+利用 `(` `)` 将函数包裹起来，就可以直接调用匿名函数，例如
+```nix
+(x: x + 1) 2
+```
+求值结果为 `3`。
+
+<!-- prettier-ignore -->
+:::
+
+函数本身作为数据类型，是可以与名称绑定的。
+
+在前面例子的基础上，我们将函数绑定到名称 `f`，并且将 2 作为其参数来调用：
+
+```nix
+let
+  f = x: x + 1;
+in
+  f 2
+```
+
+求值，结果如下：
+```plain
+3
+```
+这相当于定义了函数 $f(x)=x+1$ 之后求值 $f(2)$，结果为 3。
+
+### 用属性集参数实现多元函数
+在前面的例子中，我们只实现了一个非常简单的一元函数 $f(x)=x+1$。
+
+那么对于多元函数，比如 $f(x,y)=3x+\frac{y}{2}$，在 Nix 中应该怎么实现呢？
+- 坏消息是，根据 Nix 语法规范，每个函数在形式上**有且仅有一个参数**。
+- 好消息是，这个参数可以是属性集，并且在函数体中可以将属性集中的**各个属性单独拿出来使用**。
+
+例如
+
+```nix
+{ x, y }: ( 3 * x ) + ( y / 2 )
+```
+
+上面的函数虽然仅接受一个参数（属性集 `{ x, y }`），
+实际功能却相当于数学上的二元函数 $f(x,y)=3x+\frac{y}{2}$。
+
+<!-- prettier-ignore -->
+::: tip 属性集的语法细节
+在**函数定义**中作为参数出现的属性集，只包含属性名称，并且用 `,` 分隔。
 
 这与之前介绍的属性集和列表都不同。
 
@@ -1061,33 +1121,160 @@ x: x + 1
 <!-- prettier-ignore -->
 :::
 
-为函数指定默认参数，在缺少该参数的值的情况下，它就是默认值：
+我们为前面的例子绑定名称 `f` 并且以参数 `{ x = 1; y = 4; }` 来调用它：
 
 ```nix
-{ a, b ? 0 }: a + b
+let
+  f = { x, y }: ( 3 * x ) + ( y / 2 );
+in
+  f { x = 1; y = 4; }
 ```
+求值，结果如下：
+```plain
+5
+```
+这相当于定义了函数 $f(x,y)=3x+\frac{y}{2}$ 之后求值 $f(1,4)$，结果为 5。
 
-允许传入额外的属性：
-
+作为编程语言，Nix 的函数当然也能处理其它数据类型。
+例如，定义一个函数 `concat3` 并调用它来拼接 `"Hello"` `" "` 和 `"world"`：
 ```nix
-{ a, b, ...}: a + b  # 明确传入的属性有 a 和 b，传入额外的属性将被忽略
-{ a, b, ...}: a + b + c  # 即使传入的属性有 c，一样不会参与计算，这里会报错
+let
+  concat3 = { a, b, c }: a + b + c;
+in
+  concat3 { a = "Hello"; b = " "; c = "world"; }
 ```
+
+函数的结果自然也可以嵌套使用。
+例如，定义一个函数 `concat2` 并多次调用它来拼接 `"Hello"` `" "` 和 `"world"`：
+```nix
+let
+  concat2 = { a, b }: a + b;
+in
+  concat2 {
+    a = concat2 { a = "Hello"; b = " "; };
+    b = "world";
+  }
+```
+求值结果仍然为 `"Hello world"`。
+
+由于 `concat2` 接受的属性集仅含两个属性，
+此例先拼接了 `"Hello"` 和 `" "`，再将此结果与 `"world"` 拼接。
+
+求值结果如下：
+```plain
+"Hello world"
+```
+
+### 属性集参数的要求
+函数被调用时所接受的属性集，
+必须符合**定义中作为参数的属性集的要求**，
+否则就会报错。
+
+例如前面的 `concat2` 函数，我们多给一个 `c` 的值：
+```nix
+let
+  concat2 = { a, b }: a + b;
+in
+  concat2 { a = "Hello"; b = "world"; c = "!"; }
+```
+求值，报错：
+```plain
+error: function 'concat2' called with unexpected argument 'c'
+```
+或者，这次我们只给出 `b` 的值：
+```nix
+let
+  concat2 = { a, b }: a + b;
+in
+  concat2 { b = "world"; }
+```
+求值，报错：
+```plain
+error: function 'concat2' called without required argument 'a'
+```
+
+但是，前述要求可以设置得更加灵活。
+
+#### 默认值
+在属性后面加 `? <attribute>` ，可以设定默认值。
+
+例如定义一个“问候”函数 `greet`，
+- 它的功能是对 `object` 进行“问候”；
+- 支持设定问候语 `greeting`，默认值为 `Hello `。
+  - 设置方法是，在函数定义中参数里的 `greeting` 后面附加 `? "Hello, "`。
+
+测试例：
+```nix
+let
+  greet = { greeting ? "Hello, ", object }: lang + object;
+in
+  {
+    # 对 world 进行问候
+    R1 = greet { object = "world"; } ;
+    # 对 my friend 进行问候
+    R2 = greet { object = "my friend"; } ;
+    # 自定义问候语，对 my friend 进行问候
+    R3 = greet { greeting = "Welcome, "; object = "my friend"; } ;
+  }
+```
+严格求值，结果如下：
+```plain
+{
+  R1 = "Hello, world";
+  R2 = "Hello, my friend";
+  R3 = "Welcome, my friend";
+}
+```
+
+#### 额外属性
+在属性中添加一个占位符 `...`，这允许了传入额外属性。
+
+例如：
+```nix
+let
+  concat2 = { a, b, ... }: a + b;
+in
+{
+  R1 = concat2 { a = "Hello "; b = "world"; };
+  # 传入额外的 c 不会引发报错
+  R2 = concat2 { a = "Hello "; b = "world"; c = "!"; };
+}
+```
+严格求值结果如下：
+```plain
+{ 
+  R1 = "Hello world";
+  R2 = "Hello world";
+}
+```
+注意这里的 `R1` 和 `R2` 的值相同，
+因为 `c` 作为额外属性，没有参与计算。
+
+当然，定义的函数体中也并没有 `c`，
+但若直接更改函数体，将会报错。
+例如：
+```nix
+let
+  # 参数中没有 c，但函数体里有 c
+  concat2 = { a, b, ... }: a + b + c;
+in
+{
+  R1 = concat2 { a = "Hello "; b = "world"; };
+  R2 = concat2 { a = "Hello "; b = "world"; c = "!"; };
+}
+```
+求值，报错（注意这个报错发生在 `in` **之前**）：
+```plain
+error: undefined variable 'c'
+```
+
+#### 其他
 
 为额外的参数绑定到参数集，然后调用：
 
 ```nix
 args@{ a, b, ... }: a + b + args.c
 { a, b, ... }@args: a + b + args.c  # 也可以是这样
-```
-
-为函数命名：
-
-```nix
-let
-  f = x: x + 1;
-in
-  f
 ```
 
 调用函数，并使用函数构建新属性集：
@@ -1101,12 +1288,6 @@ concat { a = "Hello "; b = "NixOS"; }
 
 ```nix
 Hello NixOS
-```
-
-由于函数与参数使用空格分隔，所以我们可以使用括号将函数体与参数分开：
-
-```nix
-(x: x + 1) 1  # 向该 Lambda 函数传入参数 1
 ```
 
 ### 柯里化函数
