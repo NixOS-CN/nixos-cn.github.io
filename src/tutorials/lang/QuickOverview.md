@@ -1067,13 +1067,13 @@ in
 ```
 
 而对于更多的单引号，转义机制较为复杂。
-- 一般地，当存在连续 $n$ 个单引号时（$n\ge 3,n\in \mathbb Z$），令 $N=n\mod 3$，
+- 一般地，当存在连续 $n$ 个单引号时（$n\ge 3,n\in \mathbb Z$），令 $N=n\bmod 3$，
   - 若 $N\neq 2$ 则会转义出 $\frac{n-N}{3}\times 2+N=\frac{2n+N}{3}$ 个单引号。
   - 若 $N=2$ 则会报错：
     ```plain
     error: syntax error, unexpected end of file, expecting IND_STR or DOLLAR_CURLY or IND_STRING_CLOSE
     ```
-- 反过来说，若需要在字符串中使用连续 $m$ 个单引号作为原始字符（$m\ge 2,m\in \mathbb Z$），令 $M=m\mod 2$，则需要 $M+\frac{m-M}{2}\times 3=\frac{3m-M}{2}$ 个单引号来进行转义。
+- 反过来说，若需要在字符串中使用连续 $m$ 个单引号作为原始字符（$m\ge 2,m\in \mathbb Z$），令 $M=m\bmod 2$，则需要 $M+\frac{m-M}{2}\times 3=\frac{3m-M}{2}$ 个单引号来进行转义。
 
 <!-- prettier-ignore -->
 :::
