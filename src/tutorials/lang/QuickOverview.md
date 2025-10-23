@@ -1084,7 +1084,7 @@ in
 
 ## 函数
 
-作为函数式编程（functional programming）的语言，
+作为一门函数式编程语言（functional programming language），
 Nix 中函数的地位非常重要。
 
 ### 函数的基本构成
