@@ -1290,10 +1290,9 @@ error: function 'concat2' called without required argument 'a'
 - 对作为问候对象的参数 `object` 进行“问候”。
 
 我们可以将最常用的问候语（例如 `"Hello, "`）作为默认值，
-这样在不需要特别设定问候语的情况下就可以减少输入参数，直接采用默认值。
-具体方法是，在函数定义中，为参数里的 `greeting` 后面附加 `? "Hello, "`。
+这样就可以选择不传入此参数，而直接采用默认值。
 
-测试例：
+实例如下，注意在函数定义中，我们在参数 `greeting` 后面附加了 `? "Hello, "`：
 ```nix
 let
   greet = { greeting ? "Hello, ", object }: greeting + object + "!";
