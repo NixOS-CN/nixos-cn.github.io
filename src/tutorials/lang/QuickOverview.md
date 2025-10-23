@@ -1574,8 +1574,8 @@ builtins.toString
 
 <!-- prettier-ignore -->
 ::: info import 函数
-大多数内置函数只能通过 `builtins` 访问。
-一个显著的例外是 `import`，它可在顶层直接使用。
+有些内置函数只能通过 `builtins` 访问，
+但另有一些内置函数，可直接在顶层使用，比如 `import`。
 
 `import` 接受的参数是 Nix 文件的路径，
 会对其进行文件求值并返回结果。
@@ -1611,8 +1611,10 @@ import ./foo.nix 4
 这些函数是基于 Nix 语言实现的，
 而不是像 `builtins` 那样本身作为语言的一部分而存在。
 
-这些函数通常通过 `pkgs.lib` 访问，
-因为 Nixpkgs 的属性集通常约定命名为 `pkgs`。
+Nixpkgs 的属性集通常约定命名为 `pkgs`，
+因此往往可以通过 `pkgs.lib` 访问这个属性集。
+
+_（其实，当下直接使用 `lib` 而不是 `pkgs.lib` 的情况更常见，后面会提到。）_
 
 例如能够将小写转大写的 `pkgs.lib.strings.toUpper` 函数，示例：
 
@@ -1641,25 +1643,6 @@ pkgs.lib.strings.toUpper "Have a good day!"
 其下存在一个函数 [`lib.strings.toUpper`](https://nixos.org/manual/nixpkgs/stable/#function-library-lib.strings.toUpper)，
 作用是小写转大写：
 > Converts an ASCII string s to upper-case.
-
-<!-- prettier-ignore -->
-:::
-
-<!-- prettier-ignore -->
-::: note 固定 Nixpkgs 的版本
-函数 `toUpper` 足够简单，使用不同版本的 Nixpkgs 一般不会有不同的结果，
-因此使用 `<nixpkgs>` 也足够了。
-
-然而，更复杂的情况下，要保证完全可重复的例子，
-应当为 Nixpkgs 固定（pin）版本，例如：
-
-```nix
-let
-  nixpkgs = fetchTarball "https://github.com/NixOS/nixpkgs/archive/06278c77b5d162e62df170fec307e83f1812d94b.tar.gz";
-  pkgs = import nixpkgs {};
-in
-pkgs.lib.strings.toUpper "Have a good day!"
-```
 
 <!-- prettier-ignore -->
 :::
