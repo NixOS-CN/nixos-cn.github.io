@@ -1611,7 +1611,7 @@ builtins.toString
 <!-- prettier-ignore -->
 ::: info import 函数
 有些内置函数只能通过 `builtins` 访问，
-但另有一些内置函数，可直接在顶层使用，比如 `import`。
+但另有一些内置函数，可直接在顶层使用，比如 `import`, `toString`, `map`。
 
 `import` 接受的参数是 Nix 文件的路径，
 会对其进行文件求值并返回结果。
