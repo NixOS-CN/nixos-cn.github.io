@@ -1684,7 +1684,7 @@ pkgs.lib.strings.toUpper "Have a good day!"
 :::
 
 <!-- prettier-ignore -->
-::: tip 作为参数的 pkgs 和 lib
+::: info Nix 生态中 pkgs、pkgs.lib 和 lib 的约定俗成
 
 `pkgs` 常被作为参数传递给函数。
 按约定，可以假设它指的是 Nixpkgs 的属性集，
