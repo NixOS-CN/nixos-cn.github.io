@@ -17,7 +17,6 @@ features:
   - title: 声明式配置
     icon: code
     details: 声明式配置系统，方便配置管理和可重复性构建
-    link: /guide/lang
 
   - title: 依赖管理
     icon: relation
